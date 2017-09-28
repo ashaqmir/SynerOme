@@ -1,7 +1,7 @@
+import {LandingPage} from '../landing/landing';
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
-import { DashboardPage } from '../dashboard/dashboard';
 import { SignupPage } from '../signup/signup';
 
 @Component({
@@ -28,7 +28,7 @@ export class LoginPage {
   goToDashboard(params){
     if (!params) params = {};
     if(!this.form.valid) { return }
-    this.navCtrl.setRoot(DashboardPage);
+    this.navCtrl.setRoot(LandingPage);
   }
   
   goToSignup(params){
