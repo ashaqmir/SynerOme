@@ -2,3 +2,9 @@
   <ion-tab [root]="dashboardPage" tabTitle="Dashboard" tabIcon="analytics" id="dashboardTab"></ion-tab>
   <ion-tab [root]="preferencePage" tabTitle="Preferences" tabIcon="cog" id="preferenceTab"></ion-tab>
 </ion-tabs>
+
+<ion-fab yop right #fab>
+  <button ion-fab (click)="signOut(fab)">
+    <ion-icon name="lock"></ion-icon>
+  </button>
+</ion-fab>

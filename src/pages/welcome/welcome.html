@@ -1,0 +1,21 @@
+<ion-content padding >
+  <div class="wr-well wr-float">
+    <h3>We are what we eat</h3>
+    <h6>Nutrigenomics is the relationship between nutrition, genes and health</h6>
+  </div>
+
+  <ion-fab bottom right #fab>
+    <button ion-fab>
+      <ion-icon name="at"></ion-icon>
+    </button>
+    <ion-fab-list side="left">
+      <button ion-fab (click)="gotoSignIn(fab)" >
+        <ion-icon name="log-in"></ion-icon>
+      </button>
+
+      <button ion-fab>
+        <ion-icon name="locate"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>

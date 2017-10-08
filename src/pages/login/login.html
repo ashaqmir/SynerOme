@@ -1,13 +1,6 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>
-      Login
-    </ion-title>
-  </ion-navbar>
-</ion-header>
-<ion-content padding id="page5">
-  <div id="login-markdown1" style="text-align:center;" class="show-list-numbers-and-dots">
-    <p style="color:#000000;">
+<ion-content padding>
+  <div class="login-header">
+    <p>
       <strong>
         SynerOme
       </strong>
@@ -18,32 +11,46 @@
       nutrition care.
     </p>
   </div>
-  <div>
-    <a style="display:block;" href-inappbrowser="https://www.synerome.com/">
-      <img src="assets/img/NdqL8p5BQmeeDc6XDZkO_SynerOme.gif" style="display:block;width:100%;height:auto;margin-left:auto;margin-right:auto;" />
-    </a>
-  </div>
-  <form id="loginForm" [formGroup]="form">
-    <ion-list id="login-list1">
-      <ion-item id="loginEmail">
-        <ion-label>
-          Email
-        </ion-label>
-        <ion-input type="email" placeholder="" formControlName="email" ></ion-input>
-      </ion-item>
-      <ion-item id="loginPassword">
-        <ion-label>
-          Password
-        </ion-label>
-        <ion-input type="password" placeholder="" formControlName="password" ></ion-input>
-      </ion-item>
-    </ion-list>
-    <div class="spacer" style="height:40px;" id="login-spacer1"></div>
-    <button id="loginButton" [disabled]="!isReadyToLogin" ion-button color="stable" block on-click="goToDashboard()">
-      Sign In
-    </button>
+
+  <form id="loginForm" [formGroup]="validationsForm" (ngSubmit)="onSubmit(validationsForm.value)">
+    <ion-grid class="wr-well">
+      <ion-row>
+        <ion-item>
+          <ion-label floating color="primary">Email</ion-label>
+          <ion-input [textMask]="emailMask" type="text" formControlName="email"></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.email">
+            <div class="error-message" *ngIf="validationsForm.get('email').hasError(validation.type) && (validationsForm.get('email').dirty || validationsForm.get('email').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+      </ion-row>
+      <ion-row>
+        <ion-item>
+          <ion-label floating color="primary">Password</ion-label>
+          <ion-input type="password" formControlName="password"></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validationMessages.password">
+            <div class="error-message" *ngIf="validationsForm.get('password').hasError(validation.type) && (validationsForm.get('password').dirty || validationsForm.get('password').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+      </ion-row>
+      <ion-row>
+      </ion-row>
+      <ion-row>
+        <button ion-button full type="submit" [disabled]="!validationsForm.valid">Sign In</button>
+      </ion-row>
+      <ion-row>
+        <button ion-button full color="danger" (click)="goToSignup()">
+          Register
+        </button>
+      </ion-row>
+    </ion-grid>
   </form>
-  <button id="registerButton" ion-button clear color="positive" block on-click="goToSignup()">
-    Or Sign Up
-  </button>
+ 
 </ion-content>
