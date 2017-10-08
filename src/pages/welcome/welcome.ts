@@ -21,4 +21,9 @@ export class WelcomePage {
     console.log('Go To Signin');
     this.navCtrl.push('LoginPage')
   }
+  gotoRegister(fab: FabContainer) {
+    fab.close();
+    console.log('Go To Register');
+    this.navCtrl.push('SignupPage')
+  }
 }

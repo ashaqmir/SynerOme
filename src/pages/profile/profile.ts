@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import emailMask from 'text-mask-addons/dist/emailMask';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Country } from '../../models/models';
-import { PasswordValidator } from '../../validators/validators';
 import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/take';
 import { IProfile } from '../../models/profile';
@@ -40,6 +39,12 @@ export class ProfilePage {
     private authService: AuthanticationServiceProvider) { }
    
   ionViewWillLoad() {
+    this.afAuth.authState.take(1).subscribe(auth => {
+      if (auth && auth.uid) {
+      } else {
+        this.navCtrl.setRoot('LoginPage');
+      }
+    });
     this.createForm();
   }
 
@@ -69,19 +74,6 @@ export class ProfilePage {
   }
 
   createForm() {
-
-    // this.matchingPasswordsGroup = new FormGroup({
-    //   password: new FormControl('', Validators.compose([
-    //     Validators.minLength(5),
-    //     Validators.required,
-    //     Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
-    //   ])),
-    //   confirmPassword: new FormControl('', Validators.required)
-    // }, (formGroup: FormGroup) => {
-    //   return PasswordValidator.areEqual(formGroup);
-    // });
-
-
     this.validationsForm = this.formBuilder.group({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),

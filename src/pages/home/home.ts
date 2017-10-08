@@ -34,15 +34,8 @@ export class HomePage {
           duration: 3000
         }).present();
       } else {
-        this.toast.create({
-          message: `Please login!`,
-          duration: 1000
-        }).present().then(data => {
-          this.navCtrl.setRoot("LoginPage");
-        }).catch(error => {
-          console.log(data)
-        });
-
+        console.log(data)
+        this.navCtrl.setRoot('WelcomePage');
       }
     });
   }
@@ -53,7 +46,7 @@ export class HomePage {
       .then(data => {
         this.navCtrl.setRoot('WelcomePage')
       })
-      .catch(error =>{
+      .catch(error => {
         console.log(error);
       })
   }

@@ -1,7 +1,6 @@
 page-login {
     ion-content{
-        background: url('../assets/img/waves.png') no-repeat center center fixed;
-        background-size: cover;
+        
     }
 
     .login-header {
@@ -10,14 +9,14 @@ page-login {
         padding: 10px 5px 0;
         
         h1,h2,h3,h4,h5,h6,p {
-            color: rgb(202, 199, 199);        
-            text-shadow: 2px 2px 5px rgba(97, 95, 95, 0.6);
+            color: rgb(7, 7, 7);        
+            text-shadow: 2px 2px 5px rgba(80, 80, 80, 0.6);
         }
     }
 
     .error-message
     {
-      color: #f53d3d;
+      color: #ec3d3d;
       font-size: 10px;
     }
     
