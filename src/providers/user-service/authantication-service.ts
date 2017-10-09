@@ -23,6 +23,10 @@ export class AuthanticationServiceProvider {
   async register(user: IUser) {
     console.log(user);
     this.fAuth.auth.createUserWithEmailAndPassword(user.email, user.password)
+      .then(data =>{
+        console.log('Registered');
+        console.log(data);
+      })
       .catch(error => {
         console.log(error);
         return false;

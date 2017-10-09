@@ -4,7 +4,9 @@
   "author": "Ionic Framework",
   "homepage": "http://ionicframework.com/",
   "private": true,
+  "main": "server/main.js",
   "scripts": {
+    "start": "electron .",
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
@@ -38,6 +40,7 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.0.0",
+    "electron": "^1.7.8",
     "typescript": "2.3.4"
   },
   "description": "An Ionic project",

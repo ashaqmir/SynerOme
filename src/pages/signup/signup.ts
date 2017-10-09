@@ -5,7 +5,6 @@ import emailMask from 'text-mask-addons/dist/emailMask';
 import { PasswordValidator } from '../../validators/validators';
 import { IUser } from '../../models/user';
 import { AuthanticationServiceProvider } from '../../providers/user-service/authantication-service';
-import { HomePage } from '../pages';
 
 
 @IonicPage()

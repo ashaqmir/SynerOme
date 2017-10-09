@@ -42,7 +42,7 @@ export class ProfilePage {
     this.afAuth.authState.take(1).subscribe(auth => {
       if (auth && auth.uid) {
       } else {
-        this.navCtrl.setRoot('LoginPage');
+        //this.navCtrl.setRoot('LoginPage');
       }
     });
     this.createForm();
