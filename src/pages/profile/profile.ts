@@ -6,8 +6,9 @@ import { Country } from '../../models/models';
 import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/take';
 import { IProfile } from '../../models/profile';
-import { AuthanticationServiceProvider } from '../../providers/user-service/authantication-service';
 import { HomePage } from '../pages';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
 
 
 @IonicPage()
@@ -16,6 +17,8 @@ import { HomePage } from '../pages';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
+
+  backgroundImage = 'assets/img/SynerOme_back.webp';
 
   validationsForm: FormGroup;
   matchingPasswordsGroup: FormGroup;
@@ -36,15 +39,13 @@ export class ProfilePage {
   constructor(public navCtrl: NavController,
     public formBuilder: FormBuilder,
     private afAuth: AngularFireAuth,
-    private authService: AuthanticationServiceProvider) { }
-   
+    public appState: AppStateServiceProvider,
+    public fDb: AngularFireDatabase) { }
+
   ionViewWillLoad() {
-    this.afAuth.authState.take(1).subscribe(auth => {
-      if (auth && auth.uid) {
-      } else {
-        //this.navCtrl.setRoot('LoginPage');
-      }
-    });
+    if (!this.afAuth.auth.currentUser) {
+      this.navCtrl.setRoot('LoginPage');
+    }
     this.createForm();
   }
 
@@ -62,15 +63,21 @@ export class ProfilePage {
     console.log(profile);
     this.afAuth.authState.take(1).subscribe(auth => {
       if (auth && auth.uid) {
-        profile.id=auth.uid;
-        this.authService.createProfile(profile).then(data =>{
-          console.log(data);
-          this.navCtrl.setRoot(HomePage);
-        });
+        profile.id = auth.uid;
+        this.createProfile(profile)
+          .then(data => {
+            console.log(data);
+            this.navCtrl.setRoot(HomePage);
+          });
       } else {
         this.navCtrl.setRoot('LoginPage');
       }
     });
+  }
+  async createProfile(profile: IProfile) {
+
+    this.fDb.object(`profiles/${profile.id}`).set(profile)
+
   }
 
   createForm() {

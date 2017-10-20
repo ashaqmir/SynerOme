@@ -7,7 +7,8 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding [ngStyle]="{'background-image': 'url(' + backgroundImage +')'}">
+
   <form class="form" [formGroup]="validationsForm" (ngSubmit)="onSubmit(validationsForm.value)">
     <ion-item>
       <ion-label floating color="primary">Email</ion-label>
@@ -45,6 +46,12 @@
         </ng-container>
       </div>
     </div>
-    <button ion-button full type="submit" [disabled]="!validationsForm.valid">Sign Up</button>
+    <ion-row>
+      <ion-col col-4></ion-col>
+      <ion-col col-4>
+        <button ion-button round color="light" type="submit" class="login-button" [disabled]="!validationsForm.valid">SIGN UP</button>
+      </ion-col>
+      <ion-col col-4></ion-col>
+    </ion-row>
   </form>
 </ion-content>

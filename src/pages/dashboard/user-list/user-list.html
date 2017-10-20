@@ -1,0 +1,31 @@
+<ion-content padding>
+    <!-- <ion-row class="clign-center">
+    <ion-list radio-group>
+      <ion-item *ngFor="let usr of users">
+        <ion-icon name="person" item-start></ion-icon>
+        <ion-label>{{usr.lastName + ' ' + usr.firstName}}</ion-label>
+        <button ion-button item-end icon-end (click)="requestTalk(usr.id)">
+          <ion-icon name="vediocam"></ion-icon>
+        </button>
+      </ion-item>
+    </ion-list>
+  </ion-row> -->
+  <ion-card>
+    <ion-card-header>
+      Select User
+    </ion-card-header>
+    <ion-list>
+      <button ion-item *ngFor="let usr of otherusers" (click)="requestTalk(usr)">
+        <ion-icon name="person" item-start></ion-icon>
+        {{usr.lastName + ' ' + usr.firstName}}
+        <ion-icon name="arrow-forward" item-end></ion-icon>
+      </button>
+    </ion-list>
+  </ion-card>
+
+  <ion-footer>
+    <ion-toolbar class="footer">
+      <button ion-button round color="danger" (click)="dismiss()">Cancel</button>
+    </ion-toolbar>
+  </ion-footer>
+</ion-content>

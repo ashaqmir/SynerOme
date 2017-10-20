@@ -6,17 +6,43 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding id="page2">
-  <ion-list id="dashboard-list3">
-    <ion-searchbar placeholder="Search SynerOme" name="srch" id="dashboard-search1"></ion-searchbar>
-    <ion-item color="none" id="dashboard-list-item1">
+  <ion-list>
+
+    <ion-item color="none" >
       <ion-icon name="calendar" item-left></ion-icon>
       Book Appointment
-      <ion-icon name="add-circle" item-right></ion-icon>
+      <button ion-button round  item-right color="dark" (click)="loadUsers()">
+        <ion-icon name="videocam"></ion-icon>
+      </button>
     </ion-item>
+    <ion-item-sliding *ngFor="let req of myrequests">
+        <ion-item>
+            {{req.nameFrom}}
+        </ion-item>
+        <ion-item-options side="left">
+            <button ion-button color="secondary">
+              <ion-icon name="checkmark"></ion-icon>
+              Accept
+            </button>
+            <button ion-button color="primary">
+              <ion-icon name="videocam"></ion-icon>
+              Call
+            </button>
+          </ion-item-options>
+          <ion-item-options side="right">
+            <button ion-button color="danger">
+              <ion-icon name="trash"></ion-icon>
+              Delete
+            </button>
+          </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
   <div style="position:relative;overflow:hidden;padding-bottom:56.25%;height:0;" id="dashboard-video1">
-    <iframe src="https://www.youtube.com/embed/KMrQuZOIV8c?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen width="560" height="315" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+    <iframe src="https://www.youtube.com/embed/KMrQuZOIV8c?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen width="560"
+      height="315" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
   </div>
 
-  <p>Name: {{(userProfile)?.firstName}}</p>
+  <p>Name: {{(userProfile)?.lastName }}</p>
+
+
 </ion-content>

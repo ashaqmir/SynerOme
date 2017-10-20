@@ -4,7 +4,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding [ngStyle]="{'background-image': 'url(' + backgroundImage +')'}">
   <form class="form" [formGroup]="validationsForm" (ngSubmit)="onSubmit(validationsForm.value)">
     <ion-item>
       <ion-label floating color="primary">Name</ion-label>
@@ -38,7 +38,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-label floating color="primary">Date of birth</ion-label>
+      <ion-label  color="primary">Date of birth</ion-label>
       <ion-input type="date" formControlName="dateofbirth"></ion-input>
     </ion-item>
 
@@ -72,6 +72,12 @@
       </ng-container>
     </div>
 
-    <button ion-button full type="submit" [disabled]="!validationsForm.valid">Save</button>
+    <ion-row>
+      <ion-col col-4></ion-col>
+      <ion-col col-4>
+        <button ion-button round color="light" type="submit" class="login-button" [disabled]="!validationsForm.valid">SAVE</button>
+      </ion-col>
+      <ion-col col-4></ion-col>
+    </ion-row>
   </form>
 </ion-content>

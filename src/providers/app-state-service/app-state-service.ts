@@ -1,3 +1,4 @@
+import { AngularFireObject } from 'angularfire2/database';
 import { Injectable } from '@angular/core';
 import { IProfile } from '../../models/profile';
 
@@ -5,7 +6,7 @@ import { IProfile } from '../../models/profile';
 export class AppStateServiceProvider {
 
   public loginStateSet: boolean = false;
-  public userProfile: any ;
+  public userProfile: IProfile ;
 
   constructor() {}
 

@@ -1,7 +1,92 @@
 page-signup {
     .error-message
     {
-      color: red;
+     
       font-size: 10px;
+      transition: 0.28s;
+      overflow: hidden;
+      color: rgb(207, 30, 10);
+      font-style: italic;
     }
+
+    
+    $base-color: rgb(24, 72, 90);
+    // Fullscreen centered image background
+    ion-content {
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-color: transparent;
+      
+      &:before {
+        content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-image: linear-gradient(to bottom right,#000a0f,#054c75);
+      opacity: .6; 
+      }
+    }
+    .scroll-content{
+      padding-bottom: 2px !important
+    }
+    ion-row {
+      align-items: center;
+      text-align: center;
+    }
+    ion-col {
+      padding: 0 20px;
+    }
+    ion-label,
+    .input-has-focus {
+      color: #fff !important;
+    }
+    ion-item {
+      border-radius: 3px !important;
+      padding-right: 16px !important;
+      margin-bottom: 5px !important;
+      color: #fff !important;
+      background-color: transparent !important;
+      font-size: 0.9em;
+    }
+    .margin-bottom {
+      margin-bottom: 15px !important;
+    }
+     ::-webkit-input-placeholder {
+      color: white !important;
+    }
+    .item-inner {
+      border-bottom: 2px solid white !important;
+      box-shadow: none !important;
+    }
+    //
+    .login-button {
+      width: 100%;
+      max-width: 40rem;
+      height: 50px;
+      font-size: 1.2em;
+      span {
+        color: $base-color !important;
+      }
+      // border: 1px solid #fff;
+    }
+
+    form{
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        &:valid {
+          background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/check.svg);
+          background-size: 20px;
+          background-repeat: no-repeat;
+          background-position: 20px 20px;
+          & + ion-label {
+            opacity: 0;
+          }
+        }
+        }
+    }
+
 }

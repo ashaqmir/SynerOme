@@ -1,18 +1,21 @@
-<ion-content padding >
-  <div class="login-header">
-    <p>
-      <strong>
-        SynerOme
-      </strong>
-      an advanced Artificial Intelligence platform to create
-      <em>
-        personalized, precision
-      </em>
-      nutrition care.
-    </p>
-  </div>
+<ion-content padding [ngStyle]="{'background-image': 'url(' + backgroundImage +')'}">
 
-  <form id="loginForm" [formGroup]="validationsForm" (ngSubmit)="onSubmit(validationsForm.value)">
+  <div padding>
+    <img class="logo" src="assets/img/logo.gif" />
+    <div class="login-header">
+      <p>
+        <strong>
+          SynerOme
+        </strong>
+        an advanced Artificial Intelligence platform to create
+        <em>
+          personalized, precision
+        </em>
+        nutrition care.
+      </p>
+    </div>
+  </div>
+  <form id="loginForm" [formGroup]="validationsForm" (ngSubmit)="signIn(validationsForm.value)">
     <ion-grid class="wr-well">
       <ion-row>
         <ion-item>
@@ -42,15 +45,30 @@
       </ion-row>
       <ion-row>
       </ion-row>
+
       <ion-row>
-        <button ion-button full type="submit" [disabled]="!validationsForm.valid">Sign In</button>
+        <ion-col col-6>
+        </ion-col>
+        <ion-col col-6>
+          <button ion-button round color="light" type="submit" class="login-button" [disabled]="!validationsForm.valid">SIGN IN</button>
+        </ion-col>
       </ion-row>
       <ion-row>
-        <button ion-button full color="danger" (click)="goToSignup()">
-          Register
-        </button>
+        <ion-col col-6>
+        </ion-col>
+        <ion-col col-6>
+          <button ion-button clear type="button" color="dark" class="forgot-button">FORGOT PASSWORD?</button>
+        </ion-col>
       </ion-row>
     </ion-grid>
   </form>
- 
+
+  <ion-footer>
+    <ion-toolbar class="footer">
+      <div (click)="goToSignup()">
+        <span>Don't have an account?
+          <strong>Sign up here</strong>.</span>
+      </div>
+    </ion-toolbar>
+  </ion-footer>
 </ion-content>
