@@ -54,15 +54,24 @@ export class UserListPage {
       facetimeReq.nameFrom = this.appState.userProfile.firstName
       facetimeReq.idTo = user.id;
       facetimeReq.nameTo = user.firstName;
+      facetimeReq.status='pending';
 
-      facetimeReq.status = 'pending';
-      this.fDb.database.ref('/faceTimeRequests').child(facetimeReq.idTo).push(facetimeReq)
-        .then(res => {
-          this.toast.create({
-            message: 'Request sent!',
-            duration: 3000
-          }).present();
-        })
+      this.fDb.list('/faceTimeRequests').push(facetimeReq)
+      .then(res => {
+        this.toast.create({
+          message: 'Request sent!',
+          duration: 3000
+        }).present();
+      });
+
+      // facetimeReq.status = 'pending';
+      // this.fDb.database.ref('/faceTimeRequests').child(facetimeReq.idTo).push(facetimeReq)
+      //   .then(res => {
+      //     this.toast.create({
+      //       message: 'Request sent!',
+      //       duration: 3000
+      //     }).present();
+      //   })
         
     }
 

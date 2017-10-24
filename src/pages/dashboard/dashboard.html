@@ -6,35 +6,60 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding id="page2">
+  <ion-item color="none">
+    <ion-icon name="calendar" item-left></ion-icon>
+    Book Appointment
+    <button ion-button round item-right color="dark" (click)="loadUsers()">
+      <ion-icon name="videocam"></ion-icon>
+    </button>
+  </ion-item>
   <ion-list>
+    <ion-list-header>
+      Requests to me
+    </ion-list-header>
+    <ion-item-sliding *ngFor="let req of chatRequestsToMe">
+      <ion-item *ngIf="req.status !== 'deleted'">
+        {{req.nameFrom}}
+      </ion-item>
+      <ion-item-options side="left">
+        <button ion-button color="secondary" *ngIf="req.status === 'pending'" (click)="acceptCall(req.key)"  >
+          <ion-icon name="checkmark"></ion-icon>
+          Accept
+        </button>
+        <button ion-button color="primary" [disabled]="req.status !== 'accepted'" (click)="callToDoctor(req.key)" >
+          <ion-icon name="videocam"></ion-icon>
+          Call
+        </button>
+      </ion-item-options>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="deleteCallReq(req.key)">
+          <ion-icon name="trash"></ion-icon>
+          Delete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 
-    <ion-item color="none" >
-      <ion-icon name="calendar" item-left></ion-icon>
-      Book Appointment
-      <button ion-button round  item-right color="dark" (click)="loadUsers()">
-        <ion-icon name="videocam"></ion-icon>
-      </button>
-    </ion-item>
-    <ion-item-sliding *ngFor="let req of myrequests">
-        <ion-item>
-            {{req.nameFrom}}
-        </ion-item>
-        <ion-item-options side="left">
-            <button ion-button color="secondary">
-              <ion-icon name="checkmark"></ion-icon>
-              Accept
-            </button>
-            <button ion-button color="primary">
-              <ion-icon name="videocam"></ion-icon>
-              Call
-            </button>
-          </ion-item-options>
-          <ion-item-options side="right">
-            <button ion-button color="danger">
-              <ion-icon name="trash"></ion-icon>
-              Delete
-            </button>
-          </ion-item-options>
+  <ion-list>
+    <ion-list-header>
+      Requests by me
+    </ion-list-header>
+    <ion-item-sliding *ngFor="let req of chatRequestsByMe">
+      <ion-item *ngIf="req.status !== 'deleted'">
+        {{req.nameTo}}
+      </ion-item>
+      <ion-item-options side="left">
+        <button ion-button color="primary" [disabled]="req.status !== 'accepted'" (click)="callToDoctor(req.key)">
+          <ion-icon name="videocam"></ion-icon>
+          Call
+        </button>
+      </ion-item-options>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="deleteCallReq(req.key)">
+          <ion-icon name="trash"></ion-icon>
+          Delete
+        </button>
+      </ion-item-options>
     </ion-item-sliding>
   </ion-list>
   <div style="position:relative;overflow:hidden;padding-bottom:56.25%;height:0;" id="dashboard-video1">
@@ -43,6 +68,5 @@
   </div>
 
   <p>Name: {{(userProfile)?.lastName }}</p>
-
-
+  
 </ion-content>

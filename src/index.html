@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
   <meta charset="UTF-8">
   <title>SynerOme</title>
@@ -10,7 +11,8 @@
   <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4e8ef7">
-  
+
+
   <!-- cordova.js required for cordova apps -->
   <script src="cordova.js"></script>
 
@@ -26,7 +28,25 @@
   <link href="build/main.css" rel="stylesheet">
 
 </head>
+
 <body>
+  <!-- <script>
+    function onVidyoClientLoaded(status) {
+      switch (status.state) {
+        case "READY":
+          console.log('Ready...')
+          break;
+        case "RETRYING":     // The library operating is temporarily paused
+          console.log('Retrying...')
+          break;
+        case "FAILED":       // The library operating has stopped
+          console.log('Failed...')
+          break;
+      }
+
+      return true; // Return true to reload the plugins if not available
+    }
+  </script> -->
 
   <!-- Ionic's root component and where the app will load -->
   <ion-app></ion-app>
@@ -38,8 +58,13 @@
        It contains all of the dependencies in node_modules -->
   <script src="build/vendor.js"></script>
 
+  <!-- weRTC library -->
+  <script src="https://cloud.apizee.com/apiRTC/apiRTC-latest.min.js"></script>
+
   <!-- The bundle js is generated during the build process -->
   <script src="build/main.js"></script>
 
+  <!-- <script src='https://static.vidyo.io/latest/javascript/VidyoClient/VidyoClient.js?onload=onVidyoClientLoaded&webrtc='></script> -->
 </body>
+
 </html>

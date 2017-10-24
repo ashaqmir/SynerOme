@@ -6,6 +6,7 @@ import { NavController, ToastController, LoadingController, ModalController } fr
 import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { IFacetimeRequestView } from '../../models/models';
 
 @Component({
   selector: 'page-dashboard',
@@ -14,7 +15,8 @@ import { AngularFireDatabase } from 'angularfire2/database';
 export class DashboardPage {
 
   userProfile: IProfile;
-  myrequests: IFacetimeRequest[] = [];
+  chatRequestsToMe: IFacetimeRequestView[] = [];
+  chatRequestsByMe: IFacetimeRequestView[] = [];
   // this tells the tabs component which Pages
   // should be each tab's root Page
   constructor(public navCtrl: NavController,
@@ -26,7 +28,8 @@ export class DashboardPage {
   }
 
   ionViewWillLoad() {
-
+    this.chatRequestsToMe = [];
+    this.chatRequestsByMe = [];
     this.afAuth.authState.take(1).subscribe(data => {
       if (data && data.uid) {
         const profRef = this.fDb.object(`profiles/${data.uid}`);
@@ -42,15 +45,33 @@ export class DashboardPage {
       }
     });
 
-    let allmyrequests;
-
-    this.fDb.database.ref('/faceTimeRequests').child(this.afAuth.auth.currentUser.uid).on('value', (snapshot) => {
-      allmyrequests = snapshot.val();
-      for (var req in allmyrequests) {
-        console.log(allmyrequests[req]);
-        this.myrequests.push(allmyrequests[req]);
+    let allrequeststome;
+    this.fDb.database.ref('/faceTimeRequests').orderByChild('idTo').equalTo(this.afAuth.auth.currentUser.uid).on('value', (snapshot) => {
+      allrequeststome = snapshot.val();
+      console.log
+      this.chatRequestsToMe = [];
+      for (var req in allrequeststome) {
+        console.log(req);
+        //this.chatRequestsToMe.push(allrequeststome[req]);
+        var request = allrequeststome[req]
+        request.key = req;
+        this.chatRequestsToMe.push(request);
       }
     });
+
+    let allrequestsbyme;
+    this.fDb.database.ref('/faceTimeRequests').orderByChild('idFrom').equalTo(this.afAuth.auth.currentUser.uid).on('value', (snapshot) => {
+      allrequestsbyme = snapshot.val();
+      this.chatRequestsByMe = []
+      for (var req in allrequestsbyme) {
+        //this.chatRequestsToMe.push(allrequestsbyme[req]);
+        console.log(req);
+        var request = allrequestsbyme[req]
+        request.key = req;
+        this.chatRequestsByMe.push(request);
+      }
+    });
+
   }
 
   loadUsers() {
@@ -70,5 +91,75 @@ export class DashboardPage {
       .present();
   }
 
+  callToDoctor(personname) {
+    console.log('Calling to: ' + personname);
+  }
 
+  acceptCall(requestKey) {
+    //let allmyrequeststome = [];
+    console.log(requestKey + ' ' + this.chatRequestsToMe.length);
+
+    let request = this.chatRequestsToMe.find(req => req.key === requestKey);
+    console.log(JSON.stringify(request));
+    if (request) {
+
+      const reqToUpdate: IFacetimeRequest = {
+        idFrom: request.idFrom,
+        idTo: request.idTo,
+        nameFrom: request.nameFrom,
+        nameTo: request.nameTo,
+        status: 'accepted',
+      };
+
+      this.fDb.object(`/faceTimeRequests/${requestKey}`).update(reqToUpdate);
+
+    }
+    // this.fDb.database.ref('/faceTimeRequests').orderByChild('idTo').equalTo(idTo).once('value', (snapshot) => {
+    //   allmyrequeststome = snapshot.val();
+    //   for (var req in allmyrequeststome) {
+    //     var request = allmyrequeststome[req];
+    //     if (req == requestKey) {
+    //       request.status = 'accepted';
+    //       this.fDb.object(`/faceTimeRequests/${req}`).update(request);
+    //       console.log(req);
+    //       // request.set({ status: 'accepted' });
+    //     }
+    //   }
+    // });
+  }
+  deleteCallReq(requestKey) {
+
+    console.log(requestKey + ' ' + this.chatRequestsToMe.length);
+
+    let request = this.chatRequestsToMe.find(req => req.key === requestKey);
+    console.log(JSON.stringify(request));
+    if (request) {
+
+      const reqToUpdate: IFacetimeRequest = {
+        idFrom: request.idFrom,
+        idTo: request.idTo,
+        nameFrom: request.nameFrom,
+        nameTo: request.nameTo,
+        status: 'deleted',
+      };
+
+      this.fDb.object(`/faceTimeRequests/${requestKey}`).update(reqToUpdate);
+
+      // let allmyrequeststome = [];
+      // this.fDb.database.ref('/faceTimeRequests').orderByChild('idTo').equalTo(idTo).once('value', (snapshot) => {
+      //   allmyrequeststome = snapshot.val();
+      //   for (var req in allmyrequeststome) {
+      //     var request = allmyrequeststome[req];
+      //     if (request.idTo == idTo && request.idFrom == idFrom) {
+      //       request.status = 'deleted';
+      //       this.fDb.object(`/faceTimeRequests/${req}`).update(request);
+      //       console.log(req);
+      //       // request.set({ status: 'accepted' });
+      //     }
+      //   }
+      // });
+    }
+  }
+
+  
 }
