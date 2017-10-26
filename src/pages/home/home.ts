@@ -7,13 +7,13 @@ import { AuthanticationServiceProvider } from '../../providers/user-service/auth
 import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
 import { AngularFireDatabase } from 'angularfire2/database';
 
+
 @IonicPage()
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
 })
 export class HomePage {
-
   dashboardPage: any = DashboardPage;
   preferencePage: any = PreferencesPage;
 
@@ -26,30 +26,13 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad HomePage');
+    
   }
 
   ionViewWillLoad() {
-    // this.afAuth.authState.take(1).subscribe(data => {
-    //   if (data && data.uid) {
-    //     const profRef = this.fDb.database.ref(`profiles/${data.uid}`);
-
-    //     profRef.on('value', profSnap => {
-    //       console.log(profSnap.val());
-    //       this.appState.userProfile = profSnap.val();
-    //       console.log('profile recived');
-    //       console.log(this.appState.userProfile);
-    //     });
-
-    //     this.toast.create({
-    //       message: `Welcome to APP_NAME, ${data.email}`,
-    //       duration: 3000
-    //     }).present();
-    //   } else {
-    //     console.log(data)
-    //     this.navCtrl.setRoot('WelcomePage');
-    //   }
-    // });
+    if (!this.afAuth.auth.currentUser) {
+      this.navCtrl.setRoot('LoginPage');
+    }
   }
 
   signOut(fab: FabContainer) {
@@ -62,4 +45,5 @@ export class HomePage {
         console.log(error);
       })
   }
+
 }

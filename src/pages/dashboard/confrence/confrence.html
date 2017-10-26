@@ -1,9 +1,84 @@
 <ion-content padding>
-  <h1>Confrence</h1>
+  <div id="boxIncomming">
+    <div id="boxOutgoing">
+    </div>
+  </div>
 
-  <ion-footer>
-    <ion-toolbar class="footer">
-      <button ion-button round color="danger" >Cancel</button>
-    </ion-toolbar>
-  </ion-footer>
+
 </ion-content>
+<ion-footer class="footer">
+
+  <ion-row *ngIf="showCall">
+    <ion-col col-6>
+      <div>
+        <button ion-button round icon-left full color="secondary" (click)="call()">
+          <ion-icon name="call" ></ion-icon>
+          Join
+        </button>
+      </div>
+    </ion-col>
+
+    <ion-col col-6>
+        <div>
+          <button ion-button round full  icon-left color="light" (click)="back()">
+            <ion-icon name="arrow-back"></ion-icon>
+            Back
+          </button>
+        </div>
+      </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="showHangup">
+    <ion-col col-12>
+      <div>
+        <button ion-button round full icon-left color="danger" (click)="hangup()">
+          <ion-icon name="call" ></ion-icon>
+          Hangup
+        </button>
+      </div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="showIncomming">
+    <ion-col col-6>
+      <div>
+        <button ion-button round icon-left color="secondary" (click)="answerIncommingCall()">
+          <ion-icon name="call"></ion-icon>
+          Answer
+        </button>
+      </div>
+    </ion-col>
+    <ion-col col-6>
+      <div>
+        <button ion-button round icon-left color="danger" (click)="hangup()">
+          <ion-icon name="call" item-left></ion-icon>
+          Reject
+        </button>
+      </div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="showInCall">
+    <ion-col col-4>
+      <div>
+        <button ion-button round color="danger" (click)="leave()">
+          <ion-icon name="call" item-left></ion-icon>
+        </button>
+      </div>
+    </ion-col>
+    <ion-col col-4>
+      <div>
+        <button ion-button round [color]="muted ? 'danger' : 'secondary'" (click)="muteMe()">
+          <ion-icon [name]="muted ? 'mic-off' : 'mic'" item-left></ion-icon>
+        </button>
+      </div>
+    </ion-col>
+    <ion-col col-4>
+      <div>
+        <button ion-button round color="dark" (click)="reversecamera()">
+          <ion-icon name="reverse-camera" item-left></ion-icon>
+        </button>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-footer>

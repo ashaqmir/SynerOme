@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Incoming...
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+  <p>{{callerId}}</p>
+  <ion-row>
+    <ion-col col-6>
+      <div>
+        <button ion-button round color="secondary" (click)="accept()">
+          <ion-icon name="call"></ion-icon>
+        </button>
+      </div>
+    </ion-col>
+    <ion-col col-6>
+      <div>
+        <button ion-button round color="danger" (click)="dismiss()">
+          <ion-icon name="call"></ion-icon>
+        </button>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-content>

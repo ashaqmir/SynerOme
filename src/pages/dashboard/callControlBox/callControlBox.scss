@@ -1,0 +1,20 @@
+page-callControlBox {
+    $modal-inset-box-shadow-color: rgba(0, 0, 0, .4);
+
+    top: 20% !important;
+    right: 20% !important;
+    bottom: 20% !important;
+    left: 20% !important;
+    overflow: visible !important;
+    min-height: 200px !important;
+    width: 60% !important;
+    height: 50% !important;
+    background-color: #4e667c;
+    border-radius: 4%;
+
+    ion-col div {        
+        border-radius: 2px;
+        padding: 5px;
+        text-align: center;
+      }
+}

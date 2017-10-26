@@ -55,6 +55,8 @@ export class UserListPage {
       facetimeReq.idTo = user.id;
       facetimeReq.nameTo = user.firstName;
       facetimeReq.status='pending';
+      facetimeReq.callIdFrom = this.generateRandom();
+      facetimeReq.callIdTo= 0;
 
       this.fDb.list('/faceTimeRequests').push(facetimeReq)
       .then(res => {
@@ -81,6 +83,11 @@ export class UserListPage {
   dismiss() {
     this.viewCtrl.dismiss();
   }
+  generateRandom(): number {
+    var min = 11111111;
+    var max = 99999999;
 
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
 
 }

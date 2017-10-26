@@ -6,3 +6,4 @@ export * from './welcome-to-synerome/welcome-to-synerome';
 export * from './dnadata/dnadata';
 export * from './welcome/welcome';
 export * from './home/home';
+export * from './dashboard/callControlBox/callControlBox'

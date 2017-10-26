@@ -14,9 +14,10 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { HomePage, DashboardPage, PreferencesPage } from '../pages/pages';
+import { HomePage, DashboardPage, PreferencesPage, CallControlBoxPage } from '../pages/pages';
 import { AuthanticationServiceProvider } from '../providers/user-service/authantication-service';
 import { AppStateServiceProvider } from '../providers/app-state-service/app-state-service';
+import { ConfrenceServiceProvider } from '../providers/confrence-service/confrence-service';
 
 
 
@@ -34,7 +35,8 @@ var firebaseConfig = {
     MyApp,
     HomePage,
     DashboardPage,
-    PreferencesPage
+    PreferencesPage,
+    CallControlBoxPage
   ],
   imports: [
     BrowserModule,
@@ -50,14 +52,16 @@ var firebaseConfig = {
     MyApp,
     HomePage,
     DashboardPage,
-    PreferencesPage
+    PreferencesPage,
+    CallControlBoxPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthanticationServiceProvider,
-    AppStateServiceProvider
+    AppStateServiceProvider,
+    ConfrenceServiceProvider
   ]
 })
 export class AppModule {}

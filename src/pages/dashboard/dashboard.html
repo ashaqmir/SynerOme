@@ -22,11 +22,11 @@
         {{req.nameFrom}}
       </ion-item>
       <ion-item-options side="left">
-        <button ion-button color="secondary" *ngIf="req.status === 'pending'" (click)="acceptCall(req.key)"  >
+        <button ion-button color="secondary" *ngIf="req.status === 'pending'" (click)="acceptCall(req.key)">
           <ion-icon name="checkmark"></ion-icon>
           Accept
         </button>
-        <button ion-button color="primary" [disabled]="req.status !== 'accepted'" (click)="callToDoctor(req.key)" >
+        <button ion-button color="primary" [disabled]="req.status !== 'accepted'" (click)="call(req.callIdFrom, req.callIdTo)">
           <ion-icon name="videocam"></ion-icon>
           Call
         </button>
@@ -49,7 +49,7 @@
         {{req.nameTo}}
       </ion-item>
       <ion-item-options side="left">
-        <button ion-button color="primary" [disabled]="req.status !== 'accepted'" (click)="callToDoctor(req.key)">
+        <button ion-button color="primary" [disabled]="req.status !== 'accepted'" (click)="call(req.callIdTo, req.callIdFrom)">
           <ion-icon name="videocam"></ion-icon>
           Call
         </button>
@@ -68,5 +68,15 @@
   </div>
 
   <p>Name: {{(userProfile)?.lastName }}</p>
-  
+
+  <button ion-button color="danger" (click)="answerCall('xyz')">
+    <ion-icon name="trash"></ion-icon>
+    Answer
+  </button>
+  <p>{{callerId}}</p>
+  <button ion-button color="danger" (click)="genRn()">
+      <ion-icon name="trash"></ion-icon>
+      Genrate RN
+    </button>
+
 </ion-content>
