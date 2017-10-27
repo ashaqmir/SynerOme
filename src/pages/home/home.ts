@@ -25,16 +25,14 @@ export class HomePage {
     private fDb: AngularFireDatabase) {
   }
 
-  ionViewDidLoad() {
-    
-  }
-
   ionViewWillLoad() {
     if (!this.afAuth.auth.currentUser) {
       this.navCtrl.setRoot('LoginPage');
     }
   }
-
+  ionViewDidLoad() {
+    this.navCtrl.popToRoot();
+  }
   signOut(fab: FabContainer) {
     fab.close();
     this.afAuth.auth.signOut()

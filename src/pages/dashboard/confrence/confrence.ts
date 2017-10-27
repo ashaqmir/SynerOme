@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,  AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AppStateServiceProvider } from '../../../providers/app-state-service/app-state-service';
 import { HomePage } from '../../pages';
@@ -18,9 +18,6 @@ export class ConfrencePage {
   showIncomming: boolean;
   showInCall: boolean;
   showStatus: boolean;
-  showRemoteVideo: boolean = true;
-  showMyVideo: boolean = true;
-
 
   webRTCClient;
 
@@ -41,12 +38,9 @@ export class ConfrencePage {
     this.incomingCallId = this.navParams.get('callToId');
     this.outgoingCalleeId = this.navParams.get('callFromId');
 
-    this.InitializeApiRTC();
+
 
     if (this.fAuth.auth.currentUser) {
-
-
-      
       //var proccessing = false;
       // if (this.incomingCallId && proccessing) {
       //   proccessing = true;
@@ -83,7 +77,6 @@ export class ConfrencePage {
   sessionReadyHandler(e) {
     this.myCallId = apiRTC.session.apiCCId;
     console.log('my Call id:' + this.myCallId);
-    this.InitializeControls();
     this.AddEventListeners();
     this.InitializeWebRTCClient();
   }
@@ -95,14 +88,21 @@ export class ConfrencePage {
 
   }
 
-  InitializeControls() {
-
-  }
 
   AddEventListeners() {
+    
+    apiRTC.addEventListener("webRTCClientCreated", (e) => {
+      console.log("webRTC Client Created");
+
+      this.webRTCClient.setAllowMultipleCalls(false);
+      this.webRTCClient.setVideoBandwidth(600);
+      this.webRTCClient.setUserAcceptOnIncomingCall(true);
+
+      this.IntializeCallControls()
+    });
+
     apiRTC.addEventListener("userMediaSuccess", (e) => {
       this.showStatus = true;
-      this.showMyVideo = true;
 
       this.webRTCClient.addStreamInDiv(e.detail.stream, e.detail.callType, "boxOutgoing", 'boxOutgoing-' + e.detail.callId, {
         width: "100%",
@@ -112,8 +112,7 @@ export class ConfrencePage {
     });
 
     apiRTC.addEventListener("userMediaError", (e) => {
-      this.InitializeControlsForHangup();
-
+      this.IntializeCallControls();
       this.status = this.status + "<br/> The following error has occurred <br/> " + e;
     });
 
@@ -124,8 +123,8 @@ export class ConfrencePage {
 
     apiRTC.addEventListener("hangup", (e) => {
       if (e.detail.lastEstablishedCall === true) {
-        
-        this.InitializeControlsForHangup();
+
+        this.IntializeCallControls();
       }
       this.status = this.status + "<br/> The call has been hunged up due to the following reasons <br/> " + e.detail.reason;
       this.RemoveMediaElements(e.detail.callId);
@@ -137,22 +136,14 @@ export class ConfrencePage {
         height: "100%"
       }, true);
 
-    this.IntializeInCallControls
-
     });
-
-    apiRTC.addEventListener("webRTCClientCreated", (e) => {
-      console.log("webRTC Client Created");
-      this.webRTCClient.setAllowMultipleCalls(true);
-      this.webRTCClient.setVideoBandwidth(300);
-      this.webRTCClient.setUserAcceptOnIncomingCall(true);
-      this.showCall = true;
-    });
-
   }
 
 
   ionViewDidLoad() {
+
+    this.InitializeApiRTC();
+
     console.log('inComming:' + this.incomingCallId);
     console.log('outGoing:' + this.outgoingCalleeId);
   }
@@ -180,9 +171,9 @@ export class ConfrencePage {
           text: 'Leave',
           handler: () => {
             console.log('Leave clicked');
-            this.rejectCall(this.incomingCallId);
-            apiRTC.disconnect();
-            this.navCtrl.setRoot(HomePage)
+            this.hangup();
+            //apiRTC.disconnect();
+            //this.navCtrl.setRoot(HomePage)
           }
         }
       ]
@@ -209,21 +200,18 @@ export class ConfrencePage {
     var callId = this.webRTCClient.call(calleeId);
     if (callId != null) {
       //this.incomingCallId = callId;
-      this.showCall = false;
-      this.showInCall = true;
+      this.IntializeInCallControls();
     }
   }
 
   call() {
     console.log('calling to:' + this.incomingCallId);
-
     this.makeCall(this.incomingCallId);
   }
 
   hangup() {
-    this.rejectCall(this.incomingCallId);
-    this.showCall = true;
-    this.showInCall = false;
+    this.disconnect(this.incomingCallId);
+
   }
 
   answerIncommingCall() {
@@ -231,22 +219,26 @@ export class ConfrencePage {
   }
 
   answerCall(incomingCallId) {
-
-    this.webRTCClient.acceptCall(incomingCallId);
+    if (this.webRTCClient) {
+      this.webRTCClient.acceptCall(incomingCallId);
+    }
     // // this.nativeAudio.stop('uniqueI1').then(() => { }, () => { });
 
     this.IntializeInCallControls();
   }
 
-  rejectCall(incomingCallId) {
-    this.showInCall = false;
-    this.webRTCClient.hangUp();
+  disconnect(incomingCallId) {
+
+    if (this.webRTCClient) {
+      this.webRTCClient.hangUp();
+    }
     // this.confProvider.confrenceClient.refuseCall(incomingCallId);
     // //this.UpdateControlsOnReject();
     this.RemoveMediaElements(incomingCallId);
+    this.IntializeCallControls();
   }
 
-  back(){
+  back() {
     const alert = this.alertCtrl.create({
       title: 'Leave meeting?',
       message: 'Do you want leave this meeting?',
@@ -261,10 +253,11 @@ export class ConfrencePage {
         {
           text: 'Leave',
           handler: () => {
-            console.log('Leave clicked');           
-            this.rejectCall(this.incomingCallId);
+            console.log('Leave clicked');
+            this.hangup();
             apiRTC.disconnect();
             this.navCtrl.setRoot(HomePage)
+
           }
         }
       ]
@@ -281,16 +274,14 @@ export class ConfrencePage {
   InitializeControlsForIncomingCall() {
     this.showIncomming = true;
     this.showCall = false;
-  }
-
-  InitializeControlsForHangup() {
-    this.showCall = true;
+    this.showInCall = false;
   }
 
 
-  UpdateControlsOnReject() {
+  IntializeCallControls() {
     this.showCall = true;
     this.showInCall = false;
+    this.showIncomming = false;
   }
 
 

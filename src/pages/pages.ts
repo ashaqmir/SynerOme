@@ -7,3 +7,4 @@ export * from './dnadata/dnadata';
 export * from './welcome/welcome';
 export * from './home/home';
 export * from './dashboard/callControlBox/callControlBox'
+export * from './dashboard/confrence/confrence'

@@ -12,6 +12,8 @@ import { ConfrenceServiceProvider } from '../../providers/confrence-service/conf
 
 import { IFacetimeRequest } from './../../models/facetimeRequest';
 
+
+
 //declare var apiRTC: any
 
 @Component({
@@ -121,12 +123,18 @@ export class DashboardPage {
 
   call(callToId, callFromId) {
     console.log(callToId);
-    //this.makeCall(callToId);
+
     this.app.getRootNav().setRoot('ConfrencePage',
       {
         callToId: callToId,
         callFromId: callFromId
       });
+
+    // this.navCtrl.setRoot(ConfrencePage,
+    //   {
+    //     callToId: callToId,
+    //     callFromId: callFromId
+    //   });
   }
 
   acceptCall(requestKey) {
@@ -141,7 +149,7 @@ export class DashboardPage {
         idFrom: request.idFrom,
         idTo: request.idTo,
         nameFrom: request.nameFrom,
-        nameTo: request.nameTo,        
+        nameTo: request.nameTo,
         status: 'accepted',
         callIdTo: this.generateRandom(),
         callIdFrom: request.callIdFrom,
@@ -202,7 +210,7 @@ export class DashboardPage {
   //   modal.present();
   // }
 
- 
+
   generateRandom(): number {
     var min = 11111111;
     var max = 99999999;
