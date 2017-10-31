@@ -1,50 +1,54 @@
-import { IFacetimeRequest } from './../../../models/facetimeRequest';
-import { IProfile } from './../../../models/profile';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
+import * as moment from 'moment';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
 import { Observable } from 'rxjs/Observable';
-import { AppStateServiceProvider } from '../../../providers/app-state-service/app-state-service';
-
+import { IProfile, IFacetimeRequest } from '../../models/models';
+/**
+ * Generated class for the EventModalPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
 
 @IonicPage()
 @Component({
-  selector: 'page-user-list',
-  templateUrl: 'user-list.html',
+  selector: 'page-event-modal',
+  templateUrl: 'event-modal.html',
 })
+export class EventModalPage {
 
-export class UserListPage {
+  event = { startTime: new Date().toISOString(), endTime: new Date().toISOString(), allDay: false };
+  minDate = moment(new Date()).toISOString()
+
   usersList: Observable<IProfile[]>;
   otherusers: IProfile[] = [];
   myId: any;
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public viewCtrl: ViewController,
     private afAuth: AngularFireAuth,
     private fDb: AngularFireDatabase,
     public appState: AppStateServiceProvider,
-    private toast: ToastController, ) {
-
+    private toast: ToastController,
+  ) {
   }
-
-
 
   ionViewDidLoad() {
-    this.usersList = this.fDb.list('/profiles').valueChanges();
-    if (this.usersList) {
-      this.usersList.forEach(val => {
-        val.forEach(prof => {
-          console.log(prof.id);
-          if (prof.id !== this.appState.userProfile.id) {
-            this.otherusers.push(prof);
-          }
-        });
-      })
-    }
-
+    let profiles = [];
+    this.fDb.database.ref('/profiles').orderByChild('isNutritionist').equalTo(true).on('value', (snapshot) => {
+      profiles = snapshot.val();
+      for (var prof in profiles) {
+        console.log(prof);
+        if (prof !== this.appState.userProfile.id) {
+          this.otherusers.push(profiles[prof]);
+        }
+      }
+    });
   }
-
   requestTalk(user) {
 
     console.log('Requested to: ' + user);
@@ -54,32 +58,19 @@ export class UserListPage {
       facetimeReq.nameFrom = this.appState.userProfile.firstName
       facetimeReq.idTo = user.id;
       facetimeReq.nameTo = user.firstName;
-      facetimeReq.status='pending';
+      facetimeReq.status = 'pending';
       facetimeReq.callIdFrom = this.generateRandom();
-      facetimeReq.callIdTo= 0;
+      facetimeReq.callIdTo = 0;
 
       this.fDb.list('/faceTimeRequests').push(facetimeReq)
-      .then(res => {
-        this.toast.create({
-          message: 'Request sent!',
-          duration: 3000
-        }).present();
-      });
-
-      // facetimeReq.status = 'pending';
-      // this.fDb.database.ref('/faceTimeRequests').child(facetimeReq.idTo).push(facetimeReq)
-      //   .then(res => {
-      //     this.toast.create({
-      //       message: 'Request sent!',
-      //       duration: 3000
-      //     }).present();
-      //   })
-        
+        .then(res => {
+          this.toast.create({
+            message: 'Request sent!',
+            duration: 3000
+          }).present();
+        });
     }
-
-    this.dismiss();
   }
-
   dismiss() {
     this.viewCtrl.dismiss();
   }
@@ -89,5 +80,4 @@ export class UserListPage {
 
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
-
 }

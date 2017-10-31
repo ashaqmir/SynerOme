@@ -5,7 +5,15 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content padding id="page2">
+<ion-content padding>
+
+  <ion-fab top right edge #fab>
+    <button ion-fab mini color="danger" (click)="signOut(fab)">
+      <ion-icon name="lock"></ion-icon>
+    </button>
+  </ion-fab>
+
+
   <ion-item color="none">
     <ion-icon name="calendar" item-left></ion-icon>
     Book Appointment
@@ -74,9 +82,4 @@
     Answer
   </button>
   <p>{{callerId}}</p>
-  <button ion-button color="danger" (click)="genRn()">
-      <ion-icon name="trash"></ion-icon>
-      Genrate RN
-    </button>
-
 </ion-content>

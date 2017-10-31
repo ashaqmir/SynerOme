@@ -6,41 +6,103 @@
 
 </ion-header>
 
-
 <ion-content padding [ngStyle]="{'background-image': 'url(' + backgroundImage +')'}">
+  <ion-item>
+    <ion-label color="primary">I am Nutritionist</ion-label>
+    <ion-toggle color="danger" [(ngModel)]="isNutritionist"></ion-toggle>
+  </ion-item>
 
-  <form class="form" [formGroup]="validationsForm" (ngSubmit)="onSubmit(validationsForm.value)">
+  <form *ngIf="isNutritionist" class="form" [formGroup]="nutritionistForm" (ngSubmit)="onSubmit(nutritionistForm.value)">
     <ion-item>
-      <ion-label floating color="primary">Email</ion-label>
-      <ion-input [textMask]="emailMask" type="text" formControlName="email"></ion-input>
+      <ion-label stacked color="primary">Email</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
     </ion-item>
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validationMessages.email">
-        <div class="error-message" *ngIf="validationsForm.get('email').hasError(validation.type) && (validationsForm.get('email').dirty || validationsForm.get('email').touched)">
+        <div class="error-message" *ngIf="nutritionistForm.get('email').hasError(validation.type) && (nutritionistForm.get('email').dirty || nutritionistForm.get('email').touched)">
           {{ validation.message }}
         </div>
       </ng-container>
     </div>
     <div formGroupName="password">
       <ion-item>
-        <ion-label floating color="primary">Password</ion-label>
+        <ion-label stacked color="primary">Password</ion-label>
         <ion-input type="password" formControlName="password"></ion-input>
       </ion-item>
       <div class="validation-errors">
         <ng-container *ngFor="let validation of validationMessages.password">
-          <div class="error-message" *ngIf="validationsForm.get('password').get('password').hasError(validation.type) && (validationsForm.get('password').get('password').dirty || validationsForm.get('password').get('password').touched)">
+          <div class="error-message" *ngIf="nutritionistForm.get('password').get('password').hasError(validation.type) && (nutritionistForm.get('password').get('password').dirty || nutritionistForm.get('password').get('password').touched)">
             {{ validation.message }}
           </div>
         </ng-container>
       </div>
 
       <ion-item>
-        <ion-label floating color="primary">Confirm Password</ion-label>
+        <ion-label stacked color="primary">Confirm Password</ion-label>
         <ion-input type="password" formControlName="confirmPassword"></ion-input>
       </ion-item>
       <div class="validation-errors">
         <ng-container *ngFor="let validation of validationMessages.confirmPassword">
-          <div class="error-message" *ngIf="validationsForm.get('password').get('confirmPassword').hasError(validation.type) && (validationsForm.get('password').get('confirmPassword').dirty || validationsForm.get('password').get('confirmPassword').touched)">
+          <div class="error-message" *ngIf="nutritionistForm.get('password').get('confirmPassword').hasError(validation.type) && (nutritionistForm.get('password').get('confirmPassword').dirty || nutritionistForm.get('password').get('confirmPassword').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    
+    <ion-item>
+      <ion-label stacked color="primary">License Number</ion-label>
+      <ion-input type="number" formControlName="nutritionistLicenseNum"></ion-input>
+    </ion-item>
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validationMessages.nutritionistLicenseNum">
+        <div class="error-message" *ngIf="nutritionistForm.get('nutritionistLicenseNum').hasError(validation.type) && (nutritionistForm.get('nutritionistLicenseNum').dirty || nutritionistForm.get('nutritionistLicenseNum').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+    <ion-row>
+      <ion-col col-4></ion-col>
+      <ion-col col-4>
+        <button ion-button round color="light" type="submit" class="login-button" [disabled]="!nutritionistForm.valid">SIGN UP</button>
+      </ion-col>
+      <ion-col col-4></ion-col>
+    </ion-row>
+  </form>
+
+  <form *ngIf="!isNutritionist" class="form" [formGroup]="customerForm" (ngSubmit)="onSubmit(customerForm.value)">
+
+    <ion-item>
+      <ion-label stacked color="primary">Email</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validationMessages.email">
+        <div class="error-message" *ngIf="customerForm.get('email').hasError(validation.type) && (customerForm.get('email').dirty || customerForm.get('email').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+    <div formGroupName="password">
+      <ion-item>
+        <ion-label stacked color="primary">Password</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validationMessages.password">
+          <div class="error-message" *ngIf="customerForm.get('password').get('password').hasError(validation.type) && (customerForm.get('password').get('password').dirty || customerForm.get('password').get('password').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+
+      <ion-item>
+        <ion-label stacked color="primary">Confirm Password</ion-label>
+        <ion-input type="password" formControlName="confirmPassword"></ion-input>
+      </ion-item>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validationMessages.confirmPassword">
+          <div class="error-message" *ngIf="customerForm.get('password').get('confirmPassword').hasError(validation.type) && (customerForm.get('password').get('confirmPassword').dirty || customerForm.get('password').get('confirmPassword').touched)">
             {{ validation.message }}
           </div>
         </ng-container>
@@ -49,7 +111,7 @@
     <ion-row>
       <ion-col col-4></ion-col>
       <ion-col col-4>
-        <button ion-button round color="light" type="submit" class="login-button" [disabled]="!validationsForm.valid">SIGN UP</button>
+        <button ion-button round color="light" type="submit" class="login-button" [disabled]="!customerForm.valid">SIGN UP</button>
       </ion-col>
       <ion-col col-4></ion-col>
     </ion-row>

@@ -13,8 +13,9 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { NgCalendarModule  } from 'ionic2-calendar';
 
-import { HomePage, DashboardPage, PreferencesPage, CallControlBoxPage} from '../pages/pages';
+import { HomePage, DashboardPage, PreferencesPage, AppointmentsPage, SignupPage, UserListPage} from '../pages/pages';
 import { AuthanticationServiceProvider } from '../providers/user-service/authantication-service';
 import { AppStateServiceProvider } from '../providers/app-state-service/app-state-service';
 import { ConfrenceServiceProvider } from '../providers/confrence-service/confrence-service';
@@ -33,10 +34,12 @@ var firebaseConfig = {
 @NgModule({
   declarations: [
     MyApp,
+    SignupPage,
     HomePage,
     DashboardPage,
     PreferencesPage,
-    CallControlBoxPage,
+    AppointmentsPage,
+    UserListPage
   ],
   imports: [
     BrowserModule,
@@ -46,14 +49,17 @@ var firebaseConfig = {
     AngularFireAuthModule,
     IonicStorageModule.forRoot(),
     HttpModule,
+    NgCalendarModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    SignupPage,
     HomePage,
     DashboardPage,
     PreferencesPage,
-    CallControlBoxPage,
+    AppointmentsPage,
+    UserListPage
   ],
   providers: [
     StatusBar,

@@ -2,9 +2,12 @@ export * from './dashboard/dashboard';
 export * from './preferences/preferences';
 export * from './login/login';
 export * from './signup/signup';
+export * from './profile/profile';
 export * from './welcome-to-synerome/welcome-to-synerome';
 export * from './dnadata/dnadata';
 export * from './welcome/welcome';
 export * from './home/home';
-export * from './dashboard/callControlBox/callControlBox'
-export * from './dashboard/confrence/confrence'
+export * from './callControlBox/callControlBox';
+export * from './confrence/confrence';
+export * from './appointments/appointments';
+export * from './user-list/user-list';

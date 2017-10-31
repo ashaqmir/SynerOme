@@ -16,7 +16,7 @@
     </div>
   </div>
   <form id="loginForm" [formGroup]="validationsForm" (ngSubmit)="signIn(validationsForm.value)">
-    <ion-grid class="wr-well">
+    <ion-grid class="wr-well">      
       <ion-row>
         <ion-item>
           <ion-label floating color="primary">Email</ion-label>
@@ -63,11 +63,11 @@
     </ion-grid>
   </form>
 </ion-content>
-  <ion-footer>
-    <ion-toolbar class="footer">
-      <div (click)="goToSignup()">
-        <span>Don't have an account?
-          <strong>Sign up here</strong>.</span>
-      </div>
-    </ion-toolbar>
-  </ion-footer>
+<ion-footer>
+  <ion-toolbar class="footer">
+    <div (click)="goToSignup()">
+      <span>Don't have an account?
+        <strong>Sign up here</strong>.</span>
+    </div>
+  </ion-toolbar>
+</ion-footer>

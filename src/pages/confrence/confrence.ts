@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AppStateServiceProvider } from '../../../providers/app-state-service/app-state-service';
-import { HomePage } from '../../pages';
+import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
+import { HomePage } from '../pages';
 //import { NativeAudio } from '@ionic-native/native-audio';
 
 declare var apiRTC: any

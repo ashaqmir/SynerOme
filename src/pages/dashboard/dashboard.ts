@@ -2,7 +2,7 @@
 import { Observable } from 'rxjs/Observable';
 import { IProfile } from './../../models/profile';
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ModalController, App } from 'ionic-angular';
+import { NavController, LoadingController, ModalController, App, FabContainer } from 'ionic-angular';
 import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -11,6 +11,7 @@ import { ConfrenceServiceProvider } from '../../providers/confrence-service/conf
 //import { CallControlBoxPage } from './callControlBox/callControlBox';
 
 import { IFacetimeRequest } from './../../models/facetimeRequest';
+import { CallControlBoxPage, LoginPage, ConfrencePage, UserListPage } from '../pages';
 
 
 
@@ -53,7 +54,7 @@ export class DashboardPage {
 
 
     if (!this.afAuth.auth.currentUser) {
-      this.navCtrl.setRoot('LoginPage');
+      this.navCtrl.setRoot(LoginPage);
     }
 
     this.afAuth.authState.take(1).subscribe(data => {
@@ -66,8 +67,7 @@ export class DashboardPage {
         });
         //this.userProfile= this.fDb.object(`profiles/${data.uid}`);
       } else {
-        console.log(data)
-        this.navCtrl.setRoot('WelcomePage');
+        this.navCtrl.setRoot(LoginPage);
       }
     });
 
@@ -111,7 +111,7 @@ export class DashboardPage {
       })
     loader.present()
       .then(() => {
-        this.openModel('UserListPage', null);
+        this.openModel(UserListPage, null);
         loader.dismiss();
       })
   }
@@ -124,7 +124,7 @@ export class DashboardPage {
   call(callToId, callFromId) {
     console.log(callToId);
 
-    this.app.getRootNav().setRoot('ConfrencePage',
+    this.app.getRootNav().setRoot(ConfrencePage,
       {
         callToId: callToId,
         callFromId: callFromId
@@ -202,13 +202,13 @@ export class DashboardPage {
   //   }
   // }
 
-  // answerCall(inCallerId){
+  answerCall(inCallerId) {
 
-  //   let modal = this.modalCtrl.create(CallControlBoxPage, 
-  //     {incommingCallerId: inCallerId}, 
-  //     { cssClass: 'inset-modal' });
-  //   modal.present();
-  // }
+    let modal = this.modalCtrl.create(CallControlBoxPage,
+      { incommingCallerId: inCallerId },
+      { cssClass: 'inset-modal' });
+    modal.present();
+  }
 
 
   generateRandom(): number {
@@ -216,5 +216,17 @@ export class DashboardPage {
     var max = 99999999;
 
     return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+
+  signOut(fab: FabContainer) {
+    fab.close();
+    this.afAuth.auth.signOut()
+      .then(data => {
+        this.navCtrl.parent.parent.setRoot(LoginPage)
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 }

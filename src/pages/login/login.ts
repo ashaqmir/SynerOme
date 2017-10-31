@@ -3,7 +3,7 @@ import { NavController, IonicPage, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import emailMask from 'text-mask-addons/dist/emailMask';
 import { IUser } from '../../models/user';
-import { HomePage } from '../pages';
+import { HomePage, SignupPage } from '../pages';
 import { AuthanticationServiceProvider } from '../../providers/user-service/authantication-service';
 import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -25,6 +25,7 @@ export class LoginPage {
   user = {} as IUser;
   validationsForm: FormGroup;
 
+
   constructor(public navCtrl: NavController,
     public formBuilder: FormBuilder,
     private toast: ToastController,
@@ -34,10 +35,11 @@ export class LoginPage {
   }
 
   ionViewWillLoad() {
+
     this.validationsForm = this.formBuilder.group({
       email: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+        Validators.pattern('^[a-zA-Z0-9\._-]+@[a-zA-Z0-9\.-]+\.[a-zA-Z]{2,6}$')
       ])),
       password: new FormControl('', Validators.compose([
         Validators.minLength(5),
@@ -48,7 +50,7 @@ export class LoginPage {
   }
 
   goToSignup() {
-    this.navCtrl.push("SignupPage");
+    this.navCtrl.push(SignupPage);
   }
 
 

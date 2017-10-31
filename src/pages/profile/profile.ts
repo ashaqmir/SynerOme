@@ -6,7 +6,7 @@ import { Country } from '../../models/models';
 import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/take';
 import { IProfile } from '../../models/profile';
-import { HomePage } from '../pages';
+import { HomePage, LoginPage } from '../pages';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
 
@@ -36,15 +36,23 @@ export class ProfilePage {
     "Female"
   ];
 
+  isNutritionist: boolean = false;
+  nutritionistLicenseNumber: string = '';
+
   constructor(public navCtrl: NavController,
+    public navParams: NavParams,
     public formBuilder: FormBuilder,
     private afAuth: AngularFireAuth,
     public appState: AppStateServiceProvider,
-    public fDb: AngularFireDatabase) { }
+    public fDb: AngularFireDatabase) {
+
+    this.isNutritionist = this.navParams.get('isNutritionist');
+    this.nutritionistLicenseNumber = this.navParams.get('nutritionistLicenseNumber');
+  }
 
   ionViewWillLoad() {
     if (!this.afAuth.auth.currentUser) {
-      this.navCtrl.setRoot('LoginPage');
+      this.navCtrl.setRoot(LoginPage);
     }
     this.createForm();
   }
@@ -59,6 +67,8 @@ export class ProfilePage {
     profile.country = values.country.name;
     profile.phone = values.phone;
     profile.gender = values.gender;
+    profile.isNutritionist= this.isNutritionist;
+    profile.nutritionistLicenseNumber = this.nutritionistLicenseNumber;
 
     console.log(profile);
     this.afAuth.authState.take(1).subscribe(auth => {
@@ -70,7 +80,7 @@ export class ProfilePage {
             this.navCtrl.setRoot(HomePage);
           });
       } else {
-        this.navCtrl.setRoot('LoginPage');
+        this.navCtrl.setRoot(LoginPage);
       }
     });
   }

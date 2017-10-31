@@ -7,6 +7,7 @@ import { PasswordValidator } from '../../validators/validators';
 import { IUser } from '../../models/user';
 import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { ProfilePage } from '../pages';
 
 
 @IonicPage()
@@ -18,11 +19,14 @@ export class SignupPage {
 
   backgroundImage = 'assets/img/SynerOme_back.webp';
 
-  validationsForm: FormGroup;
+  customerForm: FormGroup;
+  nutritionistForm: FormGroup;
   matchingPasswordsGroup: FormGroup;
 
   emailMask = emailMask;
 
+  isNutritionist: boolean = false;
+  msg: string = '';
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
@@ -33,26 +37,19 @@ export class SignupPage {
   }
 
   ionViewWillLoad() {
-    this.matchingPasswordsGroup = new FormGroup({
-      password: new FormControl('', Validators.compose([
-        Validators.minLength(5),
-        Validators.required,
-        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
-      ])),
-      confirmPassword: new FormControl('', Validators.required)
-    }, (formGroup: FormGroup) => {
-      return PasswordValidator.areEqual(formGroup);
-    });
-
-    this.validationsForm = this.formBuilder.group({
-      email: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
-      ])),
-      password: this.matchingPasswordsGroup
-    });
+    this.createForms();
   }
 
+  updateForm(value) {
+    if (value) {
+      this.msg = "Nutritionist";
+
+    }
+
+    if (!value) {
+      this.msg = "Not Nutritionist";
+    }
+  }
 
   onSubmit(values) {
     if (values) {
@@ -60,13 +57,21 @@ export class SignupPage {
       user.email = values.email;
       user.password = values.password.password;
 
+      var nutritionistLicenseNum = '';
+      if (values.nutritionistLicenseNum) {
+        nutritionistLicenseNum = values.nutritionistLicenseNum;
+      }
+
       this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password)
         .then(data => {
           console.log('Registered');
           console.log(data);
           this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)
             .then(data => {
-              this.navCtrl.setRoot('ProfilePage');
+              this.navCtrl.setRoot(ProfilePage, {
+                isNutritionist: this.isNutritionist,
+                nutritionistLicenseNumber: nutritionistLicenseNum
+              });
             })
         })
         .catch(error => {
@@ -83,7 +88,51 @@ export class SignupPage {
     }
   }
 
+  createForms() {
+    this.matchingPasswordsGroup = new FormGroup({
+      password: new FormControl('', Validators.compose([
+        Validators.minLength(5),
+        Validators.required,
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
+      ])),
+      confirmPassword: new FormControl('', Validators.required)
+    }, (formGroup: FormGroup) => {
+      return PasswordValidator.areEqual(formGroup);
+    });
+
+    this.nutritionistForm = this.formBuilder.group({
+      isNutritionist: new FormControl(true, Validators.required),
+      nutritionistLicenseNum: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(10),
+        Validators.pattern('^[0-9]{6,10}$')
+      ])),
+
+      email: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9\._-]+@[a-zA-Z0-9\.-]+\.[a-zA-Z]{2,6}$')
+      ])),
+      password: this.matchingPasswordsGroup
+    });
+
+    this.customerForm = this.formBuilder.group({
+      isNutritionist: new FormControl(false, Validators.required),
+      email: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9\._-]+@[a-zA-Z0-9\.-]+\.[a-zA-Z]{2,6}$')
+      ])),
+      password: this.matchingPasswordsGroup
+    });
+  }
+
   validationMessages = {
+    'nutritionistLicenseNum': [
+      { type: 'required', message: 'License number is required.' },
+      { type: 'minlength', message: 'License number must be 6-10 digits.' },
+      { type: 'maxlength', message: 'License number must be 6-10 digits.' },
+      { type: 'pattern', message: 'License number must contains digits (0-9) only.' }
+    ],
     'email': [
       { type: 'required', message: 'Email is required.' },
       { type: 'pattern', message: 'Enter a valid email.' }
