@@ -15,10 +15,11 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { NgCalendarModule  } from 'ionic2-calendar';
 
-import { HomePage, DashboardPage, PreferencesPage, AppointmentsPage, SignupPage, UserListPage} from '../pages/pages';
+import { HomePage, DashboardPage, PreferencesPage, AppointmentsPage, SignupPage, UserListPage, ConfrencePage} from '../pages/pages';
 import { AuthanticationServiceProvider } from '../providers/user-service/authantication-service';
 import { AppStateServiceProvider } from '../providers/app-state-service/app-state-service';
 import { ConfrenceServiceProvider } from '../providers/confrence-service/confrence-service';
+import { NativeAudio } from '@ionic-native/native-audio';
 
 
 
@@ -39,7 +40,8 @@ var firebaseConfig = {
     DashboardPage,
     PreferencesPage,
     AppointmentsPage,
-    UserListPage
+    UserListPage,
+    ConfrencePage
   ],
   imports: [
     BrowserModule,
@@ -59,7 +61,8 @@ var firebaseConfig = {
     DashboardPage,
     PreferencesPage,
     AppointmentsPage,
-    UserListPage
+    UserListPage,
+    ConfrencePage
   ],
   providers: [
     StatusBar,
@@ -67,7 +70,8 @@ var firebaseConfig = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthanticationServiceProvider,
     AppStateServiceProvider,
-    ConfrenceServiceProvider
+    ConfrenceServiceProvider,
+    NativeAudio
   ]
 })
 export class AppModule {}

@@ -13,69 +13,12 @@
     </button>
   </ion-fab>
 
-
-  <ion-item color="none">
-    <ion-icon name="calendar" item-left></ion-icon>
-    Book Appointment
-    <button ion-button round item-right color="dark" (click)="loadUsers()">
-      <ion-icon name="videocam"></ion-icon>
-    </button>
-  </ion-item>
-  <ion-list>
-    <ion-list-header>
-      Requests to me
-    </ion-list-header>
-    <ion-item-sliding *ngFor="let req of chatRequestsToMe">
-      <ion-item *ngIf="req.status !== 'deleted'">
-        {{req.nameFrom}}
-      </ion-item>
-      <ion-item-options side="left">
-        <button ion-button color="secondary" *ngIf="req.status === 'pending'" (click)="acceptCall(req.key)">
-          <ion-icon name="checkmark"></ion-icon>
-          Accept
-        </button>
-        <button ion-button color="primary" [disabled]="req.status !== 'accepted'" (click)="call(req.callIdFrom, req.callIdTo)">
-          <ion-icon name="videocam"></ion-icon>
-          Call
-        </button>
-      </ion-item-options>
-      <ion-item-options side="right">
-        <button ion-button color="danger" (click)="deleteCallReq(req.key)">
-          <ion-icon name="trash"></ion-icon>
-          Delete
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
-
-  <ion-list>
-    <ion-list-header>
-      Requests by me
-    </ion-list-header>
-    <ion-item-sliding *ngFor="let req of chatRequestsByMe">
-      <ion-item *ngIf="req.status !== 'deleted'">
-        {{req.nameTo}}
-      </ion-item>
-      <ion-item-options side="left">
-        <button ion-button color="primary" [disabled]="req.status !== 'accepted'" (click)="call(req.callIdTo, req.callIdFrom)">
-          <ion-icon name="videocam"></ion-icon>
-          Call
-        </button>
-      </ion-item-options>
-      <ion-item-options side="right">
-        <button ion-button color="danger" (click)="deleteCallReq(req.key)">
-          <ion-icon name="trash"></ion-icon>
-          Delete
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
   <div style="position:relative;overflow:hidden;padding-bottom:56.25%;height:0;" id="dashboard-video1">
     <iframe src="https://www.youtube.com/embed/KMrQuZOIV8c?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen width="560"
       height="315" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
   </div>
 
-  <p>Name: {{(userProfile)?.lastName }}</p>
+  <p>Name: {{(userProfile)?.firstName }}</p>
 
   <button ion-button color="danger" (click)="answerCall('xyz')">
     <ion-icon name="trash"></ion-icon>

@@ -33,6 +33,6 @@ export class HomePage {
     }
   }
   ionViewDidLoad() {
-    this.navCtrl.popToRoot();
+    //this.navCtrl.popToRoot();
   }
 }

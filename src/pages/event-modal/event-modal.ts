@@ -20,7 +20,18 @@ import { IProfile, IFacetimeRequest } from '../../models/models';
 })
 export class EventModalPage {
 
-  event = { startTime: new Date().toISOString(), endTime: new Date().toISOString(), allDay: false };
+  event = {
+    startTime: new Date().toISOString(),
+    endTime: new Date().toISOString(),
+    allDay: false,
+    idFrom: this.appState.userProfile.id,
+    nameFrom: this.appState.userProfile.firstName + ' ' + this.appState.userProfile.lastName,
+    idTo: '',
+    nameTo: '',
+    callIdFrom: this.generateRandom(),
+    status: 'pending'
+
+  };
   minDate = moment(new Date()).toISOString()
 
   usersList: Observable<IProfile[]>;
@@ -49,17 +60,23 @@ export class EventModalPage {
       }
     });
   }
-  requestTalk(user) {
+  requestTalk() {
 
-    console.log('Requested to: ' + user);
-    if (user) {
+    console.log('Requested to: ' + this.event);
+    if (this.event) {
       let facetimeReq = {} as IFacetimeRequest
-      facetimeReq.idFrom = this.appState.userProfile.id;
-      facetimeReq.nameFrom = this.appState.userProfile.firstName
-      facetimeReq.idTo = user.id;
-      facetimeReq.nameTo = user.firstName;
+      facetimeReq.idFrom = this.event.idFrom;
+      facetimeReq.nameFrom = this.event.nameFrom;
+      facetimeReq.idTo = this.event.idTo;
+      facetimeReq.nameTo = this.event.nameTo;
       facetimeReq.status = 'pending';
-      facetimeReq.callIdFrom = this.generateRandom();
+      facetimeReq.callIdFrom = this.event.callIdFrom;
+      facetimeReq.startTime = this.event.startTime
+      facetimeReq.endTime= this.event.endTime;
+
+      facetimeReq.title= facetimeReq.nameFrom + '--' + facetimeReq.nameTo
+
+
       facetimeReq.callIdTo = 0;
 
       this.fDb.list('/faceTimeRequests').push(facetimeReq)
@@ -68,6 +85,9 @@ export class EventModalPage {
             message: 'Request sent!',
             duration: 3000
           }).present();
+
+          this.dismiss();
+
         });
     }
   }
@@ -79,5 +99,10 @@ export class EventModalPage {
     var max = 99999999;
 
     return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  selectDoctor(doctor) {
+   this.event.idTo=doctor.id;
+   this.event.nameTo = doctor.firstName + ' ' + doctor.lastName;
   }
 }

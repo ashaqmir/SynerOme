@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ViewController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
 import { HomePage } from '../pages';
-//import { NativeAudio } from '@ionic-native/native-audio';
+import { NativeAudio } from '@ionic-native/native-audio';
 
 declare var apiRTC: any
 
@@ -32,8 +32,9 @@ export class ConfrencePage {
     public navParams: NavParams,
     private fAuth: AngularFireAuth,
     public appState: AppStateServiceProvider,
-    private alertCtrl: AlertController
-    //private nativeAudio: NativeAudio
+    private alertCtrl: AlertController,
+    private viewCtrl: ViewController,
+    private nativeAudio: NativeAudio
   ) {
     this.incomingCallId = this.navParams.get('callToId');
     this.outgoingCalleeId = this.navParams.get('callFromId');
@@ -54,6 +55,21 @@ export class ConfrencePage {
       //   this.makeCall(this.outgoingCalleeId);
       // }
     } else {
+      this.navCtrl.setRoot('LoginPage');
+    }
+  }
+
+
+  ionViewDidLoad() {
+
+    this.InitializeApiRTC();
+
+    console.log('inComming:' + this.incomingCallId);
+    console.log('outGoing:' + this.outgoingCalleeId);
+  }
+
+  ionViewWillLoad() {
+    if (!this.fAuth.auth.currentUser) {
       this.navCtrl.setRoot('LoginPage');
     }
   }
@@ -90,7 +106,7 @@ export class ConfrencePage {
 
 
   AddEventListeners() {
-    
+
     apiRTC.addEventListener("webRTCClientCreated", (e) => {
       console.log("webRTC Client Created");
 
@@ -137,21 +153,6 @@ export class ConfrencePage {
       }, true);
 
     });
-  }
-
-
-  ionViewDidLoad() {
-
-    this.InitializeApiRTC();
-
-    console.log('inComming:' + this.incomingCallId);
-    console.log('outGoing:' + this.outgoingCalleeId);
-  }
-
-  ionViewWillLoad() {
-    if (!this.fAuth.auth.currentUser) {
-      this.navCtrl.setRoot('LoginPage');
-    }
   }
 
   leave() {
@@ -254,9 +255,18 @@ export class ConfrencePage {
           text: 'Leave',
           handler: () => {
             console.log('Leave clicked');
-            this.hangup();
-            apiRTC.disconnect();
-            this.navCtrl.setRoot(HomePage)
+            this.hangup();  
+            apiRTC.disconnect();         
+            this.navCtrl.pop().then(() => {
+              console.log('Clearing apiRTC');           
+            })
+            
+            // .then(() => {
+            //   // first we find the index of the current view controller:
+            //   const index = this.viewCtrl.index;
+            //   // then we remove it from the navigation stack
+            //   this.navCtrl.remove(index);
+            // });
 
           }
         }
@@ -279,6 +289,7 @@ export class ConfrencePage {
 
 
   IntializeCallControls() {
+    console.log('Intialize call controls called');
     this.showCall = true;
     this.showInCall = false;
     this.showIncomming = false;
