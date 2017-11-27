@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule, IonicPage } from 'ionic-angular';
-import { ProfilePage } from './profile';
+import { DemographicPage } from './demographic';
 import { TextMaskModule } from 'angular2-text-mask';
 
 @IonicPage()
 @NgModule({
   declarations: [
-    ProfilePage,
+    DemographicPage,
   ],
   imports: [
-    IonicPageModule.forChild(ProfilePage),
+    IonicPageModule.forChild(DemographicPage),
     TextMaskModule,
   ],
 })
-export class ProfilePageModule {}
+export class DemographicPageModule {}

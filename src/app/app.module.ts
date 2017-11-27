@@ -15,7 +15,11 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { NgCalendarModule  } from 'ionic2-calendar';
 
-import { HomePage, DashboardPage, PreferencesPage, AppointmentsPage, SignupPage, UserListPage, ConfrencePage} from '../pages/pages';
+import { HomePage, DashboardPage, 
+  PreferencesPage, AppointmentsPage, 
+  SignupPage, UserListPage, 
+  ConfrencePage, ForgotPage, DemographicPage, UserProfilePage} from '../pages/pages';
+
 import { AuthanticationServiceProvider } from '../providers/user-service/authantication-service';
 import { AppStateServiceProvider } from '../providers/app-state-service/app-state-service';
 import { ConfrenceServiceProvider } from '../providers/confrence-service/confrence-service';
@@ -35,7 +39,10 @@ var firebaseConfig = {
 @NgModule({
   declarations: [
     MyApp,
+    ForgotPage,
     SignupPage,
+    DemographicPage,
+    UserProfilePage,
     HomePage,
     DashboardPage,
     PreferencesPage,
@@ -56,7 +63,10 @@ var firebaseConfig = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    ForgotPage,
     SignupPage,
+    DemographicPage,
+    UserProfilePage,
     HomePage,
     DashboardPage,
     PreferencesPage,

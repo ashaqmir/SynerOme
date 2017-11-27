@@ -2,22 +2,74 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
  
-.wr-well {
-    text-align: center;
-    margin: auto;
-    max-width: 700px;
-    padding: 20px 15px 0;
-    
-    h1,h2,h3,h4,h5,h6 {
-        color:#fff;        
-        text-shadow: 2px 2px 5px rgba(43, 42, 42, 0.6);
+
+#menu-material {
+    .list-box{
+      margin-top:190px;
     }
-}
- 
-.wr-float {
-    position: absolute;
-    top: 25px;
-    left: 15%;
-    right: 15%;
-    background-color: transparent;
-}
+    .menu-header {
+      padding: 5px 15px;
+      background-image: url('../assets/waves.png');
+      background-size: cover;
+      background-color: color($colors, blue2);
+      color: white;
+      .name {
+        font-weight: 400;
+        font-size:18px;
+        margin-top: 10px;
+        margin-bottom: 3px;
+      }
+      .email {
+        margin-top: 0;
+        margin-bottom: 5px;
+      }
+      .user-avatar {
+        padding: .5em;
+        height: 12vh;
+        margin-top: 15px;
+        // border: 3px solid #fff;
+      }
+    }
+    h3,
+    .label,
+    {
+      color: #616161;
+      font-weight: 400;
+    }
+    ion-icon {
+      color: #616161;
+    }
+  }
+
+  #menu-ios{
+    .menu-header {
+      text-align: center;
+      margin: auto;
+      // width: 50%;
+      // margin-top: 10px;
+      margin-bottom: 20px;
+      padding: 5px 15px;
+      background-color: #fff;
+      color:#000;
+      .name {
+        margin-top:8px;
+        font-weight: 500;
+        font-size:16px;
+        margin-bottom: 3px;
+      }
+      .email {
+        margin-top: 0;
+        margin-bottom: 5px;
+      }
+      .user-avatar {
+        padding: .5em;
+        height: 15vh;
+        margin-top: 15px;
+        // border: 3px solid #fff;
+      }
+    }
+  }
+  
+  .round {
+    border-radius: 50%;
+  }

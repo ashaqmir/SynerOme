@@ -1,13 +1,11 @@
-import { AngularFireDatabase } from 'angularfire2/database';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, MenuController } from 'ionic-angular';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 import emailMask from 'text-mask-addons/dist/emailMask';
-import { PasswordValidator } from '../../validators/validators';
-import { IUser } from '../../models/user';
-import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { ProfilePage } from '../pages';
+import { PasswordValidator } from '../../../validators/validators';
+import { IUser } from '../../../models/user';
+import { AuthanticationServiceProvider } from '../../../providers/providers';
+import { DemographicPage } from '../../pages';
 
 
 @IonicPage()
@@ -17,7 +15,7 @@ import { ProfilePage } from '../pages';
 })
 export class SignupPage {
 
-  backgroundImage = 'assets/img/SynerOme_back.webp';
+  backgroundImage = './assets/img/bg1.jpg';
 
   customerForm: FormGroup;
   nutritionistForm: FormGroup;
@@ -31,15 +29,18 @@ export class SignupPage {
     public navParams: NavParams,
     public formBuilder: FormBuilder,
     private toast: ToastController,
-    public appState: AppStateServiceProvider,
-    private fDb: AngularFireDatabase,
-    private afAuth: AngularFireAuth) {
+    public authProvider: AuthanticationServiceProvider,
+    private menu: MenuController
+  ) {
   }
 
   ionViewWillLoad() {
     this.createForms();
   }
 
+  ionViewDidLoad() {
+    this.menu.enable(false);
+  }
   updateForm(value) {
     if (value) {
       this.msg = "Nutritionist";
@@ -62,13 +63,13 @@ export class SignupPage {
         nutritionistLicenseNum = values.nutritionistLicenseNum;
       }
 
-      this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password)
+      this.authProvider.registerUser(user.email, user.password)
         .then(data => {
           console.log('Registered');
           console.log(data);
-          this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)
+          this.authProvider.loginUser(user.email, user.password)
             .then(data => {
-              this.navCtrl.setRoot(ProfilePage, {
+              this.navCtrl.setRoot(DemographicPage, {
                 isNutritionist: this.isNutritionist,
                 nutritionistLicenseNumber: nutritionistLicenseNum
               });

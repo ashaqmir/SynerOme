@@ -1,21 +1,17 @@
-//import { NativeAudio } from '@ionic-native/native-audio';
 import { Observable } from 'rxjs/Observable';
 import { IProfile } from './../../models/profile';
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ModalController, App, FabContainer } from 'ionic-angular';
+import { NavController, LoadingController, ModalController, App, FabContainer, MenuController } from 'ionic-angular';
 import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { IFacetimeRequestView } from '../../models/models';
 import { ConfrenceServiceProvider } from '../../providers/confrence-service/confrence-service';
-//import { CallControlBoxPage } from './callControlBox/callControlBox';
+
 
 import { IFacetimeRequest } from './../../models/facetimeRequest';
-import { CallControlBoxPage, LoginPage, ConfrencePage, UserListPage } from '../pages';
+import { CallControlBoxPage, LoginPage, ConfrencePage, UserListPage, DemographicPage } from '../pages';
 
-
-
-//declare var apiRTC: any
 
 @Component({
   selector: 'page-dashboard',
@@ -31,75 +27,45 @@ export class DashboardPage {
   incomingCallId;
   incomingCall: boolean = false;
   constructor(public navCtrl: NavController,
-    public appState: AppStateServiceProvider,
+    private appState: AppStateServiceProvider,
     private afAuth: AngularFireAuth,
-    private fDb: AngularFireDatabase,
+    private afDb: AngularFireDatabase,
     private loadingCtrl: LoadingController,
     private modelCtrl: ModalController,
     private app: App,
     public modalCtrl: ModalController,
-    //private confProvider: ConfrenceServiceProvider,
-    //private nativeAudio: NativeAudio
+    private menu: MenuController
   ) {
-    //this.confProvider.InitializeApiRTC();
-    //this.AddApiRtcEventListeners();
+
   }
 
   ionViewWillLoad() {
-
-
-    if (!this.afAuth.auth.currentUser) {
-      this.navCtrl.setRoot(LoginPage);
-    }
-
-    this.afAuth.authState.take(1).subscribe(data => {
-      if (data && data.uid) {
-        const profRef = this.fDb.object(`profiles/${data.uid}`);
-
-        profRef.snapshotChanges().subscribe(profData => {
-          this.userProfile = profData.payload.val();
-          this.appState.userProfile = this.userProfile;
-        });
-        //this.userProfile= this.fDb.object(`profiles/${data.uid}`);
-      } else {
+    
+    this.afAuth.authState.subscribe(userAuth => {
+      if (userAuth) {
+        if (this.appState.userProfile) {
+          this.userProfile = this.appState.getUserProfile();
+        } else {
+          console.log('auth false');
+          this.navCtrl.setRoot(LoginPage);
+        }
+      }
+      else {
+        console.log('auth false');
         this.navCtrl.setRoot(LoginPage);
       }
     });
   }
 
-  ionViewDidLoad() {
-    //this.AddApiRtcEventListeners();
+  ionViewDidLoad(){
+    this.menu.enable(true);
   }
 
 
-
-  openModel(pageName, userList, ) {
+  openModel(pageName, userList) {
     this.modelCtrl.create(pageName, null, { cssClass: 'inset-modal' })
       .present();
   }
-
-
-
-  // AddApiRtcEventListeners() {
-  //   console.log('incoming listner added');
-  //   apiRTC.addEventListener("incomingCall", (e) => {
-  //     this.incomingCallId = e.detail.callId;
-  //     this.incomingCall = true;
-  //     console.log('call from: ' +  this.incomingCallId);
-  //     let modal = this.modalCtrl.create(CallControlBoxPage, 
-  //       {incommingCallerId: this.incomingCallId}, 
-  //       { cssClass: 'inset-modal' });
-  //     modal.present();
-  //   });
-  // }
-
-  // makeCall(callToId) {
-  //   var callId = this.confProvider.confrenceClient.call(callToId);
-  //   if (callId != null) {
-  //     this.incomingCallId = callId;
-  //   }
-  // }
-
   answerCall(inCallerId) {
 
     let modal = this.modalCtrl.create(CallControlBoxPage,

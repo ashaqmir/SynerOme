@@ -1,13 +1,16 @@
 <ion-header>
-  <ion-navbar color="primary">
+  <ion-navbar color="lightblue">
+    <button ion-button menuToggle>
+      <ion-icon name="menu" color="light"></ion-icon>
+    </button>
     <ion-title>
       Appointments
     </ion-title>
-    <ion-buttons end *ngIf="!userProfile.isNutritionist">
+    <!-- <ion-buttons end *ngIf="!userProfile?.isNutritionist">
       <button ion-button round (click)="addEvent()">
         <ion-icon name="add-circle"></ion-icon>
       </button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-navbar>
 </ion-header>
 
@@ -17,7 +20,7 @@
   <template #template let-selectedDate="selectedDate.events" let-noEventsLabel="noEventsLabel">
     <ion-list>
       <ion-item-sliding *ngFor="let req of selectedDate">
-        <ion-item *ngIf="req.status !== 'deleted'" [color]="req.status=='accepted'? 'primary' : 'danger'" >
+        <ion-item *ngIf="req.status !== 'deleted'" [color]="req.status=='accepted'? 'primary' : 'danger'">
           {{req.title}}
         </ion-item>
         <ion-item-options side="left">
@@ -42,13 +45,7 @@
   </template>
 
 
-  <calendar 
-    [eventSource]="myAppointments" 
-    [calendarMode]="calendar.mode"
-    [monthviewEventDetailTemplate]="template" 
-    [currentDate]="calendar.currentDate" 
-    (onEventSelected)="onEventSelected($event)"
-    (onTimeSelected)="onTimeSelected($event)" 
-    step="30" class="calendar">
+  <calendar [eventSource]="myAppointments" [calendarMode]="calendar.mode" [monthviewEventDetailTemplate]="template" [currentDate]="calendar.currentDate"
+    (onEventSelected)="onEventSelected($event)" (onTimeSelected)="onTimeSelected($event)" step="30" class="calendar">
   </calendar>
 </ion-content>

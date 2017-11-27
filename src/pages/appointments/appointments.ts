@@ -5,7 +5,7 @@ import { AppStateServiceProvider } from '../../providers/app-state-service/app-s
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as moment from 'moment';
-import { ConfrencePage } from '../pages';
+import { ConfrencePage, LoginPage } from '../pages';
 
 
 @IonicPage()
@@ -33,6 +33,9 @@ export class AppointmentsPage {
     private afAuth: AngularFireAuth,
     private app: App,
   ) {
+    if (!this.afAuth.auth.currentUser) {
+      this.navCtrl.setRoot(LoginPage);
+    }
   }
 
   ionViewDidLoad() {
@@ -41,45 +44,63 @@ export class AppointmentsPage {
 
   ionViewWillLoad() {
 
-    this.userProfile = this.appState.userProfile;
 
-    if (this.userProfile) {
-      if (this.userProfile.isNutritionist && this.userProfile.nutritionistLicenseNumber) {
-        let allrequests;
-        this.fDb.database.ref('/faceTimeRequests').orderByChild('idTo').equalTo(this.afAuth.auth.currentUser.uid).on('value', (snapshot) => {
-          allrequests = snapshot.val();
-          this.myAppointments = []
-          for (var req in allrequests) {
-            var request = allrequests[req]
-            if (request && request.status !== 'deleted') {
-              let faceTime = request;
-              faceTime.startTime = new Date(request.startTime);
-              faceTime.endTime = new Date(request.endTime);
+    this.afAuth.authState.subscribe(userAuth => {
+      if (userAuth) {
+        if (this.appState.userProfile) {
+          this.userProfile = this.appState.getUserProfile();
+          if (this.userProfile) {
+            if (this.userProfile.isNutritionist && this.userProfile.nutritionistLicenseNumber) {
+              let allrequests;
+              this.fDb.database.ref('/faceTimeRequests').orderByChild('idTo').equalTo(this.afAuth.auth.currentUser.uid).on('value', (snapshot) => {
+                allrequests = snapshot.val();
+                this.myAppointments = []
+                for (var req in allrequests) {
+                  var request = allrequests[req]
+                  if (request && request.status !== 'deleted') {
+                    let faceTime = request;
+                    faceTime.startTime = new Date(request.startTime);
+                    faceTime.endTime = new Date(request.endTime);
 
-              request.key = req;
-              this.myAppointments.push(faceTime);
+                    request.key = req;
+                    this.myAppointments.push(faceTime);
+                  }
+                }
+              });
+            } else {
+              let allrequests;
+              this.fDb.database.ref('/faceTimeRequests').orderByChild('idFrom').equalTo(this.afAuth.auth.currentUser.uid).on('value', (snapshot) => {
+                allrequests = snapshot.val();
+                this.myAppointments = []
+                for (var req in allrequests) {
+                  var request = allrequests[req]
+                  if (request && request.status !== 'deleted') {
+                    let faceTime = request;
+                    faceTime.startTime = new Date(request.startTime);
+                    faceTime.endTime = new Date(request.endTime);
+
+                    request.key = req;
+                    this.myAppointments.push(faceTime);
+                  }
+                }
+              });
             }
           }
-        });
-      } else {
-        let allrequests;
-        this.fDb.database.ref('/faceTimeRequests').orderByChild('idFrom').equalTo(this.afAuth.auth.currentUser.uid).on('value', (snapshot) => {
-          allrequests = snapshot.val();
-          this.myAppointments = []
-          for (var req in allrequests) {
-            var request = allrequests[req]
-            if (request && request.status !== 'deleted') {
-              let faceTime = request;
-              faceTime.startTime = new Date(request.startTime);
-              faceTime.endTime = new Date(request.endTime);
-
-              request.key = req;
-              this.myAppointments.push(faceTime);
-            }
-          }
-        });
+        } else {
+          console.log('auth false');
+          this.navCtrl.setRoot(LoginPage);
+        }
       }
+      else {
+        console.log('auth false');
+        this.navCtrl.setRoot(LoginPage);
+      }
+    });
+    if (this.appState.userProfile) {
+      this.userProfile = this.appState.getUserProfile();
     }
+
+
   }
 
   addEvent() {
@@ -106,10 +127,10 @@ export class AppointmentsPage {
   call(callToId, callFromId) {
     console.log(callToId);
     this.navCtrl.push(ConfrencePage,
-    {
-      callToId: callToId,
-      callFromId: callFromId
-    });
+      {
+        callToId: callToId,
+        callFromId: callFromId
+      });
   }
 
   acceptCall(requestKey) {

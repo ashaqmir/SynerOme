@@ -15,16 +15,36 @@ import { AppStateServiceProvider } from '../app-state-service/app-state-service'
 export class AuthanticationServiceProvider {
 
   constructor(public http: Http,
-    private fAuth: AngularFireAuth,
-    public fDb: AngularFireDatabase,
+    private afAuth: AngularFireAuth,
+    public afDb: AngularFireDatabase,
     public appState: AppStateServiceProvider) {
   }
 
-  async login(user: IUser) {   
-    await this.fAuth.auth.signInWithEmailAndPassword(user.email, user.password);
+
+  loginUser(newEmail: string, newPassword: string): Promise<any> {
+    return this.afAuth.auth.signInWithEmailAndPassword(newEmail, newPassword)
   }
 
-  async logout(){
-    await this.fAuth.auth.signOut();
+  resetPassword(email: string): Promise<any> {
+    return this.afAuth.auth.sendPasswordResetEmail(email);
   }
+
+  logoutUser(): Promise<any> {
+    this.appState.setLoginState(false);
+    this.appState.setUserProfile(null);
+    return this.afAuth.auth.signOut();
+
+
+  }
+
+  registerUser(email: string, password: string): Promise<any> {
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+  }
+
+  updateUserProfile(userProfile: IProfile, uid: string): Promise<any> {
+    return this.afDb.object(`profiles/${uid}`).set(userProfile);
+  }
+
 }
+
+

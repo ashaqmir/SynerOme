@@ -1,16 +1,26 @@
-page-signup {
+page-demographic {
+    $base-color: rgb(24, 72, 90);
+    .term
+    {
+      padding-top: 20px;
+    }
+  
+    .terms-checkbox-label
+    {
+      overflow: visible;
+      text-overflow: initial;
+      white-space: initial;
+      opacity: 0.5;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  
     .error-message
     {
-     
-      font-size: 10px;
-      transition: 0.28s;
-      overflow: hidden;
-      color: rgb(207, 30, 10);
-      font-style: italic;
+      color: red;
     }
 
-    
-    $base-color: rgb(24, 72, 90);
+   
     // Fullscreen centered image background
     ion-content {
       background-size: cover;
@@ -72,21 +82,4 @@ page-signup {
       }
       // border: 1px solid #fff;
     }
-
-    form{
-      input[type="text"],
-      input[type="email"],
-      input[type="password"] {
-        &:valid {
-          background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/check.svg);
-          background-size: 20px;
-          background-repeat: no-repeat;
-          background-position: 20px 20px;
-          & + ion-label {
-            opacity: 0;
-          }
-        }
-        }
-    }
-
 }

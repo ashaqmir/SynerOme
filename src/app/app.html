@@ -1,1 +1,45 @@
-<ion-nav #mainContent [root]="rootPage" [class]="selectedTheme"></ion-nav>
+<ion-menu [content]="content">
+    <ion-content>
+
+        <div id="menu-material" showWhen="android">
+            <ion-header class="menu-header">
+                <img class="user-avatar round" src="https://firebasestorage.googleapis.com/v0/b/synerome-f2748.appspot.com/o/profilePics%2Fchatterplace.png?alt=media&token=c41eeccb-e4f9-4c70-8ebc-6004ab09d271"
+                />
+                <p class="name">ionic3fullapp</p>
+                <p class="email">with firebase backend</p>
+            </ion-header>
+
+            <div class="list-box">
+                <ion-list no-lines>
+                    <div *ngFor="let m of menu">
+                        <ion-item menuClose (click)="openPage(m)">
+                            <ion-icon [name]="m.icon" color="gray" item-left></ion-icon>
+                            {{m.name}}
+                        </ion-item>
+                    </div>
+
+                </ion-list>
+            </div>
+        </div>
+
+        <div id="menu-ios" showWhen="ios" class="sideMenu-header" color="gray">
+            <div class="menu-header">
+                <img class="user-avatar round" src="https://firebasestorage.googleapis.com/v0/b/synerome-f2748.appspot.com/o/profilePics%2Fchatterplace.png?alt=media&token=c41eeccb-e4f9-4c70-8ebc-6004ab09d271"/>
+                <p class="name">ionic3fullapp</p>
+                <p class="email">with firebase backend</p>
+            </div>
+
+            <ion-list no-lines>
+                <div *ngFor="let m of menu">
+                    <ion-item menuClose (click)="openPage(m)">
+                        <ion-icon [name]="m.icon" color="gray" item-left></ion-icon>
+                        {{m.name}}
+                    </ion-item>
+                </div>
+            </ion-list>
+        </div>
+    </ion-content>
+
+</ion-menu>
+
+<ion-nav #content [root]="rootPage" [class]="selectedTheme" swipeBackEnabled="false"></ion-nav>

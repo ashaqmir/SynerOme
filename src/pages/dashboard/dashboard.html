@@ -1,11 +1,15 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="lightblue">
+    <button ion-button menuToggle>
+      <ion-icon name="menu" color="light"></ion-icon>
+    </button>
     <ion-title>
       Dashboard
     </ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content padding>
+
+<ion-content>
 
   <ion-fab top right edge #fab>
     <button ion-fab mini color="danger" (click)="signOut(fab)">

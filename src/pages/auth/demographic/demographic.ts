@@ -1,24 +1,23 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, MenuController } from 'ionic-angular';
 import emailMask from 'text-mask-addons/dist/emailMask';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { Country } from '../../models/models';
+import { Country } from '../../../models/models';
 import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/take';
-import { IProfile } from '../../models/profile';
-import { HomePage, LoginPage } from '../pages';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
+import { IProfile } from '../../../models/models';
+import { LoginPage, DashboardPage } from '../../pages';
+import { AuthanticationServiceProvider } from '../../../providers/providers';
 
 
 @IonicPage()
 @Component({
-  selector: 'page-profile',
-  templateUrl: 'profile.html',
+  selector: 'page-demographic',
+  templateUrl: 'demographic.html',
 })
-export class ProfilePage {
+export class DemographicPage {
 
-  backgroundImage = 'assets/img/SynerOme_back.webp';
+  backgroundImage = './assets/img/bg1.jpg';
 
   validationsForm: FormGroup;
   matchingPasswordsGroup: FormGroup;
@@ -42,9 +41,11 @@ export class ProfilePage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
+    private toast: ToastController,
     private afAuth: AngularFireAuth,
-    public appState: AppStateServiceProvider,
-    public fDb: AngularFireDatabase) {
+    public authProvider: AuthanticationServiceProvider,
+    private menu: MenuController
+  ) {
 
     this.isNutritionist = this.navParams.get('isNutritionist');
     this.nutritionistLicenseNumber = this.navParams.get('nutritionistLicenseNumber');
@@ -57,6 +58,10 @@ export class ProfilePage {
     this.createForm();
   }
 
+  ionViewDidLoad() {
+    this.menu.enable(false);
+  }
+
   onSubmit(values) {
 
     let profile = {} as IProfile
@@ -67,26 +72,33 @@ export class ProfilePage {
     profile.country = values.country.name;
     profile.phone = values.phone;
     profile.gender = values.gender;
-    profile.isNutritionist= this.isNutritionist;
+    profile.isNutritionist = this.isNutritionist;
     profile.nutritionistLicenseNumber = this.nutritionistLicenseNumber;
 
     console.log(profile);
-    this.afAuth.authState.take(1).subscribe(auth => {
+    this.afAuth.authState.subscribe(auth => {
       if (auth && auth.uid) {
         profile.id = auth.uid;
-        this.createProfile(profile)
-          .then(data => {
-            console.log(data);
-            this.navCtrl.setRoot(HomePage);
-          });
+        this.createProfile(profile, auth.uid);
       } else {
         this.navCtrl.setRoot(LoginPage);
       }
     });
   }
-  async createProfile(profile: IProfile) {
+  createProfile(profile: IProfile, uid: string) {
 
-    this.fDb.object(`profiles/${profile.id}`).set(profile)
+    this.authProvider.updateUserProfile(profile, uid)
+      .then(data => {
+        console.log(data);
+        this.navCtrl.setRoot(DashboardPage);
+      })
+      .catch(error => {
+        console.log(error.message);
+        this.toast.create({
+          message: error.message,
+          duration: 3000
+        }).present();
+      })
 
   }
 
