@@ -1,16 +1,10 @@
-import { Observable } from 'rxjs/Observable';
 import { IProfile } from './../../models/profile';
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ModalController, App, FabContainer, MenuController } from 'ionic-angular';
+import { NavController, ModalController,  FabContainer, MenuController } from 'ionic-angular';
 import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { IFacetimeRequestView } from '../../models/models';
-import { ConfrenceServiceProvider } from '../../providers/confrence-service/confrence-service';
 
-
-import { IFacetimeRequest } from './../../models/facetimeRequest';
-import { CallControlBoxPage, LoginPage, ConfrencePage, UserListPage, DemographicPage } from '../pages';
+import { CallControlBoxPage, LoginPage} from '../pages';
 
 
 @Component({
@@ -29,10 +23,7 @@ export class DashboardPage {
   constructor(public navCtrl: NavController,
     private appState: AppStateServiceProvider,
     private afAuth: AngularFireAuth,
-    private afDb: AngularFireDatabase,
-    private loadingCtrl: LoadingController,
     private modelCtrl: ModalController,
-    private app: App,
     public modalCtrl: ModalController,
     private menu: MenuController
   ) {
