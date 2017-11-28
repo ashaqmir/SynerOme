@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
-import { HomePage } from '../pages';
-import { NativeAudio } from '@ionic-native/native-audio';
+
 
 declare var apiRTC: any
 
@@ -33,9 +32,7 @@ export class ConfrencePage {
     private fAuth: AngularFireAuth,
     public appState: AppStateServiceProvider,
     private alertCtrl: AlertController,
-    private viewCtrl: ViewController,
-    private nativeAudio: NativeAudio
-  ) {
+    ) {
     this.incomingCallId = this.navParams.get('callToId');
     this.outgoingCalleeId = this.navParams.get('callFromId');
 

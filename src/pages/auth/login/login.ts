@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, IonicPage, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
-import emailMask from 'text-mask-addons/dist/emailMask';
 import { IUser, IProfile } from '../../../models/models';
 import { SignupPage, ForgotPage, DashboardPage, AddressPage } from '../../pages';
 import { AuthanticationServiceProvider, AppStateServiceProvider, StorageHelperProvider } from '../../../providers/providers';

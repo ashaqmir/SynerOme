@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController, FabContainer, App } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
 import { IFacetimeRequestView, IProfile, IFacetimeRequest } from '../../models/models';
 import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -31,7 +31,6 @@ export class AppointmentsPage {
     public appState: AppStateServiceProvider,
     private fDb: AngularFireDatabase,
     private afAuth: AngularFireAuth,
-    private app: App,
   ) {
     if (!this.afAuth.auth.currentUser) {
       this.navCtrl.setRoot(LoginPage);

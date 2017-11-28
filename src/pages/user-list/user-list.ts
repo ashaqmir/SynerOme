@@ -2,9 +2,7 @@ import { IFacetimeRequest } from '../../models/facetimeRequest';
 import { IProfile } from '../../models/profile';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
 import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
 
 
@@ -15,13 +13,11 @@ import { AppStateServiceProvider } from '../../providers/app-state-service/app-s
 })
 
 export class UserListPage {
-  usersList: Observable<IProfile[]>;
   otherusers: IProfile[] = [];
   myId: any;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public viewCtrl: ViewController,
-    private afAuth: AngularFireAuth,
     private fDb: AngularFireDatabase,
     public appState: AppStateServiceProvider,
     private toast: ToastController, ) {
@@ -31,18 +27,6 @@ export class UserListPage {
 
 
   ionViewDidLoad() {
-    // this.usersList = this.fDb.list('/profiles').valueChanges();
-    // if (this.usersList) {
-    //   this.usersList.forEach(val => {
-    //     val.forEach(prof => {
-    //       console.log(prof.id);
-    //       if (prof.id !== this.appState.userProfile.id) {
-    //         this.otherusers.push(prof);
-    //       }
-    //     });
-    //   })
-    // }
-
     let profiles = [];
     this.fDb.database.ref('/profiles').orderByChild('isNutritionist').equalTo(true).on('value', (snapshot) => {
       profiles = snapshot.val();

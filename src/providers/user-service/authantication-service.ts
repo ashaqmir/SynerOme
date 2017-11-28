@@ -3,10 +3,7 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import { AngularFireAuth } from 'angularfire2/auth';
-import * as firebase from 'firebase/app';
-import { AngularFireDatabase, AngularFireObject, } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
-import { IUser } from '../../models/models';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { IProfile } from '../../models/profile';
 import { AppStateServiceProvider } from '../app-state-service/app-state-service';
 

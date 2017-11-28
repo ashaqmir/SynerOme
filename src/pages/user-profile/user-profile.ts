@@ -4,10 +4,7 @@ import { AuthanticationServiceProvider, AppStateServiceProvider } from '../../pr
 
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
-
-import md5 from 'crypto-md5'; // dependencies:"crypto-md5"
-import { Observable } from 'rxjs/Observable';
-import { LoginPage, DemographicPage } from '../pages';
+import { LoginPage } from '../pages';
 import { IProfile } from '../../models/models';
 
 @IonicPage()

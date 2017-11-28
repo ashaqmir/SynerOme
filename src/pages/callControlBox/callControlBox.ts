@@ -1,8 +1,5 @@
-import { IFacetimeRequest } from '../../models/facetimeRequest';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, ToastController, AlertController, App } from 'ionic-angular';
-import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
-import { HomePage } from '../pages';
+import { IonicPage, NavController, NavParams, ViewController, App } from 'ionic-angular';
 
 
 @IonicPage()

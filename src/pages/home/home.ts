@@ -1,14 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { DashboardPage, PreferencesPage, AppointmentsPage, LoginPage, DemographicPage } from '../pages';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { DashboardPage, PreferencesPage, AppointmentsPage, LoginPage } from '../pages';
 import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/take';
-import { AuthanticationServiceProvider } from '../../providers/user-service/authantication-service';
-import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
-import { IProfile } from '../../models/models';
-import { Console } from '@angular/core/src/console';
 
 
 @IonicPage()
@@ -25,11 +19,7 @@ export class HomePage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private afAuth: AngularFireAuth,
-    private toast: ToastController,
-    private appState: AppStateServiceProvider,
-    private afDb: AngularFireDatabase,
-    private loadingCtrl: LoadingController) {
+    private afAuth: AngularFireAuth) {
   }
 
   ionViewWillLoad() {

@@ -1,17 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
 import * as moment from 'moment';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
 import { Observable } from 'rxjs/Observable';
 import { IProfile, IFacetimeRequest } from '../../models/models';
-/**
- * Generated class for the EventModalPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -41,7 +34,6 @@ export class EventModalPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public viewCtrl: ViewController,
-    private afAuth: AngularFireAuth,
     private fDb: AngularFireDatabase,
     public appState: AppStateServiceProvider,
     private toast: ToastController,

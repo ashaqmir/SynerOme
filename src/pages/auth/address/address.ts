@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AngularFireAuth } from 'angularfire2/auth';
 
@@ -7,7 +7,6 @@ import Countries from '../../../models/countries'
 import { IProfile } from '../../../models/models';
 import { StorageHelperProvider, AppStateServiceProvider } from '../../../providers/providers';
 import { LoginPage, PersonalInfoPage } from '../../pages';
-import { Console } from '@angular/core/src/console';
 
 @IonicPage()
 @Component({
@@ -30,7 +29,6 @@ export class AddressPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
-    private toast: ToastController,
     private afAuth: AngularFireAuth,
     private storageHelper: StorageHelperProvider,
     private loadingCtrl: LoadingController,
