@@ -71,7 +71,7 @@ export class DemographicPage {
     profile.dob = values.dateofbirth;
     profile.country = values.country.name;
     profile.phone = values.phone;
-    profile.gender = values.gender;
+    profile.birthgender = values.gender;
     profile.isNutritionist = this.isNutritionist;
     profile.nutritionistLicenseNumber = this.nutritionistLicenseNumber;
 

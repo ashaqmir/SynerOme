@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, LoadingController, AlertController, ToastController } from 'ionic-angular';
-import { AuthanticationServiceProvider, AppStateServiceProvider } from '../../../providers/providers';
+import { AuthanticationServiceProvider, AppStateServiceProvider } from '../../providers/providers';
 
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import md5 from 'crypto-md5'; // dependencies:"crypto-md5"
 import { Observable } from 'rxjs/Observable';
-import { LoginPage, DemographicPage } from '../../pages';
-import { IProfile } from '../../../models/models';
+import { LoginPage, DemographicPage } from '../pages';
+import { IProfile } from '../../models/models';
 
 @IonicPage()
 @Component({
@@ -49,11 +49,7 @@ export class UserProfilePage {
         this.navCtrl.setRoot(LoginPage);
       }
     });
-
-    if (!this.afAuth.auth.currentUser) {
-      this.navCtrl.setRoot(LoginPage);
-    }
-  }
+ }
 
   logout() {
     this.authProvider.logoutUser()

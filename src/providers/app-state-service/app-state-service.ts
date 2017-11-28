@@ -9,6 +9,8 @@ export class AppStateServiceProvider {
   loginState: boolean = false;
   userProfile: IProfile;
 
+  localStorageProfile: IProfile;
+  
   constructor() {
     console.log('App state Contructor called');
   }

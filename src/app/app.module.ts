@@ -18,11 +18,12 @@ import { NgCalendarModule  } from 'ionic2-calendar';
 import { HomePage, DashboardPage, 
   PreferencesPage, AppointmentsPage, 
   SignupPage, UserListPage, 
-  ConfrencePage, ForgotPage, DemographicPage, UserProfilePage} from '../pages/pages';
+  ConfrencePage, ForgotPage, 
+  UserProfilePage, AddressPage,
+  PersonalInfoPage, HealthInfoPage} from '../pages/pages';
 
-import { AuthanticationServiceProvider } from '../providers/user-service/authantication-service';
-import { AppStateServiceProvider } from '../providers/app-state-service/app-state-service';
-import { ConfrenceServiceProvider } from '../providers/confrence-service/confrence-service';
+import { AuthanticationServiceProvider,AppStateServiceProvider, 
+  ConfrenceServiceProvider, StorageHelperProvider } from '../providers/providers';
 import { NativeAudio } from '@ionic-native/native-audio';
 
 
@@ -41,7 +42,9 @@ var firebaseConfig = {
     MyApp,
     ForgotPage,
     SignupPage,
-    DemographicPage,
+    AddressPage,
+    PersonalInfoPage,
+    HealthInfoPage,
     UserProfilePage,
     HomePage,
     DashboardPage,
@@ -56,7 +59,9 @@ var firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    IonicStorageModule.forRoot(),
+    IonicStorageModule.forRoot({
+      name: '__synerDb'
+    }),
     HttpModule,
     NgCalendarModule
   ],
@@ -65,7 +70,9 @@ var firebaseConfig = {
     MyApp,
     ForgotPage,
     SignupPage,
-    DemographicPage,
+    AddressPage,
+    PersonalInfoPage,
+    HealthInfoPage,
     UserProfilePage,
     HomePage,
     DashboardPage,
@@ -81,7 +88,8 @@ var firebaseConfig = {
     AuthanticationServiceProvider,
     AppStateServiceProvider,
     ConfrenceServiceProvider,
-    NativeAudio
+    NativeAudio,
+    StorageHelperProvider
   ]
 })
 export class AppModule {}

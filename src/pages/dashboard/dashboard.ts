@@ -46,7 +46,7 @@ export class DashboardPage {
         if (this.appState.userProfile) {
           this.userProfile = this.appState.getUserProfile();
         } else {
-          console.log('auth false');
+          console.log('User Profile not found');
           this.navCtrl.setRoot(LoginPage);
         }
       }

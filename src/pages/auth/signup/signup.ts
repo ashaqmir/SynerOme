@@ -5,7 +5,7 @@ import emailMask from 'text-mask-addons/dist/emailMask';
 import { PasswordValidator } from '../../../validators/validators';
 import { IUser } from '../../../models/user';
 import { AuthanticationServiceProvider } from '../../../providers/providers';
-import { DemographicPage } from '../../pages';
+import { AddressPage } from '../../pages';
 
 
 @IonicPage()
@@ -69,10 +69,7 @@ export class SignupPage {
           console.log(data);
           this.authProvider.loginUser(user.email, user.password)
             .then(data => {
-              this.navCtrl.setRoot(DemographicPage, {
-                isNutritionist: this.isNutritionist,
-                nutritionistLicenseNumber: nutritionistLicenseNum
-              });
+              this.navCtrl.setRoot(AddressPage);
             })
         })
         .catch(error => {
