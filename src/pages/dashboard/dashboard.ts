@@ -5,6 +5,8 @@ import { AppStateServiceProvider } from '../../providers/app-state-service/app-s
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { CallControlBoxPage, LoginPage} from '../pages';
+import { AuthanticationServiceProvider } from '../../providers/providers';
+import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 
 
 @Component({
@@ -25,7 +27,9 @@ export class DashboardPage {
     private afAuth: AngularFireAuth,
     private modelCtrl: ModalController,
     public modalCtrl: ModalController,
-    private menu: MenuController
+    private menu: MenuController,
+    private authProvider: AuthanticationServiceProvider,
+    private toastCtrl: ToastController
   ) {
 
   }
@@ -76,12 +80,25 @@ export class DashboardPage {
 
   signOut(fab: FabContainer) {
     fab.close();
-    this.afAuth.auth.signOut()
-      .then(data => {
-        this.navCtrl.parent.parent.setRoot(LoginPage)
-      })
-      .catch(error => {
-        console.log(error);
-      })
+    this.authProvider.logoutUser()
+    .then(authData => {
+      console.log("Logged out");
+      // toast message
+      this.presentToast('bottom', 'You are now logged out');
+      this.navCtrl.setRoot(LoginPage);
+    }, error => {
+      var errorMessage: string = error.message;
+      console.log(errorMessage);
+    });
   }
+
+  presentToast(position: string, message: string) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      position: position,
+      duration: 3000
+    });
+    toast.present();
+  }    
+
 }

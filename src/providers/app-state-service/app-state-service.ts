@@ -9,7 +9,7 @@ export class AppStateServiceProvider {
   userProfile: IProfile;
 
   localStorageProfile: IProfile;
-  
+
   constructor() {
     console.log('App state Contructor called');
   }
@@ -20,6 +20,10 @@ export class AppStateServiceProvider {
     } else {
       this.userProfile = null;
     }
+    if (this.localStorageProfile) {
+      this.localStorageProfile = null;
+    }
+
   }
 
   setLoginState(state: boolean) {

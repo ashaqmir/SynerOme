@@ -35,7 +35,9 @@ export class AuthanticationServiceProvider {
   }
 
   registerUser(email: string, password: string): Promise<any> {
+    
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+
   }
 
   updateUserProfile(userProfile: IProfile, uid: string): Promise<any> {
