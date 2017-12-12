@@ -7,7 +7,7 @@
             "includes": "",
             "image": "https://firebasestorage.googleapis.com/v0/b/synerome-f2748.appspot.com/o/ProductImages%2Fbronze.png?alt=media&token=74ca7b65-7a34-4bc7-a098-166af2435976",
             "features": [
-                "Carbohydrate eetabolism",
+                "Carbohydrate metabolism",
                 "Energy consumption and appetite",
                 "Fat accumalation and metabolism",
                 "Fiber and triglycerides",
@@ -15,6 +15,7 @@
             ],
             "additionalfeatures": [],
             "price": 105,
+            "taxPer": 0.07,
             "discount":0,
             "discountPrice": 105,
             "currency": "USD",
@@ -43,6 +44,7 @@
                 "Physical activity and weight loss"
             ],
             "price": 250,
+            "taxPer": 0.10,
             "discount":30,
             "discountPrice": 220,
             "currency": "USD",
@@ -79,6 +81,7 @@
                 "Food sensivities"
             ],
             "price": 500,
+            "taxPer": 0.05,
             "discount":60,
             "discountPrice": 440,
             "currency": "USD",

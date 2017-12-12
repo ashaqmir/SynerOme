@@ -1,83 +1,48 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>SynerOme Profile</ion-title>
+<ion-header no-border>
+  <ion-navbar transparent color="light">
   </ion-navbar>
 </ion-header>
 
 <ion-content padding [ngStyle]="{'background-image': 'url(' + backgroundImage +')'}">
-  <form class="form" [formGroup]="validationsForm" (ngSubmit)="onSubmit(validationsForm.value)">
-    <ion-item>
-      <ion-label floating color="primary">Name</ion-label>
-      <ion-input type="text" formControlName="firstName"></ion-input>
-    </ion-item>
-    <div class="validation-errors">
-      <ng-container *ngFor="let validation of validationMessages.name">
-        <div class="error-message" *ngIf="validationsForm.get('firstName').hasError(validation.type) && (validationsForm.get('firstName').dirty || validationsForm.get('firstName').touched)">
-          {{ validation.message }}
+  <div class="demographic-container">
+    <img class="logo" src="assets/img/SynerOme-Logo.png" />
+   
+    <!-- ******** PROFILE FOR ********* -->
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit(profileForm.value)" novalidate>
+      <ion-item>
+        <ion-label color="primary">First name</ion-label>
+        <ion-input type="text" formControlName="firstName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary">Last name</ion-label>
+        <ion-input type="text" formControlName="lastName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary">Phone</ion-label>
+        <ion-label color="danger">+1</ion-label>
+        <ion-input type="num" formControlName="phone"></ion-input>
+      </ion-item>
+
+      <ion-item class="error-message">
+        <div *ngFor="let validation of validationMessages.firstname">
+          <p class="error-message" *ngIf="profileForm.get('firstName').hasError(validation.type) && (profileForm.get('firstName').dirty || profileForm.get('firstName').touched)">
+            *{{ validation.message }}
+          </p>
         </div>
-      </ng-container>
-    </div>
 
-    <ion-item>
-      <ion-label floating color="primary">Last name</ion-label>
-      <ion-input type="text" formControlName="lastName"></ion-input>
-    </ion-item>
-    <div class="validation-errors">
-      <ng-container *ngFor="let validation of validationMessages.lastname">
-        <div class="error-message" *ngIf="validationsForm.get('lastName').hasError(validation.type) && (validationsForm.get('lastName').dirty || validationsForm.get('lastName').touched)">
-          {{ validation.message }}
+        <div *ngFor="let validation of validationMessages.lastname">
+          <p class="error-message" *ngIf="profileForm.get('lastName').hasError(validation.type) && (profileForm.get('lastName').dirty || profileForm.get('lastName').touched)">
+            *{{ validation.message }}
+          </p>
         </div>
-      </ng-container>
-    </div>
-
-    <ion-item>
-      <ion-label floating color="primary">Gender</ion-label>
-      <ion-select formControlName="gender" cancelText="Cancel" okText="OK">
-        <ion-option *ngFor="let gender of genders" [value]="gender">{{ gender }}</ion-option>
-      </ion-select>
-    </ion-item>
-
-    <ion-item>
-      <ion-label  color="primary">Date of birth</ion-label>
-      <ion-input type="date" formControlName="dateofbirth"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label floating color="primary">Country</ion-label>
-      <ion-select formControlName="country" cancelText="Cancel" okText="OK">
-        <ion-option *ngFor="let item of countries" [value]="item">{{item.name}}</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label floating color="primary">Phone</ion-label>
-      <ion-input type="text" formControlName="phone"></ion-input>
-    </ion-item>
-    <div class="validation-errors">
-      <ng-container *ngFor="let validation of validationMessages.phone">
-        <div class="error-message" *ngIf="validationsForm.get('phone').hasError(validation.type) && (validationsForm.get('phone').dirty || validationsForm.get('phone').touched)">
-          {{ validation.message }}
+        <div *ngFor="let validation of validationMessages.phone">
+          <p class="error-message" *ngIf="profileForm.get('phone').hasError(validation.type) && (profileForm.get('phone').dirty || profileForm.get('phone').touched)">
+            *{{ validation.message }}
+          </p>
         </div>
-      </ng-container>
-    </div>
+      </ion-item>
 
-    <ion-item class="terms-item">
-      <ion-label color="primary">I accept terms and conditions</ion-label>
-      <ion-checkbox formControlName="terms"></ion-checkbox>
-    </ion-item>
-    <div class="validation-errors">
-      <ng-container *ngFor="let validation of validationMessages.terms">
-        <div class="error-message" *ngIf="validationsForm.get('terms').hasError(validation.type) && (validationsForm.get('terms').dirty || validationsForm.get('terms').touched)">
-          {{ validation.message }}
-        </div>
-      </ng-container>
-    </div>
-
-    <ion-row>
-      <ion-col col-4></ion-col>
-      <ion-col col-4>
-        <button ion-button round color="light" type="submit" class="login-button" [disabled]="!validationsForm.valid">SAVE</button>
-      </ion-col>
-      <ion-col col-4></ion-col>
-    </ion-row>
-  </form>
+      <button ion-button round block color="blue" type="submit" [disabled]="!profileForm.valid">SIGN UP</button>
+    </form>
+  </div>
 </ion-content>

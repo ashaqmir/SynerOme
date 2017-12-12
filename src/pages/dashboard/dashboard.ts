@@ -1,12 +1,10 @@
 import { IProfile } from './../../models/profile';
 import { Component } from '@angular/core';
-import { NavController, ModalController,  FabContainer, MenuController } from 'ionic-angular';
-import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
+import { NavController, ModalController,  FabContainer, MenuController, ToastController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-import { CallControlBoxPage, LoginPage} from '../pages';
-import { AuthanticationServiceProvider } from '../../providers/providers';
-import { ToastController } from 'ionic-angular/components/toast/toast-controller';
+import { CallControlBoxPage, LoginPage, ProductListPage} from '../pages';
+import { AuthanticationServiceProvider, AppStateServiceProvider } from '../../providers/providers';
 
 
 @Component({
@@ -23,13 +21,13 @@ export class DashboardPage {
   incomingCallId;
   incomingCall: boolean = false;
   constructor(public navCtrl: NavController,
-    private appState: AppStateServiceProvider,
     private afAuth: AngularFireAuth,
     private modelCtrl: ModalController,
-    public modalCtrl: ModalController,
+    public modalCtrl: ModalController,    
+    private toastCtrl: ToastController,
     private menu: MenuController,
-    private authProvider: AuthanticationServiceProvider,
-    private toastCtrl: ToastController
+    private authProvider: AuthanticationServiceProvider,    
+    private appState: AppStateServiceProvider
   ) {
 
   }
@@ -102,7 +100,7 @@ export class DashboardPage {
   }    
 
   openShoping(){
-    console.log('Shoping');
+   this.navCtrl.setRoot(ProductListPage);
   }
 
   registerKit(){

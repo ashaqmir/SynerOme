@@ -5,12 +5,8 @@
     <h4>Address Details</h4>
     <form class="form" [formGroup]="addressForm" (ngSubmit)="onSubmit(addressForm.value)">
       <ion-item>
-        <ion-label color="primary">First name</ion-label>
-        <ion-input type="text" formControlName="firstName"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label color="primary">Last name</ion-label>
-        <ion-input type="text" formControlName="lastName"></ion-input>
+        <ion-label color="primary">Make it default</ion-label>
+        <ion-toggle color="danger" formControlName="isDefault"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label color="primary">Stree/Building</ion-label>
@@ -36,24 +32,8 @@
         <ion-label color="primary">Zip</ion-label>
         <ion-input type="text" formControlName="zip"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-label color="primary">Phone</ion-label>
-        <ion-label color="danger">{{coutryDialCode}}</ion-label>
-        <ion-input type="text" formControlName="phone"></ion-input>
-      </ion-item>
 
       <ion-item class="error-message">
-        <div *ngFor="let validation of validationMessages.name">
-          <p class="error-message" *ngIf="addressForm.get('firstName').hasError(validation.type) && (addressForm.get('firstName').dirty || addressForm.get('firstName').touched)">
-            *{{ validation.message }}
-          </p>
-        </div>
-
-        <div *ngFor="let validation of validationMessages.lastname">
-          <p class="error-message" *ngIf="addressForm.get('lastName').hasError(validation.type) && (addressForm.get('lastName').dirty || addressForm.get('lastName').touched)">
-            *{{ validation.message }}
-          </p>
-        </div>
 
         <div *ngFor="let validation of validationMessages.street">
           <p class="error-message" *ngIf="addressForm.get('street').hasError(validation.type) && (addressForm.get('street').dirty || addressForm.get('street').touched)">
@@ -77,11 +57,7 @@
           </p>
         </div>
 
-        <div *ngFor="let validation of validationMessages.phone">
-          <p class="error-message" *ngIf="addressForm.get('phone').hasError(validation.type) && (addressForm.get('phone').dirty || addressForm.get('phone').touched)">
-            *{{ validation.message }}
-          </p>
-        </div>
+
         <div *ngFor="let validation of validationMessages.zip">
           <p class="error-message" *ngIf="addressForm.get('zip').hasError(validation.type) && (addressForm.get('zip').dirty || addressForm.get('zip').touched)">
             *{{ validation.message }}

@@ -1,37 +1,38 @@
 <ion-header>
   <ion-navbar color="bluegray">
-    <ion-title color="light">{{product.name +}} Detail</ion-title>
+    <ion-title *ngIf="product.name" color="light">{{product.name}}</ion-title>
+    <ion-title *ngIf="!product.name" color="light">No Product Selected</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content no-padding class="content">
+<ion-content no-padding class="content" *ngIf="product" >
 
   <!--*********** Header with image background  ***********-->
-  <!-- <div class="product-header slide-up" [ngStyle]="{'background-image': 'url(' + product?.image + ')'}">
+  <div class="product-header slide-up" [ngStyle]="{'background-image': 'url(' + product?.image + ')'}">
     <div *ngIf="product?.isHot" class="ribbon">HOT</div>
-  </div> -->
+  </div>
 
   <!--*********** Product name / Price  ***********-->
-  <!-- <div text-center>
+  <div text-center>
     <h2 ion-text> {{product.name}}</h2>
     <div *ngIf="product?.discount" class="discount">
       <h3 ion-text color="special-blue">Price: ${{product?.price}}</h3>
     </div>
     <h3 *ngIf="!product?.discount" ion-text color="special-blue">Price: ${{product?.price}}</h3>
     <h3 *ngIf="product?.discount" ion-text color="red">Price: ${{product?.discountPrice}}</h3>
-  </div> -->
+  </div>
 
   <!--*********** Detail ( Description,Color,Size)  ***********-->
-  <!-- <ion-card>
+  <ion-card>
     <ion-card-content>
       <div class="description" no-padding>
         <div [innerHTML]="product?.shortDescription"></div>
-        <div *ngIf="!product.additionalfeatures">
-          <ul *ngFor="let feature of product.features">
-            <li>{{feature}}</li>
+        <div *ngIf="product.additionalfeatures">
+          <ul *ngFor="let addfeature of product.additionalfeatures">
+            <li>{{addfeature}}</li>
           </ul>
         </div>
-        <div *ngIf="!product.features">
+        <div *ngIf="product.features">
           <ul *ngFor="let feature of product.features">
             <li>{{feature}}</li>
           </ul>
@@ -63,7 +64,7 @@
         <ion-icon name="logo-googleplus"></ion-icon>
       </button>
     </ion-fab-list>
-  </ion-fab> -->
+  </ion-fab>
 
 </ion-content>
 
@@ -71,7 +72,7 @@
 <!--*********** Add to cart button ***********-->
 <ion-footer no-border>
   <ion-toolbar color="red">
-    <button ion-button full clear icon-left (click)="addToCart('bottom')" color="light">
+    <button ion-button full clear icon-left (click)="addToCart()" color="light" [disabled]="!product.name" >
       <ion-icon name="ios-cart"></ion-icon>
       Buy
     </button>

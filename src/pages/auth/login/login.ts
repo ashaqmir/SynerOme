@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, IonicPage, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { IUser, IProfile } from '../../../models/models';
-import { SignupPage, ForgotPage, DashboardPage, AddressPage } from '../../pages';
+import { SignupPage, ForgotPage, DashboardPage, DemographicPage } from '../../pages';
 import { AuthanticationServiceProvider, AppStateServiceProvider, StorageHelperProvider } from '../../../providers/providers';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -96,16 +96,14 @@ export class LoginPage {
               this.storageHelper.getProfile(data.uid)
                 .then((val) => {
                   var value = JSON.stringify(val);
-                  this.appState.localStorageProfile = JSON.parse(value);
-                  console.log('Local Profile Recived');
-                  console.log(this.appState.localStorageProfile);
+                  this.appState.localStorageProfile = JSON.parse(value);                 
                   loadingPopup.dismiss()
-                  this.navCtrl.setRoot(AddressPage);
+                  this.navCtrl.setRoot(DemographicPage);
                 })
                 .catch((error) => {
                   console.log(error);
                   loadingPopup.dismiss()
-                  this.navCtrl.setRoot(AddressPage);
+                  this.navCtrl.setRoot(DemographicPage);
                 })
             }
           });

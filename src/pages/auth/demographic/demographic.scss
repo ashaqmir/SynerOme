@@ -1,85 +1,55 @@
 page-demographic {
-    $base-color: rgb(24, 72, 90);
-    .term
-    {
-      padding-top: 20px;
-    }
-  
-    .terms-checkbox-label
-    {
-      overflow: visible;
-      text-overflow: initial;
-      white-space: initial;
-      opacity: 0.5;
-      font-size: 14px;
-      font-weight: bold;
-    }
-  
-    .error-message
-    {
-      color: red;
-    }
-
-   
-    // Fullscreen centered image background
-    ion-content {
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      border-color: transparent;
-      
-      &:before {
-        content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background-image: linear-gradient(to bottom right,#000a0f,#054c75);
-      opacity: .6; 
-      }
-    }
-    .scroll-content{
-      padding-bottom: 2px !important
-    }
-    ion-row {
-      align-items: center;
-      text-align: center;
-    }
-    ion-col {
-      padding: 0 20px;
-    }
-    ion-label,
-    .input-has-focus {
-      color: #fff !important;
-    }
-    ion-item {
-      border-radius: 3px !important;
-      padding-right: 16px !important;
-      margin-bottom: 5px !important;
-      color: #fff !important;
-      background-color: transparent !important;
-      font-size: 0.9em;
-    }
-    .margin-bottom {
-      margin-bottom: 15px !important;
-    }
-     ::-webkit-input-placeholder {
-      color: white !important;
-    }
-    .item-inner {
-      border-bottom: 2px solid white !important;
-      box-shadow: none !important;
-    }
-    //
-    .login-button {
-      width: 100%;
-      max-width: 40rem;
-      height: 50px;
-      font-size: 1.2em;
-      span {
-        color: $base-color !important;
-      }
-      // border: 1px solid #fff;
-    }
+  ion-content {
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-color: transparent;
+  }
+  .scroll-content {
+    margin-top: 0 !important;
+  }
+  .logo {
+    // width: 70%;
+    height: auto;
+    padding-top: 2vh;
+    margin-bottom: 5vh;
+  }
+  span {
+    color: white;
+  }
+ 
+  .error-message .item-inner{
+    border-bottom-color:  transparent !important;
+    box-shadow: inset 0 -1px 0 0  transparent !important;
+  }
+	.error-message p{
+		text-align: right;
+		color:rgb(163, 32, 32);
+	}
+  ion-item {
+    color: white !important;
+    padding-left: 0px !important;
+    // margin-bottom: 10px;
+    background-color: transparent !important;
+    font-size: 0.9em;
+  }
+	.item-inner{
+		border-bottom: 1px solid white !important;
+    box-shadow: inset 0 -1px 0 transparent; 
+	}
+  ::-webkit-input-placeholder {
+    color: white !important;
+  }
+  .demographic-container {
+    color: white;
+    position: absolute;
+    top: 0;
+    padding: 10vw;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    z-index: 2;
+  }
+  ion-button {
+    opacity: 0.8;
+  }
 }

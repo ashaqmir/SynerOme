@@ -1,5 +1,6 @@
+import { AngularFireDatabase } from 'angularfire2/database';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, MenuController, LoadingController, Events } from 'ionic-angular';
 import emailMask from 'text-mask-addons/dist/emailMask';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Country } from '../../../models/models';
@@ -7,7 +8,10 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/take';
 import { IProfile } from '../../../models/models';
 import { LoginPage, DashboardPage } from '../../pages';
-import { AuthanticationServiceProvider } from '../../../providers/providers';
+import {
+  AuthanticationServiceProvider, AppStateServiceProvider,
+  StorageHelperProvider
+} from '../../../providers/providers';
 
 
 @IonicPage()
@@ -19,42 +23,48 @@ export class DemographicPage {
 
   backgroundImage = './assets/img/bg1.jpg';
 
-  validationsForm: FormGroup;
-  matchingPasswordsGroup: FormGroup;
-
-  emailMask = emailMask;
-
-  countries: Country[] = [
-    new Country('US', 'United States'),
-    new Country('CA', 'Canada'),
-    new Country('UK', 'United Kingdom')
-  ];
-
-  genders: string[] = [
-    "Male",
-    "Female"
-  ];
+  profileForm: FormGroup;
 
   isNutritionist: boolean = false;
   nutritionistLicenseNumber: string = '';
+  userEmail: string;
+  profile: IProfile;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
+    public events: Events,
     public formBuilder: FormBuilder,
     private toast: ToastController,
     private afAuth: AngularFireAuth,
-    public authProvider: AuthanticationServiceProvider,
-    private menu: MenuController
+    private afDb: AngularFireDatabase,
+    private loadingCtrl: LoadingController,
+    private menu: MenuController,
+    private appState: AppStateServiceProvider,
+    private storageHelper: StorageHelperProvider,
+    public authProvider: AuthanticationServiceProvider
   ) {
-
-    this.isNutritionist = this.navParams.get('isNutritionist');
-    this.nutritionistLicenseNumber = this.navParams.get('nutritionistLicenseNumber');
   }
 
   ionViewWillLoad() {
-    if (!this.afAuth.auth.currentUser) {
-      this.navCtrl.setRoot(LoginPage);
-    }
+    this.isNutritionist = this.navParams.get('isNutritionist');
+    this.nutritionistLicenseNumber = this.navParams.get('nutritionistLicenseNumber');
+
+    this.afAuth.authState.subscribe(userAuth => {
+      if (userAuth) {
+        this.userEmail = userAuth.email;
+        var locProfile = this.storageHelper.getProfile(userAuth.uid);
+
+        this.storageHelper.getProfile(userAuth.uid)
+        .then((val) => {
+          var value = JSON.stringify(val);
+          this.setProfileVal(JSON.parse(value));
+        })       
+      }
+      else {
+        console.log('auth false');
+        this.navCtrl.setRoot(LoginPage);
+      }
+    });
     this.createForm();
   }
 
@@ -63,52 +73,91 @@ export class DemographicPage {
   }
 
   onSubmit(values) {
+    if (values) {
+      let loadingPopup = this.loadingCtrl.create({
+        spinner: 'crescent',
+        content: ''
+      });
+      loadingPopup.present();
 
-    let profile = {} as IProfile
+      this.profile = {} as IProfile
 
-    profile.firstName = values.firstName;
-    profile.lastName = values.lastName;
-    profile.dob = values.dateofbirth;
-    profile.country = values.country.name;
-    profile.phone = values.phone;
-    profile.birthgender = values.gender;
-    profile.isNutritionist = this.isNutritionist;
-    profile.nutritionistLicenseNumber = this.nutritionistLicenseNumber;
+      this.profile.firstName = values.firstName;
+      this.profile.lastName = values.lastName;
+      this.profile.phone = values.phone;
 
-    console.log(profile);
-    this.afAuth.authState.subscribe(auth => {
-      if (auth && auth.uid) {
-        profile.id = auth.uid;
-        this.createProfile(profile, auth.uid);
-      } else {
-        this.navCtrl.setRoot(LoginPage);
+      if (this.nutritionistLicenseNumber) {
+        this.profile.isNutritionist = true;
+        this.profile.nutritionistLicenseNumber = this.nutritionistLicenseNumber;
       }
-    });
-  }
-  createProfile(profile: IProfile, uid: string) {
 
-    this.authProvider.updateUserProfile(profile, uid)
-      .then(data => {
-        console.log(data);
-        this.navCtrl.setRoot(DashboardPage);
-      })
-      .catch(error => {
-        console.log(error.message);
-        this.toast.create({
-          message: error.message,
-          duration: 3000
-        }).present();
-      })
+      this.afAuth.authState.subscribe(auth => {
+        if (auth && auth.uid) {
+          this.profile.email = auth.email;
+          this.storageHelper.setProfile(auth.uid, this.profile)
+            .then((val) => {
+
+              console.log(this.profile);
+              //Update local state object
+              this.appState.localStorageProfile = this.profile;
+
+              this.authProvider.updateUserProfile(this.profile, auth.uid)
+                .then(pData => {
+                  const profRef = this.afDb.object('/profiles/' + auth.uid);
+                  profRef.snapshotChanges().subscribe(profData => {
+                    this.profile = profData.payload.val();
+                    this.appState.setUserProfile(this.profile);
+                    this.events.publish('profile:recieved', this.appState.userProfile);
+                    console.log(profData);
+                    loadingPopup.dismiss()
+                    this.storageHelper.clearStorage();
+                    this.navCtrl.setRoot(DashboardPage);
+                  });
+                })
+                .catch(error => {
+                  console.log(error.message);
+                  loadingPopup.dismiss()
+                  this.toast.create({
+                    message: error.message,
+                    duration: 3000
+                  }).present();
+                })
+
+            })
+            .catch((error) => {
+              console.log(error.message);
+            })
+
+        } else {
+          this.navCtrl.setRoot(LoginPage);
+        }
+      });
+
+    } else {
+      this.toast.create({
+        message: 'No user data found',
+        duration: 3000
+      }).present();
+    }
+
+  }
+
+  setProfileVal(profile) {
+    if (profile) {
+      this.isNutritionist = profile.isNutritionist;
+      if (profile.nutritionistLicenseNumber) {
+        this.nutritionistLicenseNumber = profile.nutritionistLicenseNumber;
+      }
+    }
+    console.log(this.isNutritionist);
+    console.log(this.nutritionistLicenseNumber);
 
   }
 
   createForm() {
-    this.validationsForm = this.formBuilder.group({
+    this.profileForm = this.formBuilder.group({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
-      dateofbirth: new FormControl('', Validators.required),
-      gender: new FormControl(this.genders[0], Validators.required),
-      country: new FormControl(this.countries[0], Validators.required),
       phone: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[1-9][0-9]{9,11}$')
@@ -116,8 +165,9 @@ export class DemographicPage {
       terms: new FormControl(true, Validators.pattern('true'))
     });
   }
+
   validationMessages = {
-    'name': [
+    'firstname': [
       { type: 'required', message: 'Name is required.' }
     ],
     'lastname': [
@@ -126,12 +176,7 @@ export class DemographicPage {
     'phone': [
       { type: 'required', message: 'Phone is required.' },
       { type: 'validCountryPhone', message: 'Phone incorrect for the country selected' }
-    ],
-
-    'terms': [
-      { type: 'pattern', message: 'You must accept terms and conditions.' }
-    ],
+    ]
   };
-
 
 }

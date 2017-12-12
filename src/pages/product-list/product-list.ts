@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
 import { ProductDetailsPage } from '../pages';
 
 
@@ -42,7 +41,7 @@ export class ProductListPage {
  
   productDetails(product) {
     console.log(product);
-    this.navCtrl.push(ProductDetailsPage);
+    this.navCtrl.push(ProductDetailsPage, {selectedProduct: product});
   }
 
 }

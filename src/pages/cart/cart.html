@@ -1,0 +1,82 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Cart</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-card>
+    <ion-card-header>
+      Shipping Address
+    </ion-card-header>
+    <ion-card-content>
+
+      <ion-item *ngIf="shippingAddress">
+        <ion-icon name="locate" item-start large></ion-icon>
+        <h2>{{shippingAddress.street}}</h2>
+        <p>{{shippingAddress.city}}, {{shippingAddress.region}} {{shippingAddress.zip}}</p>
+        <h2>{{shippingAddress.country}}</h2>
+      </ion-item>
+      <ion-item *ngIf="!shippingAddress">
+        <ion-icon name="alert" item-start large></ion-icon>
+        <h2>No addres on file! Please add one</h2>
+      </ion-item>
+    </ion-card-content>
+    <ion-item>
+      <button ion-button icon-left clear item-end *ngIf="shippingAddress">
+        <ion-icon name="attach"></ion-icon>
+        Change
+      </button>
+      <button ion-button icon-left clear item-end (click)="addAddress()">
+        <ion-icon name="add"></ion-icon>
+        Add
+      </button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card>
+    <div *ngIf="!processed">
+      <h1>No items added. Please go to the menu to order.</h1>
+    </div>
+
+    <ion-grid *ngIf="processed">
+      <ion-row class="my-border">
+        <ion-col>
+          <h1>{{product.name}}</h1>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="my-border">
+        <ion-col col-9>
+          <h3>Price:</h3>
+        </ion-col>
+        <ion-col col-3>
+          <h3> {{price | currency:'USD':true}}</h3>
+        </ion-col>
+      </ion-row>
+      <ion-row class="my-border">
+        <ion-col col-9>
+          <h3>Tax:</h3>
+        </ion-col>
+        <ion-col col-3>
+          <h3>{{tax | currency:'USD':true }}</h3>
+        </ion-col>
+      </ion-row>
+      <ion-row class="my-border">
+        <ion-col col-9>
+          <h3>Total: {{total | currency:'USD':true}}</h3>
+        </ion-col>
+        <ion-col col-3>
+          <h3>{{total | currency:'USD':true}}</h3>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <button ion-button large full outline (click)="purchase()" [disabled]="!enableBuy">Pay</button>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+</ion-content>

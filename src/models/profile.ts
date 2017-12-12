@@ -1,14 +1,13 @@
+import { IAddress } from "./models";
+
 export interface IProfile {
     id: string;
     firstName: string;
     lastName: string;
+    email: string
     phone: string;
    
-    street: string,
-    city: string;   
-    country: string;
-    region: string;
-    zip: string;
+    Addresses: IAddress[]
 
     dob: string;
     birthgender: string;

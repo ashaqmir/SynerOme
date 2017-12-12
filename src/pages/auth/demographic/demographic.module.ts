@@ -1,6 +1,6 @@
+import { DemographicPage } from './demographic';
 import { NgModule } from '@angular/core';
 import { IonicPageModule, IonicPage } from 'ionic-angular';
-import { DemographicPage } from './demographic';
 import { TextMaskModule } from 'angular2-text-mask';
 
 @IonicPage()

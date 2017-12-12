@@ -3,9 +3,10 @@ import { IonicPage, NavController, NavParams, ToastController, MenuController } 
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 import emailMask from 'text-mask-addons/dist/emailMask';
 import { PasswordValidator } from '../../../validators/validators';
-import { IUser } from '../../../models/user';
-import { AuthanticationServiceProvider } from '../../../providers/providers';
-import { AddressPage } from '../../pages';
+import { AuthanticationServiceProvider, StorageHelperProvider } from '../../../providers/providers';
+import { IProfile, IUser } from '../../../models/models';
+import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
+import { DemographicPage, LoginPage } from '../../pages';
 
 
 @IonicPage()
@@ -20,17 +21,18 @@ export class SignupPage {
   customerForm: FormGroup;
   nutritionistForm: FormGroup;
   matchingPasswordsGroup: FormGroup;
-
+  profile: IProfile;
   emailMask = emailMask;
-
-  isNutritionist: boolean = false;
   msg: string = '';
+  
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
     private toast: ToastController,
-    public authProvider: AuthanticationServiceProvider,
-    private menu: MenuController
+    private menu: MenuController,
+    private loadingCtrl: LoadingController,
+    private storageHelper: StorageHelperProvider,
+    public authProvider: AuthanticationServiceProvider
   ) {
   }
 
@@ -54,6 +56,12 @@ export class SignupPage {
 
   onSubmit(values) {
     if (values) {
+      let loadingPopup = this.loadingCtrl.create({
+        spinner: 'crescent',
+        content: ''
+      });
+      loadingPopup.present();
+
       let user = {} as IUser;
       user.email = values.email;
       user.password = values.password.password;
@@ -65,16 +73,37 @@ export class SignupPage {
 
       this.authProvider.registerUser(user.email, user.password)
         .then(data => {
+          this.profile = {} as IProfile;
+          this.profile.email = user.email;
+          this.profile.isNutritionist = false;
+
+          if (nutritionistLicenseNum) {
+            this.profile.isNutritionist = true;
+            this.profile.nutritionistLicenseNumber = nutritionistLicenseNum;
+          }
+          this.storageHelper.setProfile(data.uid, this.profile)
           console.log('Registered');
           console.log(data);
           this.authProvider.loginUser(user.email, user.password)
             .then(data => {
-              this.navCtrl.setRoot(AddressPage, { nutritionistLicense: nutritionistLicenseNum });
+              loadingPopup.dismiss()
+              this.navCtrl.setRoot(DemographicPage, {
+                isNutritionist:  this.profile.isNutritionist,
+                nutritionistLicenseNumber: nutritionistLicenseNum
+              });
+            }).catch(error => {
+              loadingPopup.dismiss()
+              this.toast.create({
+                message: `login problem ${user.email}`,
+                duration: 3000
+              }).present();
+              this.navCtrl.setRoot(LoginPage)
             })
         })
         .catch(error => {
+          loadingPopup.dismiss()
           this.toast.create({
-            message: `User not found ${user.email}`,
+            message: error,
             duration: 3000
           }).present();
         })
@@ -106,7 +135,6 @@ export class SignupPage {
         Validators.maxLength(10),
         Validators.pattern('^[0-9]{6,10}$')
       ])),
-
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9\._-]+@[a-zA-Z0-9\.-]+\.[a-zA-Z]{2,6}$')
@@ -125,6 +153,7 @@ export class SignupPage {
   }
 
   validationMessages = {
+
     'nutritionistLicenseNum': [
       { type: 'required', message: 'License number is required.' },
       { type: 'minlength', message: 'License number must be 6-10 digits.' },

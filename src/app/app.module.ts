@@ -21,7 +21,7 @@ import { HomePage, DashboardPage,
   ConfrencePage, ForgotPage, 
   UserProfilePage, AddressPage,
   PersonalInfoPage, HealthInfoPage, 
-  ProductListPage, ProductDetailsPage} from '../pages/pages';
+  ProductListPage, ProductDetailsPage, CartPage, DemographicPage} from '../pages/pages';
 
 import { AuthanticationServiceProvider,AppStateServiceProvider, 
   ConfrenceServiceProvider, StorageHelperProvider } from '../providers/providers';
@@ -43,6 +43,7 @@ var firebaseConfig = {
     MyApp,
     ForgotPage,
     SignupPage,
+    DemographicPage,
     AddressPage,
     PersonalInfoPage,
     HealthInfoPage,
@@ -53,6 +54,7 @@ var firebaseConfig = {
     AppointmentsPage,
     ProductListPage,
     ProductDetailsPage,
+    CartPage,
     UserListPage,
     ConfrencePage
   ],
@@ -73,6 +75,7 @@ var firebaseConfig = {
     MyApp,
     ForgotPage,
     SignupPage,
+    DemographicPage,
     AddressPage,
     PersonalInfoPage,
     HealthInfoPage,
@@ -82,6 +85,7 @@ var firebaseConfig = {
     PreferencesPage,
     AppointmentsPage,
     ProductListPage,
+    CartPage,
     ProductDetailsPage,
     UserListPage,
     ConfrencePage
