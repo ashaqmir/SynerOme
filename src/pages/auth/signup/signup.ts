@@ -69,7 +69,7 @@ export class SignupPage {
           console.log(data);
           this.authProvider.loginUser(user.email, user.password)
             .then(data => {
-              this.navCtrl.setRoot(AddressPage);
+              this.navCtrl.setRoot(AddressPage, { nutritionistLicense: nutritionistLicenseNum });
             })
         })
         .catch(error => {

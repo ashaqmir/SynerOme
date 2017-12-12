@@ -1,0 +1,89 @@
+{
+    "products": [
+        {
+            "id": 0,
+            "name": "BRONZE",
+            "shortDescription": "Weight loss and management",
+            "includes": "",
+            "image": "https://firebasestorage.googleapis.com/v0/b/synerome-f2748.appspot.com/o/ProductImages%2Fbronze.png?alt=media&token=74ca7b65-7a34-4bc7-a098-166af2435976",
+            "features": [
+                "Carbohydrate eetabolism",
+                "Energy consumption and appetite",
+                "Fat accumalation and metabolism",
+                "Fiber and triglycerides",
+                "Physical activity and weight loss"
+            ],
+            "additionalfeatures": [],
+            "price": 105,
+            "discount":0,
+            "discountPrice": 105,
+            "currency": "USD",
+            "enabled": true,
+            "isHot":false
+        },
+        {
+            "id": 1,
+            "name": "SILVER",
+            "shortDescription": "Atheletic performance Optimization",
+            "includes": "BRONZE",
+            "image": "https://firebasestorage.googleapis.com/v0/b/synerome-f2748.appspot.com/o/ProductImages%2Fsilver.png?alt=media&token=eaf4b887-2dbd-498e-b712-b29e1adf2c74",
+            "features": [
+                "VO2 max maximization",
+                "Endurance potential",
+                "Speed potential",
+                "Power potential",
+                "Injury prevention",
+                "Muscular potential and injury"
+            ],
+            "additionalfeatures": [
+                "Carbohydrate eetabolism",
+                "Energy consumption and appetite",
+                "Fat accumalation and metabolism",
+                "Fiber and triglycerides",
+                "Physical activity and weight loss"
+            ],
+            "price": 250,
+            "discount":30,
+            "discountPrice": 220,
+            "currency": "USD",
+            "enabled": true,
+            "isHot":true
+        },
+        {
+            "id": 2,
+            "name": "GOLD",
+            "shortDescription": "Atheletic performance Optimization",
+            "includes": "SILVER",
+            "image": "https://firebasestorage.googleapis.com/v0/b/synerome-f2748.appspot.com/o/ProductImages%2Fgold.png?alt=media&token=afb501a3-c56e-422d-94cd-9d78590698af",
+            "features": [
+                "Carbohydrate eetabolism",
+                "Energy consumption and appetite",
+                "Fat accumalation and metabolism",
+                "Fiber and triglycerides",
+                "Physical activity and weight loss",
+                "VO2 max maximization",
+                "Endurance potential",
+                "Speed potential",
+                "Power potential",
+                "Injury prevention",
+                "Muscular potential and injury"
+            ],
+            "additionalfeatures": [
+                "Alcohol eetabolism",
+                "Bone health",
+                "Caffeine an nicotine metabolism",
+                "Cardiovascular health",
+                "Digestive health",
+                "Fat sugar and insulin regulation",
+                "Detoxification ability of your body",
+                "Food sensivities"
+            ],
+            "price": 500,
+            "discount":60,
+            "discountPrice": 440,
+            "currency": "USD",
+            "enabled": true,
+            "isHot":true
+        }
+    ]
+}

@@ -1,9 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav } from 'ionic-angular';
+import { Platform, Nav, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { DashboardPage, AppointmentsPage, PreferencesPage, UserProfilePage, LoginPage } from '../pages/pages';
-import { AuthanticationServiceProvider } from '../providers/providers';
+import { DashboardPage, AppointmentsPage, PreferencesPage, UserProfilePage, LoginPage, ProductListPage } from '../pages/pages';
+import { AuthanticationServiceProvider, AppStateServiceProvider } from '../providers/providers';
+import { IProfile } from '../models/models';
 
 
 @Component({
@@ -16,16 +17,28 @@ export class MyApp {
   selectedTheme: string = 'dark-theme';
   menu: Array<any> = [];
 
+  user: IProfile;
+
   constructor(private platform: Platform,
+    public events: Events,
     private statusBar: StatusBar,
     private splashScreen: SplashScreen,
-    private authProvider: AuthanticationServiceProvider
+    private authProvider: AuthanticationServiceProvider,
+    private appState: AppStateServiceProvider,
   ) {
     this.initializeApp();
     this.createMenuItems();
 
     console.log(this.menu);
+
+    events.subscribe('profile:recieved', profile => {
+      if (profile !== undefined && profile !== "") {
+        this.user = profile;
+      }
+    })
+    this.user = this.appState.userProfile;
   }
+
 
   initializeApp() {
     this.platform.ready().then(() => {
@@ -55,6 +68,12 @@ export class MyApp {
         icon: 'home',
         name: 'Dashboard',
         component: DashboardPage,
+        type: 'page'
+      },
+      {
+        icon: 'cart',
+        name: 'Shoping',
+        component: ProductListPage,
         type: 'page'
       },
       {

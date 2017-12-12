@@ -7,6 +7,7 @@ import { AuthanticationServiceProvider, AppStateServiceProvider, StorageHelperPr
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { MenuController } from 'ionic-angular/components/app/menu-controller';
+import { Events } from 'ionic-angular/util/events';
 
 @IonicPage()
 @Component({
@@ -26,6 +27,7 @@ export class LoginPage {
   userProfile: IProfile;
 
   constructor(public navCtrl: NavController,
+    public events: Events,
     public formBuilder: FormBuilder,
     private toast: ToastController,
     private appState: AppStateServiceProvider,
@@ -87,8 +89,9 @@ export class LoginPage {
             if (this.appState.userProfile) {
               loadingPopup.dismiss();
               this.navCtrl.setRoot(DashboardPage);
+              this.events.publish('profile:recieved', this.appState.userProfile);
             } else {
-              console.log('User Profile not found');      
+              console.log('User Profile not found');
               //Check if local storage profile is there.
               this.storageHelper.getProfile(data.uid)
                 .then((val) => {
@@ -97,12 +100,12 @@ export class LoginPage {
                   console.log('Local Profile Recived');
                   console.log(this.appState.localStorageProfile);
                   loadingPopup.dismiss()
-                  this.navCtrl.setRoot(AddressPage);                 
+                  this.navCtrl.setRoot(AddressPage);
                 })
                 .catch((error) => {
-                  console.log(error); 
+                  console.log(error);
                   loadingPopup.dismiss()
-                  this.navCtrl.setRoot(AddressPage);                
+                  this.navCtrl.setRoot(AddressPage);
                 })
             }
           });

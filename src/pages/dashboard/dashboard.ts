@@ -101,4 +101,11 @@ export class DashboardPage {
     toast.present();
   }    
 
+  openShoping(){
+    console.log('Shoping');
+  }
+
+  registerKit(){
+    console.log('Register Kit'); 
+  }
 }

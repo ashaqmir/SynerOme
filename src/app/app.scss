@@ -9,7 +9,7 @@ body {
     }
     .menu-header {
       padding: 5px 15px;
-      background-image: url('../assets/waves.png');
+      background-image: url('../assets/img/waves.png');
       background-size: cover;
       background-color: color($colors, blue2);
       color: white;
@@ -49,6 +49,7 @@ body {
       // margin-top: 10px;
       margin-bottom: 20px;
       padding: 5px 15px;
+      background-image: url('../assets/img/waves.png');
       background-color: #fff;
       color:#000;
       .name {

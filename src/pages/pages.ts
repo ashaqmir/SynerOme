@@ -16,4 +16,6 @@ export * from './callControlBox/callControlBox';
 export * from './confrence/confrence';
 export * from './appointments/appointments';
 export * from './user-list/user-list';
+export * from './product-list/product-list';
+export * from './product-details/product-details'
 

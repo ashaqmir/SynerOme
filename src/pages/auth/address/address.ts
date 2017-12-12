@@ -24,7 +24,7 @@ export class AddressPage {
   email: string;
   uid: string;
   profile: IProfile;
-
+  nutritionistLicenseNum: string = '';
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -38,6 +38,8 @@ export class AddressPage {
     this.coutryDialCode = this.countries[0].callingCode;
   }
   ionViewWillLoad() {
+    this.nutritionistLicenseNum = this.navParams.get('nutritionistLicense');
+
     let loadingPopup = this.loadingCtrl.create({
       spinner: 'crescent',
       content: ''
@@ -65,7 +67,7 @@ export class AddressPage {
 
     this.createForm();
   }
-  
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddressPage');
   }
@@ -130,6 +132,10 @@ export class AddressPage {
     this.profile.phone = values.phone;
     this.profile.zip = values.zip;
 
+    if (this.nutritionistLicenseNum) {
+      this.profile.isNutritionist = true;
+      this.profile.nutritionistLicenseNumber = this.nutritionistLicenseNum;
+    }
     console.log(this.profile);
     this.storageHelper.setProfile(this.uid, this.profile)
       .then((val) => {
@@ -168,10 +174,10 @@ export class AddressPage {
           this.addressForm.get('region').setValue(state);
         }
       }
-    }   
+    }
   }
 
-  
+
   validationMessages = {
     'name': [
       { type: 'required', message: 'Name is required.' }
