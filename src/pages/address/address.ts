@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ViewController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController,  } from 'ionic-angular';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import Countries from '../../models/countries'
 import { IProfile, IAddress } from '../../models/models';
-import { AppStateServiceProvider, AuthanticationServiceProvider } from '../../providers/providers';
-import { LoginPage } from '../pages';
 import { AngularFireDatabase } from 'angularfire2/database';
 
 @IonicPage()
@@ -22,48 +20,18 @@ export class AddressPage {
   countries: any[] = Countries
   selectedRegions: any[];
   coutryDialCode: string;
-  email: string;
-  uid: string;
-  nutritionistLicenseNum: string = '';
+
   address: IAddress;
-  userProfile: IProfile;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
-    public viewCtrl: ViewController,
-    public events: Events,
-    private afAuth: AngularFireAuth,
-    private afDb: AngularFireDatabase,
-    private loadingCtrl: LoadingController,
-    private appState: AppStateServiceProvider,
-    public authProvider: AuthanticationServiceProvider) {
+    public viewCtrl: ViewController) {
 
     this.selectedRegions = this.countries[0].regions;
     this.coutryDialCode = this.countries[0].callingCode;
   }
   ionViewWillLoad() {
-    this.nutritionistLicenseNum = this.navParams.get('nutritionistLicense');
-
-    let loadingPopup = this.loadingCtrl.create({
-      spinner: 'crescent',
-      content: ''
-    });
-    loadingPopup.present();
-
-    this.afAuth.authState.subscribe(userAuth => {
-      if (userAuth) {
-        this.email = this.afAuth.auth.currentUser.email;
-        this.uid = this.afAuth.auth.currentUser.uid;
-        this.userProfile = this.appState.userProfile;
-        loadingPopup.dismiss();
-      }
-      else {
-        console.log('auth false');
-        loadingPopup.dismiss();
-        this.navCtrl.setRoot(LoginPage);
-      }
-    });
 
     this.createForm();
   }
@@ -74,33 +42,18 @@ export class AddressPage {
 
 
   createForm() {
-    //console.log('Printing Profile');
 
-    if (this.address) {
-      this.addressForm = this.formBuilder.group({
-        isDefault: new FormControl(false, Validators.required),
-        street: new FormControl(this.address.street, Validators.required),
-        city: new FormControl(this.address.city, Validators.required),
-        country: new FormControl(this.address.country, Validators.required),
-        region: new FormControl(this.address.region, Validators.required),
-        zip: new FormControl(this.address.zip, Validators.compose([
-          Validators.required,
-          Validators.pattern('^[0-9]{5,7}$')
-        ]))
-      });
-    } else {
-      this.addressForm = this.formBuilder.group({
-        isDefault: new FormControl(true, Validators.required),
-        street: new FormControl('', Validators.required),
-        city: new FormControl('', Validators.required),
-        country: new FormControl(this.countries[0], Validators.required),
-        region: new FormControl(this.selectedRegions[0], Validators.required),
-        zip: new FormControl('', Validators.compose([
-          Validators.required,
-          Validators.pattern('^[0-9]{5,7}$')
-        ])),
-      });
-    }
+    this.addressForm = this.formBuilder.group({
+      isDefault: new FormControl(true, Validators.required),
+      street: new FormControl('', Validators.required),
+      city: new FormControl('', Validators.required),
+      country: new FormControl(this.countries[0], Validators.required),
+      region: new FormControl(this.selectedRegions[0], Validators.required),
+      zip: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[0-9]{5,7}$')
+      ])),
+    });
   }
 
   getRegions() {
@@ -109,7 +62,8 @@ export class AddressPage {
   }
 
   onSubmit(values) {
-    if (!this.address) {
+    if (values) {
+
       this.address = {} as IAddress
 
       this.address.street = values.street
@@ -120,22 +74,10 @@ export class AddressPage {
       this.address.isDefault = values.isDefault;
       this.address.type = 'shipping';
 
-      if (!this.userProfile.Addresses) {
-        this.userProfile.Addresses = [] as IAddress[];
-      }
-      this.userProfile.Addresses.push(this.address);
-      this.authProvider.updateUserProfile(this.userProfile, this.uid)
-        .then(profDate => {
-          const profRef = this.afDb.object('/profiles/' + this.uid);
-          profRef.snapshotChanges().subscribe(profData => {
-            this.userProfile = profData.payload.val();
-            this.appState.setUserProfile(this.userProfile);
-            this.events.publish('profile:recieved', this.appState.userProfile);
-          });
-          this.viewCtrl.dismiss();
-        });
-
+      this.viewCtrl.dismiss({ address: this.address });
     }
+
+
   }
 
   updateFormValues() {
@@ -161,7 +103,7 @@ export class AddressPage {
     }
   }
 
-  close(){
+  close() {
     this.viewCtrl.dismiss();
   }
 
