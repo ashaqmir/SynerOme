@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController,  } from 'ionic-angular';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { AngularFireAuth } from 'angularfire2/auth';
-
 import Countries from '../../models/countries'
-import { IProfile, IAddress } from '../../models/models';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { IAddress } from '../../models/models';
 
 @IonicPage()
 @Component({

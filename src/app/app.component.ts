@@ -36,6 +36,7 @@ export class MyApp {
         this.user = profile;
       }
     })
+
     this.user = this.appState.userProfile;
   }
 
@@ -78,7 +79,7 @@ export class MyApp {
       },
       {
         icon: 'calendar',
-        name: 'Apponitments',
+        name: 'Appointments',
         component: AppointmentsPage,
         type: 'page'
       },

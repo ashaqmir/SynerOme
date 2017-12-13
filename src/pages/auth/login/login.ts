@@ -69,6 +69,7 @@ export class LoginPage {
 
   async signIn(values) {
     let user = {} as IUser;
+    let profSubs: any;
     user.email = values.email;
     user.password = values.password;
     console.log(user);
@@ -82,21 +83,24 @@ export class LoginPage {
         .then(data => {
           this.appState.setLoginState(true);
           console.log(data.uid);
+          //this.appState.loadUserProfile(data.uid);
           const profRef = this.afDb.object('/profiles/' + data.uid);
-          profRef.snapshotChanges().subscribe(profData => {
+          profSubs = profRef.snapshotChanges().subscribe(profData => {
             this.userProfile = profData.payload.val();
             this.appState.setUserProfile(this.userProfile);
             if (this.appState.userProfile) {
               loadingPopup.dismiss();
+              console.log('Tango Man');
               this.navCtrl.setRoot(DashboardPage);
               this.events.publish('profile:recieved', this.appState.userProfile);
+              profSubs.unsubscribe();
             } else {
               console.log('User Profile not found');
               //Check if local storage profile is there.
               this.storageHelper.getProfile(data.uid)
                 .then((val) => {
                   var value = JSON.stringify(val);
-                  this.appState.localStorageProfile = JSON.parse(value);                 
+                  this.appState.localStorageProfile = JSON.parse(value);
                   loadingPopup.dismiss()
                   this.navCtrl.setRoot(DemographicPage);
                 })
@@ -107,6 +111,7 @@ export class LoginPage {
                 })
             }
           });
+         
         })
         .catch(error => {
           var errorMessage: string = error.message;
@@ -123,7 +128,7 @@ export class LoginPage {
         duration: 3000
       }).present();
     }
-
+   
   }
   validationMessages = {
     'email': [

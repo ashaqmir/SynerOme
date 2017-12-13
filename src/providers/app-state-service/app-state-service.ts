@@ -38,4 +38,28 @@ export class AppStateServiceProvider {
   getLoginState(): boolean {
     return this.loginState
   }
+
+  // loadUserProfile(uid: string) {
+  //   const profRef = this.afDb.object('/profiles/' + uid);
+  //   let profSubs = profRef.snapshotChanges().subscribe(profData => {
+  //     this.userProfile = profData.payload.val();
+  //     this.userProfile
+  //     if (this.userProfile) {
+  //       this.events.publish('profile:recieved', this.userProfile);
+  //       profSubs.unsubscribe();
+  //       this.userProfile;
+  //     } else {
+  //       console.log('User Profile not found');
+  //       //Check if local storage profile is there.
+  //       this.storageHelper.getProfile(uid)
+  //         .then((val) => {
+  //           var value = JSON.stringify(val);
+  //           this.localStorageProfile = JSON.parse(value);
+  //         })
+  //         .catch((error) => {
+  //           console.log(error);
+  //         })
+  //     }
+  //   });
+  // }
 }

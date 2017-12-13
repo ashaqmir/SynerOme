@@ -21,11 +21,12 @@ import { HomePage, DashboardPage,
   ConfrencePage, ForgotPage, 
   UserProfilePage, AddressPage,
   PersonalInfoPage, HealthInfoPage, 
-  ProductListPage, ProductDetailsPage, CartPage, DemographicPage} from '../pages/pages';
+  ProductListPage, ProductDetailsPage, CartPage, DemographicPage, AddressListPage} from '../pages/pages';
 
 import { AuthanticationServiceProvider,AppStateServiceProvider, 
   ConfrenceServiceProvider, StorageHelperProvider } from '../providers/providers';
 import { NativeAudio } from '@ionic-native/native-audio';
+import { PayPal } from '@ionic-native/paypal';
 
 
 
@@ -44,7 +45,6 @@ var firebaseConfig = {
     ForgotPage,
     SignupPage,
     DemographicPage,
-    AddressPage,
     PersonalInfoPage,
     HealthInfoPage,
     UserProfilePage,
@@ -55,6 +55,8 @@ var firebaseConfig = {
     ProductListPage,
     ProductDetailsPage,
     CartPage,
+    AddressPage,
+    AddressListPage,
     UserListPage,
     ConfrencePage
   ],
@@ -75,8 +77,7 @@ var firebaseConfig = {
     MyApp,
     ForgotPage,
     SignupPage,
-    DemographicPage,
-    AddressPage,
+    DemographicPage,    
     PersonalInfoPage,
     HealthInfoPage,
     UserProfilePage,
@@ -86,6 +87,8 @@ var firebaseConfig = {
     AppointmentsPage,
     ProductListPage,
     CartPage,
+    AddressPage,
+    AddressListPage,
     ProductDetailsPage,
     UserListPage,
     ConfrencePage
@@ -98,7 +101,8 @@ var firebaseConfig = {
     AppStateServiceProvider,
     ConfrenceServiceProvider,
     NativeAudio,
-    StorageHelperProvider
+    StorageHelperProvider,
+    PayPal
   ]
 })
 export class AppModule {}

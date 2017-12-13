@@ -14,7 +14,6 @@
       Shipping Address
     </ion-card-header>
     <ion-card-content>
-
       <ion-item *ngIf="shippingAddress">
         <ion-icon name="locate" item-start large></ion-icon>
         <h2>{{shippingAddress.street}}</h2>
@@ -27,7 +26,7 @@
       </ion-item>
     </ion-card-content>
     <ion-item>
-      <button ion-button icon-left clear item-end *ngIf="shippingAddress">
+      <button ion-button icon-left clear item-end *ngIf="shippingAddress" (click)="changeAddress()">
         <ion-icon name="attach"></ion-icon>
         Change
       </button>
@@ -52,7 +51,7 @@
 
       <ion-row class="my-border">
         <ion-col col-9>
-          <h3>Price:</h3>
+          <h2>Price</h2>
         </ion-col>
         <ion-col col-3>
           <h3> {{price | currency:'USD':true}}</h3>
@@ -60,7 +59,7 @@
       </ion-row>
       <ion-row class="my-border">
         <ion-col col-9>
-          <h3>Tax:</h3>
+          <h2>Tax</h2>
         </ion-col>
         <ion-col col-3>
           <h3>{{tax | currency:'USD':true }}</h3>
@@ -68,7 +67,7 @@
       </ion-row>
       <ion-row class="my-border">
         <ion-col col-9>
-          <h3>Total: {{total | currency:'USD':true}}</h3>
+          <h2>Total</h2>
         </ion-col>
         <ion-col col-3>
           <h3>{{total | currency:'USD':true}}</h3>

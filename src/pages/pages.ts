@@ -4,7 +4,6 @@ export * from './auth/login/login';
 export * from './auth/forgot/forgot';
 export * from './auth/signup/signup';
 export * from './auth/demographic/demographic'
-export * from './address/address';
 export * from './auth/personal-info/personal-info';
 export * from './auth/health-info/health-info';
 export * from './user-profile/user-profile';
@@ -19,4 +18,6 @@ export * from './user-list/user-list';
 export * from './product-list/product-list';
 export * from './product-details/product-details';
 export * from './cart/cart';
+export * from './address/address';
+export * from './address-list/address-list';
 
