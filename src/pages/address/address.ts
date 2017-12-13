@@ -5,8 +5,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import Countries from '../../models/countries'
 import { IProfile, IAddress } from '../../models/models';
-import { StorageHelperProvider, AppStateServiceProvider, AuthanticationServiceProvider } from '../../providers/providers';
-import { LoginPage, PersonalInfoPage } from '../pages';
+import { AppStateServiceProvider, AuthanticationServiceProvider } from '../../providers/providers';
+import { LoginPage } from '../pages';
 import { AngularFireDatabase } from 'angularfire2/database';
 
 @IonicPage()
@@ -35,7 +35,6 @@ export class AddressPage {
     public events: Events,
     private afAuth: AngularFireAuth,
     private afDb: AngularFireDatabase,
-    private storageHelper: StorageHelperProvider,
     private loadingCtrl: LoadingController,
     private appState: AppStateServiceProvider,
     public authProvider: AuthanticationServiceProvider) {
@@ -162,6 +161,9 @@ export class AddressPage {
     }
   }
 
+  close(){
+    this.viewCtrl.dismiss();
+  }
 
   validationMessages = {
     'street': [

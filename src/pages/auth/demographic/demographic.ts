@@ -1,9 +1,7 @@
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, MenuController, LoadingController, Events } from 'ionic-angular';
-import emailMask from 'text-mask-addons/dist/emailMask';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { Country } from '../../../models/models';
 import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/take';
 import { IProfile } from '../../../models/models';
@@ -52,13 +50,11 @@ export class DemographicPage {
     this.afAuth.authState.subscribe(userAuth => {
       if (userAuth) {
         this.userEmail = userAuth.email;
-        var locProfile = this.storageHelper.getProfile(userAuth.uid);
-
         this.storageHelper.getProfile(userAuth.uid)
-        .then((val) => {
-          var value = JSON.stringify(val);
-          this.setProfileVal(JSON.parse(value));
-        })       
+          .then((val) => {
+            var value = JSON.stringify(val);
+            this.setProfileVal(JSON.parse(value));
+          })
       }
       else {
         console.log('auth false');
