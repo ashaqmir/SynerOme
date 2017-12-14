@@ -25,7 +25,7 @@ export class ProductDetailsPage {
 
   addToCart(){
     console.log('Add to cart.');
-    this.navCtrl.setRoot(CartPage, {selectedProduct: this.product});
+    this.navCtrl.push(CartPage, {selectedProduct: this.product});
   }
 
 }
