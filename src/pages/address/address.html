@@ -18,13 +18,13 @@
       </ion-item>
       <ion-item>
         <ion-label color="primary">Country</ion-label>
-        <ion-select formControlName="country" (ionChange)="getRegions()" cancelText="Cancel" okText="OK">
+        <ion-select formControlName="country" (ionChange)="getRegions()" cancelText="Cancel" okText="OK" interface="popover">
           <ion-option *ngFor="let ctry of countries" [value]="ctry">{{ctry.name}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
         <ion-label color="primary">State/Province</ion-label>
-        <ion-select formControlName="region" cancelText="Cancel" okText="OK">
+        <ion-select formControlName="region" cancelText="Cancel" okText="OK" interface="popover">
           <ion-option *ngFor="let rgn of selectedRegions" [value]="rgn">{{rgn.name}}</ion-option>
         </ion-select>
       </ion-item>

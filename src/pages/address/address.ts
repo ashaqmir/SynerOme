@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController,  } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, } from 'ionic-angular';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import Countries from '../../models/countries'
 import { IAddress } from '../../models/models';
@@ -18,6 +18,8 @@ export class AddressPage {
   selectedRegions: any[];
   coutryDialCode: string;
 
+  groupedRegions: any[];
+
   address: IAddress;
 
   constructor(public navCtrl: NavController,
@@ -27,6 +29,12 @@ export class AddressPage {
 
     this.selectedRegions = this.countries[0].regions;
     this.coutryDialCode = this.countries[0].callingCode;
+
+    this.selectedRegions = this.selectedRegions.sort((a, b) => {
+      return (a.name.charAt(0) > b.name.charAt(0)) ? 1 : ((b.name.charAt(0) > a.name.charAt(0)) ? -1 : 0);
+    });
+
+
   }
   ionViewWillLoad() {
 
@@ -55,6 +63,11 @@ export class AddressPage {
 
   getRegions() {
     this.selectedRegions = this.addressForm.value.country.regions;
+
+    this.selectedRegions = this.selectedRegions.sort((a, b) => {
+      return (a.name.charAt(0) > b.name.charAt(0)) ? 1 : ((b.name.charAt(0) > a.name.charAt(0)) ? -1 : 0);
+    });
+
     this.coutryDialCode = this.addressForm.value.country.callingCode;
   }
 
@@ -123,4 +136,33 @@ export class AddressPage {
     ]
   };
 
+  //NOT USED
+  groupRegons(regions) {    
+    
+        let sortedRegions = regions.sort((a, b) => {
+          return (a.name.charAt(0) > b.name.charAt(0)) ? 1 : ((b.name.charAt(0) > a.name.charAt(0)) ? -1 : 0);
+        });
+    
+        let currentLetter = false;
+        let currentRegions = [];
+    
+        sortedRegions.forEach((value) => {
+    
+          if (value.name.charAt(0) != currentLetter) {
+    
+            currentLetter = value.name.charAt(0);
+    
+            let newGroup = {
+              letter: currentLetter,
+              regions: []
+            };
+    
+            newGroup.regions = currentRegions;
+            this.groupedRegions.push(newGroup);
+          }
+    
+          currentRegions.push(value);
+        });
+    
+      }
 }
