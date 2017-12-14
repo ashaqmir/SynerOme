@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, Events } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { LoginPage, AddressPage, AddressListPage, DashboardPage } from '../pages';
+import { LoginPage, AddressPage, AddressListPage, OrderFinalPage } from '../pages';
 import { IProfile, IAddress, IOrder } from '../../models/models';
 import { AppStateServiceProvider, AuthanticationServiceProvider } from '../../providers/providers';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -127,7 +127,7 @@ export class CartPage {
             order.payPalStatus = resposeString;
             this.addOrderToDB(order);
             loadingPopup.dismiss();
-            this.navCtrl.setRoot(DashboardPage);
+            this.navCtrl.setRoot(OrderFinalPage, { finalOrder: order, userLastName: this.userProfile.lastName });
           }
         }, (err) => {
           console.log('Error: ', err)
@@ -142,6 +142,8 @@ export class CartPage {
       loadingPopup.dismiss();
     });
 
+    //loadingPopup.dismiss();
+    //this.navCtrl.setRoot(OrderFinalPage, { finalOrder: order, userLastName: this.userProfile.lastName });
   }
 
   addOrderToDB(order: IOrder) {

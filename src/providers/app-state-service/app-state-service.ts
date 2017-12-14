@@ -9,6 +9,7 @@ export class AppStateServiceProvider {
   userProfile: IProfile;
 
   localStorageProfile: IProfile;
+  userOrders: any[];
 
   constructor() {
     console.log('App state Contructor called');
@@ -23,7 +24,14 @@ export class AppStateServiceProvider {
     if (this.localStorageProfile) {
       this.localStorageProfile = null;
     }
+  }
 
+  setUserOrders(orders) {
+    if (orders) {
+      this.userOrders = orders;
+    } else {
+      this.userOrders = [];
+    }
   }
 
   setLoginState(state: boolean) {

@@ -20,4 +20,5 @@ export * from './product-details/product-details';
 export * from './cart/cart';
 export * from './address/address';
 export * from './address-list/address-list';
+export * from './order-final/order-final';
 
