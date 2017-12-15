@@ -5,7 +5,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content no-padding class="content" *ngIf="product" >
+<ion-content no-padding class="content" *ngIf="product">
 
   <!--*********** Header with image background  ***********-->
   <div class="product-header slide-up" [ngStyle]="{'background-image': 'url(' + product?.image + ')'}">
@@ -52,16 +52,13 @@
     </button>
     <ion-fab-list side="top">
       <button ion-fab>
-        <ion-icon name="logo-facebook"></ion-icon>
+        <ion-icon name="logo-facebook" color="special-blue"></ion-icon>
       </button>
       <button ion-fab>
-        <ion-icon name="logo-twitter"></ion-icon>
+        <ion-icon name="logo-twitter" color="twitter"></ion-icon>
       </button>
       <button ion-fab>
-        <ion-icon name="logo-vimeo"></ion-icon>
-      </button>
-      <button ion-fab>
-        <ion-icon name="logo-googleplus"></ion-icon>
+        <ion-icon name="logo-whatsapp" color="green"></ion-icon>
       </button>
     </ion-fab-list>
   </ion-fab>
@@ -72,7 +69,7 @@
 <!--*********** Add to cart button ***********-->
 <ion-footer no-border>
   <ion-toolbar color="red">
-    <button ion-button full clear icon-left (click)="addToCart()" color="light" [disabled]="!product.name" >
+    <button ion-button full clear icon-left (click)="addToCart()" color="light" [disabled]="!product.name">
       <ion-icon name="ios-cart"></ion-icon>
       Buy
     </button>
