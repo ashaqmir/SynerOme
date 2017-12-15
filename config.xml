@@ -83,4 +83,10 @@
     <plugin name="cordova-plugin-ionic-webview" spec="^1.1.11" />
     <plugin name="cordova-sqlite-storage" spec="^2.1.2" />
     <plugin name="com.paypal.cordova.mobilesdk" spec="^3.5.0" />
+    <plugin name="ionic-plugin-deeplinks" spec="^1.0.15">
+        <variable name="URL_SCHEME" value="SynerOme" />
+        <variable name="DEEPLINK_SCHEME" value="https" />
+        <variable name="DEEPLINK_HOST" value="synerome.com" />
+        <variable name="ANDROID_PATH_PREFIX" value="C:/Program Files/Git/" />
+    </plugin>
 </widget>
