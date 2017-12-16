@@ -7,7 +7,6 @@ export * from './auth/demographic/demographic'
 export * from './auth/personal-info/personal-info';
 export * from './auth/health-info/health-info';
 export * from './user-profile/user-profile';
-export * from './welcome-to-synerome/welcome-to-synerome';
 export * from './dnadata/dnadata';
 export * from './welcome/welcome';
 export * from './home/home';

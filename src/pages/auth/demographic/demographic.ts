@@ -90,6 +90,7 @@ export class DemographicPage {
       this.afAuth.authState.subscribe(auth => {
         if (auth && auth.uid) {
           this.profile.email = auth.email;
+          this.profile.id = auth.uid;
           this.storageHelper.setProfile(auth.uid, this.profile)
             .then((val) => {
 

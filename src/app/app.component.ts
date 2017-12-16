@@ -1,8 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { Platform, Nav, Events } from 'ionic-angular';
+import { Deeplinks } from '@ionic-native/deeplinks';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { DashboardPage, AppointmentsPage, PreferencesPage, UserProfilePage, LoginPage, ProductListPage } from '../pages/pages';
+import { DashboardPage, AppointmentsPage, PreferencesPage, UserProfilePage, LoginPage, ProductListPage, ProductDetailsPage } from '../pages/pages';
 import { AuthanticationServiceProvider, AppStateServiceProvider } from '../providers/providers';
 import { IProfile } from '../models/models';
 
@@ -23,6 +24,7 @@ export class MyApp {
     public events: Events,
     private statusBar: StatusBar,
     private splashScreen: SplashScreen,
+    public deeplinks: Deeplinks,
     private authProvider: AuthanticationServiceProvider,
     private appState: AppStateServiceProvider,
   ) {
@@ -45,6 +47,15 @@ export class MyApp {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      //ON PLATFORM READY CREATE DEEP LINKS
+      this.deeplinks.routeWithNavController(this.nav, {
+        '/product-details/:prodName': ProductDetailsPage
+      }).subscribe((match) => {
+        console.log('Successfully routed', match);
+      }, (nomatch) => {
+        console.log('Unmatched Route', nomatch);
+      });
     });
   }
 
@@ -73,7 +84,7 @@ export class MyApp {
       },
       {
         icon: 'cart',
-        name: 'Shoping',
+        name: 'Shopping',
         component: ProductListPage,
         type: 'page'
       },

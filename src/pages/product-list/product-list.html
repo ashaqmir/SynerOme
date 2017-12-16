@@ -18,11 +18,11 @@
   <ion-grid>
     <ion-row wrap>
       <ion-col tappable col-12 *ngFor="let product of products" color="gray" (click)="productDetails(product)">
-        <ion-card class="cardList" [ngStyle]="{'background-image': 'url(../../assets/img/BG-' + product.name + '.png)'}">
+        <ion-card [className]="product.name" >
           <div *ngIf="product.isHot" class="ribbon pop-in">HOT
             <ion-icon name="bonfire"></ion-icon>
           </div>
-          <img class="pop-in" src={{product.image}} />
+          <img class="pop-in" src="../../assets/img/{{product.name}}.png" />
           <ion-card-header>
             {{product.name}}
           </ion-card-header>

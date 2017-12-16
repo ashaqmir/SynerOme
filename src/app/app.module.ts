@@ -30,6 +30,8 @@ import { AuthanticationServiceProvider,AppStateServiceProvider,
   ConfrenceServiceProvider, StorageHelperProvider } from '../providers/providers';
 import { NativeAudio } from '@ionic-native/native-audio';
 import { PayPal } from '@ionic-native/paypal';
+import { Deeplinks } from '@ionic-native/deeplinks';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 
 
@@ -107,7 +109,9 @@ var firebaseConfig = {
     ConfrenceServiceProvider,
     NativeAudio,
     StorageHelperProvider,
-    PayPal
+    PayPal,
+    Deeplinks,
+    SocialSharing
   ]
 })
 export class AppModule {}

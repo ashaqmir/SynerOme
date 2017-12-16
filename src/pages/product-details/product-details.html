@@ -8,7 +8,7 @@
 <ion-content no-padding class="content" *ngIf="product">
 
   <!--*********** Header with image background  ***********-->
-  <div class="product-header slide-up" [ngStyle]="{'background-image': 'url(' + product?.image + ')'}">
+  <div class="product-header slide-up" [ngStyle]="{'background-image': 'url(../../assets/img/' + product?.name + '.png)'}">
     <div *ngIf="product?.isHot" class="ribbon">HOT</div>
   </div>
 
@@ -23,7 +23,7 @@
   </div>
 
   <!--*********** Detail ( Description,Color,Size)  ***********-->
-  <ion-card>
+  <ion-card [className]="product.name">
     <ion-card-content>
       <div class="description" no-padding>
         <div [innerHTML]="product?.shortDescription"></div>
@@ -52,19 +52,18 @@
     </button>
     <ion-fab-list side="top">
       <button ion-fab>
-        <ion-icon name="logo-facebook" color="special-blue"></ion-icon>
+        <ion-icon name="logo-facebook" color="special-blue" (click)="shareByFacebook()"></ion-icon>
       </button>
       <button ion-fab>
-        <ion-icon name="logo-twitter" color="twitter"></ion-icon>
+        <ion-icon name="logo-twitter" color="twitter" (click)="shareByTwitter()"></ion-icon>
       </button>
       <button ion-fab>
-        <ion-icon name="logo-whatsapp" color="green"></ion-icon>
+        <ion-icon name="logo-whatsapp" color="green" (click)="shareByWhatsApp()"></ion-icon>
       </button>
     </ion-fab-list>
   </ion-fab>
 
 </ion-content>
-
 
 <!--*********** Add to cart button ***********-->
 <ion-footer no-border>
