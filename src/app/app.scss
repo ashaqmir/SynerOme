@@ -15,7 +15,7 @@
     }
     .menu-header {
         padding: 5px 15px;
-        background-image: url('../assets/img/waves.png');
+        //background-image: url('assets/img/waves.png');
         background-size: cover;
         background-color: color($colors, blue2);
         color: rgb(252, 252, 252);
@@ -53,7 +53,7 @@
         // margin-top: 10px;
         margin-bottom: 20px;
         padding: 5px 15px;
-        background-image: url('../assets/img/waves.png');
+       // background-image: url('../assets/img/waves.png');
         background-color: #fff;
         color: #000;
         .name {
@@ -71,6 +71,46 @@
             height: 15vh;
             margin-top: 15px; // border: 3px solid #fff;
         }
+    }
+}
+
+#menu-pwa {
+    .list-box {
+        margin-top: 10px;
+    }
+    .menu-header {
+        text-align: center;
+        margin: auto; // width: 50%;
+        // margin-top: 10px;
+        margin-bottom: 20px;
+        padding: 5px 15px;
+        background-size: cover;
+        background-color: color($colors, ios-gray);
+        color: #ffffff;
+        .name {
+            margin-top: 8px;
+            font-weight: 500;
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+        .email {
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        .user-avatar {
+            padding: .5em;
+            height: 15vh;
+            margin-top: 15px; // border: 3px solid #fff;
+        }
+    }
+    h3,
+    .label,
+    {
+        color: #616161;
+        font-weight: 400;
+    }
+    ion-icon {
+        color: #616161;
     }
 }
 
