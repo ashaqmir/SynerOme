@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-navbar color="lightgreen">
+    <ion-title>THANK YOU</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card *ngIf="loadView">
+    <ion-card-header>
+      Order Details
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item *ngIf="orderShippingAddress">
+        <ion-icon name="locate" item-start large></ion-icon>
+        <h2>{{orderShippingAddress.street}}</h2>
+        <p>{{orderShippingAddress.city}}, {{orderShippingAddress.region}} {{orderShippingAddress.zip}}</p>
+        <h2>{{orderShippingAddress.country}}</h2>
+      </ion-item>
+
+      <ion-grid>
+        <ion-row class="my-border">
+          <ion-col col-4>
+            <h2>Order Ref#</h2>
+          </ion-col>
+          <ion-col col-8 class="ringer">
+            <h3>{{order.productReference}}</h3>
+          </ion-col>
+        </ion-row>
+        <ion-row class="my-border">
+          <ion-col col-4>
+            <h2>Amount Paid</h2>
+          </ion-col>
+          <ion-col col-8>
+            <h3>
+              <strong>{{order.amountPaid | currency:'USD':true }}</strong>
+            </h3>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      Dear
+      <strong>{{userLastName}},</strong>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Thank you for your order. SynerOme will post you DNA testing kit shortly.</p>
+
+      <p>Once you recive your DNA testing kit, please make sure to register it ASAP.</p>
+
+      <p>
+        <strong>SynerOme</strong>
+      </p>
+    </ion-card-content>
+  </ion-card>
+  <button ion-button round full primary icon-left (click)="goHome()">
+    <ion-icon name="home"></ion-icon>
+    HOME
+  </button>
+</ion-content>

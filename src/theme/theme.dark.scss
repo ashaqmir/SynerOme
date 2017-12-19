@@ -1,0 +1,28 @@
+.dark-theme {
+  ion-content {
+    background-color: #002738  ;
+    color: #fff;
+  }
+ 
+  .toolbar-background {
+    background-color: #002738  ;
+    color: #fff;
+  }
+
+  .toolbar-title{
+    background-color: #002738  ;
+    color: #fff;
+  }
+  .header .toolbar-background {
+      border-color: #c7a8c7;
+      background-color: #002738;
+      color: #fff;
+    }
+
+    .footer {
+      text-align: center;
+      background-color: #002738;
+      color: #fff;
+      min-height: 47px;
+    }
+}

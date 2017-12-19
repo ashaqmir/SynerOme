@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-navbar color="lightblue">
+    <button ion-button menuToggle>
+      <ion-icon name="menu" color="light"></ion-icon>
+    </button>
+    <ion-title>
+      Dashboard
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+    <ion-card-header>
+      Quick Actions
+    </ion-card-header>
+    <ion-list *ngIf="showQuickActions">
+      <button ion-item (click)="registerKit()">
+        <ion-icon name="barcode" color="lightblue" item-start></ion-icon>
+
+        <h2>Register Kit</h2>
+        <p> Got your kit? Then register here.</p>
+      </button>
+
+      <button ion-item (click)="openShoping()">
+        <ion-icon name="cart" color="red" item-start></ion-icon>
+        <h2>Buy a package</h2>
+        <p>Buy a package here.</p>
+      </button>
+    </ion-list>
+
+    <ion-list *ngIf="showWaitingMessage">
+      <button ion-item>
+        <ion-icon name="sync" color="lightblue" item-start></ion-icon>
+
+        <h2>Waiting for your test results.</h2>
+        <p>We will update you once you results are back.</p>
+      </button>
+    </ion-list>
+  </ion-card>
+  <!-- <ion-grid>
+    <ion-row>
+      <ion-col text-center>
+        <ion-card tappable class="card-list-bg" text-center (click)="registerKit()">
+          <ion-card-header>
+            <ion-icon name="barcode" color="lightblue"></ion-icon>
+          </ion-card-header>
+          <div>
+            <h2>Register Kit</h2>
+            <p> Got your kit? Then register here.</p>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col text-center>
+        <ion-card tappable class="card-list-bg" text-center (click)="openShoping()">
+          <ion-card-header>
+            <ion-icon name="cart" color="red"></ion-icon>
+          </ion-card-header>
+          <div>
+            <h2>Buy a package</h2>
+            <p>Buy a package here.</p>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid> -->
+
+</ion-content>

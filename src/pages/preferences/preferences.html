@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar color="lightblue">
+    <button ion-button menuToggle>
+      <ion-icon name="menu" color="light"></ion-icon>
+    </button>
+    <ion-title>
+      Preferences
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+
+  <form id="preferences-form3">
+    <ion-item id="preferences-range1">
+      <ion-range min="5" max="30" step="1" color="positive" value="10">
+        <ion-label range-left>
+          Timeout
+        </ion-label>
+      </ion-range>
+    </ion-item>
+    <ion-item id="preferences-toggle1">
+      <ion-label>
+        Weekly SynerOme News
+      </ion-label>
+      <ion-toggle color="positive" checked="true"></ion-toggle>
+    </ion-item>
+  </form>
+</ion-content>

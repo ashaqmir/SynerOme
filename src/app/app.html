@@ -1,0 +1,61 @@
+<ion-menu [content]="content">
+    <ion-content>
+
+        <div id="menu-material" showWhen="android">
+            <ion-header class="menu-header" [ngStyle]="{'background-image': 'url(assets/img/waves.png)'}">
+                <img class="user-avatar round" src="assets/img/chatterplace.png" />
+                <p class="name">{{ user?.firstName + ' ' + user?.lastName}}</p>
+            </ion-header>
+
+            <div class="list-box">
+                <ion-list no-lines>
+                    <div *ngFor="let m of menu">
+                        <ion-item menuClose (click)="openPage(m)">
+                            <ion-icon [name]="m.icon" color="teal" item-left></ion-icon>
+                            {{m.name}}
+                        </ion-item>
+                    </div>
+
+                </ion-list>
+            </div>
+        </div>
+
+        <div id="menu-ios" showWhen="ios" class="sideMenu-header" color="gray">
+            <div class="menu-header" [ngStyle]="{'background-image': 'url(assets/img/waves.png)'}">
+                <img class="user-avatar round" src="assets/img/chatterplace.png" />
+                <p class="name">{{ user?.firstName + ' ' + user?.lastName}}</p>
+            </div>
+
+            <ion-list no-lines>
+                <div *ngFor="let m of menu">
+                    <ion-item menuClose (click)="openPage(m)">
+                        <ion-icon [name]="m.icon" color="teal" item-left></ion-icon>
+                        {{m.name}}
+                    </ion-item>
+                </div>
+            </ion-list>
+        </div>
+
+        <div id="menu-pwa" hideWhen="android,ios">
+            <div class="menu-header" [ngStyle]="{'background-image': 'url(assets/img/waves.png)'}">
+                <img class="user-avatar round" src="assets/img/chatterplace.png" />
+                <p class="name">{{ user?.firstName + ' ' + user?.lastName}}</p>
+            </div>
+            <div class="list-box">
+                <ion-list no-lines>
+                    <div *ngFor="let m of menu">
+                        <ion-item menuClose (click)="openPage(m)">
+                            <ion-icon [name]="m.icon" color="teal" item-left></ion-icon>
+                            {{m.name}}
+                        </ion-item>
+                    </div>
+
+                </ion-list>
+            </div>
+
+        </div>
+    </ion-content>
+
+</ion-menu>
+
+<ion-nav [root]="rootPage" [class]="selectedTheme" swipeBackEnabled="false" #content></ion-nav>

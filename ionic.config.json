@@ -1,0 +1,8 @@
+{
+  "name": "SynerOme",
+  "app_id": "562affbe",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}

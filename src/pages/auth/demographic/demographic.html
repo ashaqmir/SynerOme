@@ -1,0 +1,48 @@
+<ion-header no-border>
+  <ion-navbar transparent color="light">
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding [ngStyle]="{'background-image': 'url(' + backgroundImage +')'}">
+  <div class="demographic-container">
+    <img class="logo" src="assets/img/SynerOme-Logo.png" />
+   
+    <!-- ******** PROFILE FOR ********* -->
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit(profileForm.value)" novalidate>
+      <ion-item>
+        <ion-label color="primary">First name</ion-label>
+        <ion-input type="text" formControlName="firstName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary">Last name</ion-label>
+        <ion-input type="text" formControlName="lastName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary">Phone</ion-label>
+        <ion-label color="danger">+1</ion-label>
+        <ion-input type="num" formControlName="phone"></ion-input>
+      </ion-item>
+
+      <ion-item class="error-message">
+        <div *ngFor="let validation of validationMessages.firstname">
+          <p class="error-message" *ngIf="profileForm.get('firstName').hasError(validation.type) && (profileForm.get('firstName').dirty || profileForm.get('firstName').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
+
+        <div *ngFor="let validation of validationMessages.lastname">
+          <p class="error-message" *ngIf="profileForm.get('lastName').hasError(validation.type) && (profileForm.get('lastName').dirty || profileForm.get('lastName').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
+        <div *ngFor="let validation of validationMessages.phone">
+          <p class="error-message" *ngIf="profileForm.get('phone').hasError(validation.type) && (profileForm.get('phone').dirty || profileForm.get('phone').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
+      </ion-item>
+
+      <button ion-button round block color="blue" type="submit" [disabled]="!profileForm.valid">SIGN UP</button>
+    </form>
+  </div>
+</ion-content>

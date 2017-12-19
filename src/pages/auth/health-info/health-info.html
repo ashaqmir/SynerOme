@@ -1,0 +1,62 @@
+<ion-content [ngStyle]="{'background-image': 'url(' + backgroundImage +')'}">
+
+  <div class="login-container">
+    <img class="logo" src="assets/img/SynerOme-Logo.png" />
+    <h4>Personal Info</h4>
+    <form class="form" [formGroup]="healthInfoForm" (ngSubmit)="onSubmit(healthInfoForm.value)">
+      <ion-item>
+        <ion-label color="primary">Body weight</ion-label>
+        <ion-input type="text" formControlName="bodyweight" placeholder="Kg"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary">Height</ion-label>
+        <ion-input type="text" formControlName="height" placeholder="cm"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating color="primary">Race/Ethnicity</ion-label>
+        <ion-select formControlName="race" cancelText="Cancel" okText="OK" interface="popover">
+          <ion-option *ngFor="let race of races" [value]="race">{{ race }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label floating color="primary">Sleep Quality</ion-label>
+        <ion-select formControlName="sleepquality" cancelText="Cancel" okText="OK" interface="popover">
+          <ion-option *ngFor="let sleep of seelpqualities" [value]="sleep">{{ sleep }}</ion-option>
+        </ion-select>
+      </ion-item>
+
+
+      <ion-item class="error-message">
+        <div *ngFor="let validation of validationMessages.bodyweight">
+          <p class="error-message" *ngIf="healthInfoForm.get('bodyweight').hasError(validation.type) && (healthInfoForm.get('bodyweight').dirty || healthInfoForm.get('bodyweight').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
+
+        <div *ngFor="let validation of validationMessages.height">
+          <p class="error-message" *ngIf="healthInfoForm.get('height').hasError(validation.type) && (healthInfoForm.get('height').dirty || healthInfoForm.get('height').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
+
+        <div *ngFor="let validation of validationMessages.race">
+          <p class="error-message" *ngIf="healthInfoForm.get('race').hasError(validation.type) && (healthInfoForm.get('race').dirty || healthInfoForm.get('race').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
+        <div *ngFor="let validation of validationMessages.sleepquality">
+          <p class="error-message" *ngIf="healthInfoForm.get('sleepquality').hasError(validation.type) && (healthInfoForm.get('sleepquality').dirty || healthInfoForm.get('sleepquality').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
+      </ion-item>
+
+
+      <div class="submit-box">
+        <button ion-button round block color="blue" type="submit" [disabled]="!healthInfoForm.valid">SAVE</button>
+      </div>
+
+
+    </form>
+  </div>
+</ion-content>

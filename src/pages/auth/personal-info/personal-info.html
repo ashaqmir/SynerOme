@@ -1,0 +1,53 @@
+<ion-content [ngStyle]="{'background-image': 'url(' + backgroundImage +')'}">
+
+  <div class="login-container">
+    <img class="logo" src="assets/img/SynerOme-Logo.png" />
+    <h4>Personal Info</h4>
+    <form class="form" [formGroup]="personalInfoForm" (ngSubmit)="onSubmit(personalInfoForm.value)">
+      <ion-item>
+        <ion-label floating color="primary">Birth Gender</ion-label>
+        <ion-select formControlName="birthgender" cancelText="Cancel" okText="OK" interface="popover">
+          <ion-option *ngFor="let gender of genders" [value]="gender">{{ gender }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+          <ion-label floating color="primary">Current Gender</ion-label>
+          <ion-select formControlName="currentgender" cancelText="Cancel" okText="OK" interface="popover">
+            <ion-option *ngFor="let gender of genders" [value]="gender">{{ gender }}</ion-option>
+          </ion-select>
+        </ion-item>
+      <ion-item>
+        <ion-label color="primary">Date of birth</ion-label>
+        <!-- <ion-input type="date" formControlName="dob"></ion-input> -->
+        <ion-datetime displayFormat="MM/DD/YYYY" formControlName="dob" [(ngModel)]="dob"></ion-datetime>
+      </ion-item>
+
+      <ion-item class="error-message">
+        <div *ngFor="let validation of validationMessages.birthgender">
+          <p class="error-message" *ngIf="personalInfoForm.get('birthgender').hasError(validation.type) && (personalInfoForm.get('birthgender').dirty || personalInfoForm.get('birthgender').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
+
+        <div *ngFor="let validation of validationMessages.currentgender">
+          <p class="error-message" *ngIf="personalInfoForm.get('currentgender').hasError(validation.type) && (personalInfoForm.get('currentgender').dirty || personalInfoForm.get('currentgender').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
+
+        <div *ngFor="let validation of validationMessages.dob">
+          <p class="error-message" *ngIf="personalInfoForm.get('dob').hasError(validation.type) && (personalInfoForm.get('dob').dirty || personalInfoForm.get('dob').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
+      </ion-item>
+
+
+      <div class="submit-box">
+        <button ion-button round block color="blue" type="submit" [disabled]="!personalInfoForm.valid">SAVE</button>
+      </div>
+
+
+    </form>
+  </div>
+</ion-content>

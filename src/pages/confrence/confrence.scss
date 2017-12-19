@@ -1,0 +1,39 @@
+page-confrence {
+    $transparent-white: rgba(255, 255, 255, .6);
+    #boxIncomming{
+        background-color:rgb(128, 128, 14); 
+        width: 100%;  
+		height: 100%;
+        position: relative;
+        border-radius: 4px;
+        
+        #boxOutgoing{
+            background-color:rgb(67, 65, 177); 
+            position: absolute; 
+            bottom: 0;
+            right:0; 
+            width: 25%;  
+            height: 15%;
+            border-radius: 4px;
+        }
+	}
+ 
+    ion-footer {
+        height: 60px;
+      }
+      .footer {
+        text-align: center;
+        background: rgba(68, 67, 67, 0.06);
+        min-height: 60px;
+      }
+      .footer-md::before {
+        border-top: 1px solid $transparent-white;
+        background-image: none;
+      }
+    
+    ion-footer ion-row ion-col div {        
+        border-radius: 2px;
+        padding: 5px;
+        text-align: center;
+      }
+}

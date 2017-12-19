@@ -1,0 +1,47 @@
+<ion-header no-border>
+  <ion-navbar color="bluegray">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Shopping</ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only>
+        <ion-icon name="md-more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+
+  <ion-grid>
+    <ion-row wrap>
+      <ion-col tappable col-12 *ngFor="let product of products" color="gray" (click)="productDetails(product)">
+        <ion-card [className]="product.name" >
+          <div *ngIf="product.isHot" class="ribbon pop-in">HOT
+            <ion-icon name="bonfire"></ion-icon>
+          </div>
+          <img class="pop-in" src="assets/img/{{product.name}}.png" />
+          <ion-card-header>
+            {{product.name}}
+          </ion-card-header>
+          <p>
+            {{product.shortDescription}}
+          </p>
+          <h3 *ngIf="product.includes">INCLUDES {{product.includes}}</h3>
+          <ion-card-content>
+            <p *ngIf="!product.discount" ion-text color="special-blue">
+              <strong>${{product.price}}</strong>
+            </p>
+            <p *ngIf="product.discount" ion-text color="special-blue" class="discount">${{product.price}}</p>
+            <p *ngIf="product.discount" ion-text large color="red">
+              <strong>${{product.discountPrice}}</strong>
+            </p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

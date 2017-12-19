@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-navbar color="bluegray">
+    <ion-title *ngIf="product.name" color="light">{{product.name}}</ion-title>
+    <ion-title *ngIf="!product.name" color="light">No Product Selected</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content no-padding class="content" *ngIf="product">
+
+  <!--*********** Header with image background  ***********-->
+  <div class="product-header slide-up" [ngStyle]="{'background-image': 'url(assets/img/' + product?.name + '.png)'}">
+    <div *ngIf="product?.isHot" class="ribbon">HOT</div>
+  </div>
+
+  <!--*********** Product name / Price  ***********-->
+  <div text-center>
+    <h2 ion-text> {{product.name}}</h2>
+    <div *ngIf="product?.discount" class="discount">
+      <h3 ion-text color="special-blue">Price: ${{product?.price}}</h3>
+    </div>
+    <h3 *ngIf="!product?.discount" ion-text color="special-blue">Price: ${{product?.price}}</h3>
+    <h3 *ngIf="product?.discount" ion-text color="red">Price: ${{product?.discountPrice}}</h3>
+  </div>
+
+  <!--*********** Detail ( Description,Color,Size)  ***********-->
+  <ion-card [className]="product.name">
+    <ion-card-content>
+      <div class="description" no-padding>
+        <div [innerHTML]="product?.shortDescription"></div>
+        <div *ngIf="product.additionalfeatures">
+          <ul *ngFor="let addfeature of product.additionalfeatures">
+            <li>{{addfeature}}</li>
+          </ul>
+        </div>
+        <div *ngIf="product.features">
+          <ul *ngFor="let feature of product.features">
+            <li>{{feature}}</li>
+          </ul>
+        </div>
+
+      </div>
+
+
+      <br>
+      <br>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-fab right bottom class="pop-in">
+    <button ion-fab color="amber">
+      <ion-icon name="md-share"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab>
+        <ion-icon name="logo-facebook" color="special-blue" (click)="shareByFacebook()"></ion-icon>
+      </button>
+      <button ion-fab>
+        <ion-icon name="logo-twitter" color="twitter" (click)="shareByTwitter()"></ion-icon>
+      </button>
+      <button ion-fab>
+        <ion-icon name="logo-whatsapp" color="green" (click)="shareByWhatsApp()"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+
+</ion-content>
+
+<!--*********** Add to cart button ***********-->
+<ion-footer no-border>
+  <ion-toolbar color="red">
+    <button ion-button full clear icon-left (click)="addToCart()" color="light" [disabled]="!product.name">
+      <ion-icon name="ios-cart"></ion-icon>
+      Buy
+    </button>
+  </ion-toolbar>
+</ion-footer>
