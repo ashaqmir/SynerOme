@@ -76,7 +76,7 @@ var firebaseConfig = {
       name: '__synerDb'
     }),
     HttpModule,
-    NgCalendarModule
+    //NgCalendarModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

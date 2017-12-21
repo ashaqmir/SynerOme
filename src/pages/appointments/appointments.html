@@ -17,7 +17,7 @@
 
 <ion-content padding>
 
-  <template #template let-selectedDate="selectedDate.events" let-noEventsLabel="noEventsLabel">
+  <!-- <template #template let-selectedDate="selectedDate.events" let-noEventsLabel="noEventsLabel">
     <ion-list>
       <ion-item-sliding *ngFor="let req of selectedDate">
         <ion-item *ngIf="req.status !== 'deleted'" [color]="req.status=='accepted'? 'primary' : 'danger'">
@@ -47,5 +47,5 @@
 
   <calendar [eventSource]="myAppointments" [calendarMode]="calendar.mode" [monthviewEventDetailTemplate]="template" [currentDate]="calendar.currentDate"
     (onEventSelected)="onEventSelected($event)" (onTimeSelected)="onTimeSelected($event)" step="30" class="calendar">
-  </calendar>
+  </calendar> -->
 </ion-content>
