@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 import emailMask from 'text-mask-addons/dist/emailMask';
 import { PasswordValidator } from '../../../../validators/validators';
 import { AuthanticationServiceProvider, StorageHelperProvider } from '../../../../providers/providers';
 import { IProfile, IUser } from '../../../../models/models';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
-import { DemographicPage, LoginPage } from '../../../pages';
+import { DemographicPage, LoginPage, PractitionerConditionsPage } from '../../../pages';
 
 
 @IonicPage()
@@ -20,11 +20,13 @@ export class PractitionerSignupPage {
   profile: IProfile;
   emailMask = emailMask;
   msg: string = '';
+  showingConditions = false;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
-    private toast: ToastController,
+    private toast: ToastController,    
+    private modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
     private storageHelper: StorageHelperProvider,
     public authProvider: AuthanticationServiceProvider) {
@@ -46,8 +48,6 @@ export class PractitionerSignupPage {
       let user = {} as IUser;
       user.email = values.email;
       user.password = values.password.password;
-
-
 
       this.authProvider.registerUser(user.email, user.password)
         .then(data => {
@@ -103,24 +103,51 @@ export class PractitionerSignupPage {
     });
 
     this.nutritionistForm = this.formBuilder.group({
-      isNutritionist: new FormControl(true, Validators.required),
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
       nutritionistLicenseNum: new FormControl('', Validators.compose([
         Validators.required,
         Validators.minLength(6),
         Validators.maxLength(10),
         Validators.pattern('^[0-9]{6,10}$')
       ])),
+      phone: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[1-9][0-9]{9,11}$')
+      ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9\._-]+@[a-zA-Z0-9\.-]+\.[a-zA-Z]{2,6}$')
       ])),
-      password: this.matchingPasswordsGroup
+      password: this.matchingPasswordsGroup,
+      terms: new FormControl(false, Validators.pattern('true')),
     });
   }
 
+  conditions() {
+    if (!this.showingConditions) {
+      this.showingConditions = true;
+      this.nutritionistForm.get('terms').setValue(false);
+
+      let conditionModal = this.modalCtrl.create(PractitionerConditionsPage)
+      conditionModal.onDidDismiss(data => {
+        let condition = data.condition;
+        if (condition) {
+          if (condition === 'accept') {
+            this.nutritionistForm.get('terms').setValue(true);
+
+          }
+        }
+        this.showingConditions = false;
+      });
+      conditionModal.present();
+
+    }
+
+  }
   validationMessages = {
     'firstname': [
-      { type: 'required', message: 'Name is required.' }
+      { type: 'required', message: 'First name is required.' }
     ],
     'lastname': [
       { type: 'required', message: 'Last name is required.' }
@@ -146,6 +173,9 @@ export class PractitionerSignupPage {
     ],
     'confirmPassword': [
       { type: 'required', message: 'Confirm password is required' }
+    ],
+    'terms': [
+      { type: 'pattern', message: 'You must accept terms and conditions.' }
     ]
   };
 }

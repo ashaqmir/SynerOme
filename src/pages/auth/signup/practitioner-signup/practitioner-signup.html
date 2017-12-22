@@ -6,10 +6,26 @@
 
 <ion-content>
   <div class="auth-form-container">
-    <img class="logo" src="assets/img/logo.png" />
+    <img class="logo" src="assets/imgs/logo.png" />
     <!-- ******** NUTRITIONIST FOR ********* -->
     <form [formGroup]="nutritionistForm" (ngSubmit)="onSubmit(nutritionistForm.value)" novalidate>
-
+      <ion-item>
+        <ion-label color="primary">First name</ion-label>
+        <ion-input type="text" formControlName="firstName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary">Last name</ion-label>
+        <ion-input type="text" formControlName="lastName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary">Registration Number</ion-label>
+        <ion-input type="number" formControlName="nutritionistLicenseNum"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary">Phone</ion-label>
+        <ion-label color="danger">+1</ion-label>
+        <ion-input type="number" formControlName="phone"></ion-input>
+      </ion-item>
       <ion-item>
         <ion-label color="primary">Email</ion-label>
         <ion-input type="email" formControlName="email"></ion-input>
@@ -19,19 +35,34 @@
           <ion-label color="primary">Password</ion-label>
           <ion-input type="password" formControlName="password"></ion-input>
         </ion-item>
-
         <ion-item>
           <ion-label color="primary">Confirm Password</ion-label>
           <ion-input type="password" formControlName="confirmPassword"></ion-input>
         </ion-item>
       </div>
 
-      <ion-item>
-        <ion-label color="primary">License Number</ion-label>
-        <ion-input type="number" formControlName="nutritionistLicenseNum"></ion-input>
-      </ion-item>
+      <ion-item (click)="conditions()">
+        <ion-label color="danger">I accept terms and conditions</ion-label>
+        <ion-checkbox color="danger" (ionChange)="conditions()" formControlName="terms"></ion-checkbox>
 
-      <ion-item class="error-message">
+      </ion-item>
+      <ion-item class="error-message" no-lines>
+        <div *ngFor="let validation of validationMessages.firstname">
+          <p class="error-message" *ngIf="nutritionistForm.get('firstName').hasError(validation.type) && (nutritionistForm.get('firstName').dirty || nutritionistForm.get('firstName').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
+
+        <div *ngFor="let validation of validationMessages.lastname">
+          <p class="error-message" *ngIf="nutritionistForm.get('lastName').hasError(validation.type) && (nutritionistForm.get('lastName').dirty || nutritionistForm.get('lastName').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
+        <div *ngFor="let validation of validationMessages.phone">
+          <p class="error-message" *ngIf="nutritionistForm.get('phone').hasError(validation.type) && (nutritionistForm.get('phone').dirty || nutritionistForm.get('phone').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
         <div *ngFor="let validation of validationMessages.email">
           <p *ngIf="nutritionistForm.get('email').hasError(validation.type) && (nutritionistForm.get('email').dirty || nutritionistForm.get('email').touched)">
             *{{ validation.message }}
@@ -49,6 +80,11 @@
         </div>
         <div *ngFor="let validation of validationMessages.nutritionistLicenseNum">
           <p *ngIf="nutritionistForm.get('nutritionistLicenseNum').hasError(validation.type) && (nutritionistForm.get('nutritionistLicenseNum').dirty || nutritionistForm.get('nutritionistLicenseNum').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
+        <div *ngFor="let validation of validationMessages.terms">
+          <p *ngIf="nutritionistForm.get('terms').hasError(validation.type) && (nutritionistForm.get('terms').dirty || nutritionistForm.get('terms').touched)">
             *{{ validation.message }}
           </p>
         </div>
