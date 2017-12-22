@@ -1,6 +1,6 @@
-<ion-content [ngStyle]="{'background-image': 'url(' + backgroundImage +')'}">
-  <div class="login-container">
-    <img class="logo" src="assets/img/SynerOme-Logo.png" />
+<ion-content>
+  <div class="auth-form-container">
+    <img class="logo" src="assets/imgs/logo.png" />
 
     <!-- **************LOGIN FORM************** -->
     <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="signIn(loginForm.value)" novalidate>
@@ -30,7 +30,7 @@
 
       <div class="submit-box">
         <button ion-button round block color="blue" type="submit" [disabled]="!loginForm.valid">SIGN IN</button>
-        <button ion-button round type="button" block icon-left color="light" outline (click)="goToSignup()" margin-top>
+        <button ion-button round type="button" block icon-left color="dark" outline (click)="goToSignupOptions()" margin-top>
           <ion-icon name="ios-create"></ion-icon> Create new account
         </button>
       </div>

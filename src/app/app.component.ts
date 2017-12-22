@@ -15,7 +15,7 @@ export class MyApp {
 
   @ViewChild(Nav) nav: Nav;
   rootPage: any = 'LoginPage';
-  selectedTheme: string = 'dark-theme';
+  selectedTheme: string = 'light-theme';
   menu: Array<any> = [];
 
   user: IProfile;

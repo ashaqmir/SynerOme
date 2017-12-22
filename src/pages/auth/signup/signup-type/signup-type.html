@@ -1,0 +1,25 @@
+<ion-header no-border>
+  <ion-navbar transparent color="light">
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="auth-form-container">
+    <img class="logo" src="assets/img/logo.png" />
+    <h2>Please select who you are.</h2>
+    <ion-list no-lines>
+      <button ion-item color="primary" style="margin-top: 20px;" (click)="gotoConsumerSignup()">
+        <ion-icon name="cart" color="dark" item-start></ion-icon>
+
+        <h2><strong>Are you a consumer?</strong></h2>
+        <p>Looking for health management products</p>
+      </button>
+
+      <button ion-item color="dark" style="margin-top: 20px;" (click)="gotoPractitionerSignup()">
+        <ion-icon name="medkit" color="red" item-start></ion-icon>
+        <h2><strong>Are you a registered dietician?</strong></h2>
+        <p>Helping people to be healthy</p>
+      </button>
+    </ion-list>
+  </div>
+</ion-content>

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, IonicPage, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { IUser, IProfile } from '../../../models/models';
-import { SignupPage, ForgotPage, DashboardPage, DemographicPage } from '../../pages';
+import { ForgotPage, DashboardPage, DemographicPage, SignupTypePage } from '../../pages';
 import { AuthanticationServiceProvider, AppStateServiceProvider, StorageHelperProvider } from '../../../providers/providers';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -59,8 +59,8 @@ export class LoginPage {
     this.menu.enable(false);
   }
 
-  goToSignup() {
-    this.navCtrl.push(SignupPage);
+  goToSignupOptions() {
+    this.navCtrl.push(SignupTypePage);
   }
 
   forgot() {

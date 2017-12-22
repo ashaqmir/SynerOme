@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule, IonicPage } from 'ionic-angular';
-import { SignupPage } from './signup';
+import { ConsumerSignupPage } from './consumer-signup';
 import { TextMaskModule } from 'angular2-text-mask';
 
 @IonicPage()
 @NgModule({
   declarations: [
-    SignupPage,
+    ConsumerSignupPage,
   ],
   imports: [
-    IonicPageModule.forChild(SignupPage),
+    IonicPageModule.forChild(ConsumerSignupPage),
     TextMaskModule,
   ],
 })

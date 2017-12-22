@@ -26,7 +26,6 @@ export class DashboardPage {
   constructor(public navCtrl: NavController,
     private afAuth: AngularFireAuth,
     private afDb: AngularFireDatabase,
-    private modelCtrl: ModalController,
     public modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
     private toast: ToastController,
@@ -109,7 +108,7 @@ export class DashboardPage {
 
 
   openModel(pageName, userList) {
-    this.modelCtrl.create(pageName, null, { cssClass: 'inset-modal' })
+    this.modalCtrl.create(pageName, null, { cssClass: 'inset-modal' })
       .present();
   }
   answerCall(inCallerId) {

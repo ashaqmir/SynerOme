@@ -3,17 +3,12 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content [ngStyle]="{'background-image': 'url(' + backgroundImage +')'}">
-  <div class="signup-container">
-    <img class="logo" src="assets/img/SynerOme-Logo.png" />
 
-    <ion-item>
-      <ion-label color="primary">I am Nutritionist</ion-label>
-      <ion-toggle color="danger" [(ngModel)]="isNutritionist"></ion-toggle>
-    </ion-item>
-
+<ion-content>
+  <div class="auth-form-container">
+    <img class="logo" src="assets/img/logo.png" />
     <!-- ******** NUTRITIONIST FOR ********* -->
-    <form *ngIf="isNutritionist" [formGroup]="nutritionistForm" (ngSubmit)="onSubmit(nutritionistForm.value)" novalidate>
+    <form [formGroup]="nutritionistForm" (ngSubmit)="onSubmit(nutritionistForm.value)" novalidate>
 
       <ion-item>
         <ion-label color="primary">Email</ion-label>
@@ -61,50 +56,6 @@
 
       <button ion-button round block color="blue" type="submit" [disabled]="!nutritionistForm.valid">SIGN UP</button>
     </form>
-
-    <!-- ******** CUSTOMER FOR ********* -->
-    <form *ngIf="!isNutritionist" class="form" [formGroup]="customerForm" (ngSubmit)="onSubmit(customerForm.value)" novalidate>
-
-      <ion-item>
-        <ion-label color="primary">Email</ion-label>
-        <ion-input type="email" formControlName="email"></ion-input>
-      </ion-item>
-
-      <div formGroupName="password">
-        <ion-item>
-          <ion-label color="primary">Password</ion-label>
-          <ion-input type="password" formControlName="password"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label color="primary">Confirm Password</ion-label>
-          <ion-input type="password" formControlName="confirmPassword"></ion-input>
-        </ion-item>
-      </div>
-
-
-      <ion-item class="error-message">
-        <div *ngFor="let validation of validationMessages.email">
-          <p *ngIf="customerForm.get('email').hasError(validation.type) && (customerForm.get('email').dirty || customerForm.get('email').touched)">
-            *{{ validation.message }}
-          </p>
-        </div>
-        <div *ngFor="let validation of validationMessages.password">
-          <p *ngIf="customerForm.get('password').get('password').hasError(validation.type) && (customerForm.get('password').get('password').dirty || customerForm.get('password').get('password').touched)">
-            *{{ validation.message }}
-          </p>
-        </div>
-        <div *ngFor="let validation of validationMessages.confirmPassword">
-          <p *ngIf="customerForm.get('password').get('confirmPassword').hasError(validation.type) && (customerForm.get('password').get('confirmPassword').dirty || customerForm.get('password').get('confirmPassword').touched)">
-            *{{ validation.message }}
-          </p>
-        </div>
-      </ion-item>
-
-      <button ion-button round block color="blue" type="submit" [disabled]="!customerForm.valid">SIGN UP</button>
-    </form>
   </div>
-</ion-content>
-<ion-footer color="blue2">
 
-</ion-footer>
+</ion-content>

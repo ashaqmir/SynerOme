@@ -15,19 +15,24 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 // import { NgCalendarModule  } from 'ionic2-calendar';
 
-import { HomePage, DashboardPage, 
-  PreferencesPage, AppointmentsPage, 
-  SignupPage, UserListPage, 
-  ConfrencePage, ForgotPage, 
+import {
+  HomePage, DashboardPage,
+  PreferencesPage, AppointmentsPage,
+  ConsumerSignupPage, UserListPage,
+  ConfrencePage, ForgotPage,
   UserProfilePage, AddressPage,
-  PersonalInfoPage, HealthInfoPage, 
-  ProductListPage, ProductDetailsPage, 
-  CartPage, DemographicPage, 
-  AddressListPage,
-  OrderFinalPage} from '../pages/pages';
+  PersonalInfoPage, HealthInfoPage,
+  ProductListPage, ProductDetailsPage,
+  CartPage, DemographicPage,
+  AddressListPage, OrderFinalPage,
+  SignupTypePage, PractitionerSignupPage, 
+  ConsumerConditionsPage
+} from '../pages/pages';
 
-import { AuthanticationServiceProvider,AppStateServiceProvider, 
-  ConfrenceServiceProvider, StorageHelperProvider } from '../providers/providers';
+import {
+  AuthanticationServiceProvider, AppStateServiceProvider,
+  ConfrenceServiceProvider, StorageHelperProvider
+} from '../providers/providers';
 import { NativeAudio } from '@ionic-native/native-audio';
 import { PayPal } from '@ionic-native/paypal';
 import { Deeplinks } from '@ionic-native/deeplinks';
@@ -48,7 +53,10 @@ var firebaseConfig = {
   declarations: [
     MyApp,
     ForgotPage,
-    SignupPage,
+    SignupTypePage,
+    ConsumerSignupPage,
+    ConsumerConditionsPage,
+    PractitionerSignupPage,
     DemographicPage,
     PersonalInfoPage,
     HealthInfoPage,
@@ -82,8 +90,11 @@ var firebaseConfig = {
   entryComponents: [
     MyApp,
     ForgotPage,
-    SignupPage,
-    DemographicPage,    
+    SignupTypePage,
+    ConsumerSignupPage,
+    ConsumerConditionsPage,
+    PractitionerSignupPage,
+    DemographicPage,
     PersonalInfoPage,
     HealthInfoPage,
     UserProfilePage,
@@ -103,7 +114,7 @@ var firebaseConfig = {
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthanticationServiceProvider,
     AppStateServiceProvider,
     ConfrenceServiceProvider,
@@ -114,4 +125,4 @@ var firebaseConfig = {
     SocialSharing
   ]
 })
-export class AppModule {}
+export class AppModule { }

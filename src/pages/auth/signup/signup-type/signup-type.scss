@@ -1,4 +1,4 @@
-page-login {
+page-signup-type {
     .auth-form-container {
         position: absolute;
         top: 0;
@@ -17,17 +17,5 @@ page-login {
     .scroll-content {
         margin-top: 0 !important;
     }
-    .error-message p {
-        text-align: right;
-        color: rgb(163, 32, 32);
-    }
-    .submit-box {
-        margin-top: 10px;
-        text-align: center;
-    }
-    ion-item {
-        padding-left: 0px !important; // margin-bottom: 10px;
-        background-color: transparent !important;
-        font-size: 0.9em;
-    }
+  
 }

@@ -1,57 +1,42 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 import emailMask from 'text-mask-addons/dist/emailMask';
-import { PasswordValidator } from '../../../validators/validators';
-import { AuthanticationServiceProvider, StorageHelperProvider } from '../../../providers/providers';
-import { IProfile, IUser } from '../../../models/models';
+import { PasswordValidator } from '../../../../validators/validators';
+import { AuthanticationServiceProvider, StorageHelperProvider } from '../../../../providers/providers';
+import { IProfile, IUser } from '../../../../models/models';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
-import { DemographicPage, LoginPage } from '../../pages';
+import { LoginPage, ConsumerConditionsPage } from '../../../pages';
 
 
 @IonicPage()
 @Component({
-  selector: 'page-signup',
-  templateUrl: 'signup.html',
+  selector: 'page-consumer-signup',
+  templateUrl: 'consumer-signup.html',
 })
-export class SignupPage {
+export class ConsumerSignupPage {
 
   backgroundImage = './assets/img/bg1.jpg';
 
   customerForm: FormGroup;
-  nutritionistForm: FormGroup;
+
   matchingPasswordsGroup: FormGroup;
   profile: IProfile;
   emailMask = emailMask;
-  msg: string = '';
+  showingConditions = false;
   
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
     private toast: ToastController,
-    private menu: MenuController,
+    private modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
     private storageHelper: StorageHelperProvider,
-    public authProvider: AuthanticationServiceProvider
-  ) {
+    public authProvider: AuthanticationServiceProvider) {
   }
 
   ionViewWillLoad() {
     this.createForms();
-  }
-
-  ionViewDidLoad() {
-    this.menu.enable(false);
-  }
-  updateForm(value) {
-    if (value) {
-      this.msg = "Nutritionist";
-
-    }
-
-    if (!value) {
-      this.msg = "Not Nutritionist";
-    }
   }
 
   onSubmit(values) {
@@ -66,31 +51,22 @@ export class SignupPage {
       user.email = values.email;
       user.password = values.password.password;
 
-      var nutritionistLicenseNum = '';
-      if (values.nutritionistLicenseNum) {
-        nutritionistLicenseNum = values.nutritionistLicenseNum;
-      }
+
 
       this.authProvider.registerUser(user.email, user.password)
         .then(data => {
           this.profile = {} as IProfile;
           this.profile.email = user.email;
           this.profile.isNutritionist = false;
-
-          if (nutritionistLicenseNum) {
-            this.profile.isNutritionist = true;
-            this.profile.nutritionistLicenseNumber = nutritionistLicenseNum;
-          }
+          this.profile.firstName = values.firstName;
+          this.profile.lastName = values.lastName;
+          this.profile.phone = values.phone;
           this.storageHelper.setProfile(data.uid, this.profile)
           console.log('Registered');
           console.log(data);
           this.authProvider.loginUser(user.email, user.password)
             .then(data => {
-              loadingPopup.dismiss()
-              this.navCtrl.setRoot(DemographicPage, {
-                isNutritionist:  this.profile.isNutritionist,
-                nutritionistLicenseNumber: nutritionistLicenseNum
-              });
+              loadingPopup.dismiss();
             }).catch(error => {
               loadingPopup.dismiss()
               this.toast.create({
@@ -127,38 +103,53 @@ export class SignupPage {
       return PasswordValidator.areEqual(formGroup);
     });
 
-    this.nutritionistForm = this.formBuilder.group({
-      isNutritionist: new FormControl(true, Validators.required),
-      nutritionistLicenseNum: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(10),
-        Validators.pattern('^[0-9]{6,10}$')
-      ])),
-      email: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9\._-]+@[a-zA-Z0-9\.-]+\.[a-zA-Z]{2,6}$')
-      ])),
-      password: this.matchingPasswordsGroup
-    });
-
     this.customerForm = this.formBuilder.group({
-      isNutritionist: new FormControl(false, Validators.required),
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      phone: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[1-9][0-9]{9,11}$')
+      ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9\._-]+@[a-zA-Z0-9\.-]+\.[a-zA-Z]{2,6}$')
       ])),
-      password: this.matchingPasswordsGroup
+      password: this.matchingPasswordsGroup,
+      terms: new FormControl(false, Validators.pattern('true')),
     });
   }
+ 
+  conditions() {
+    if (!this.showingConditions) {
+      this.showingConditions = true;
+      this.customerForm.get('terms').setValue(false);
 
+      let conditionModal = this.modalCtrl.create(ConsumerConditionsPage)
+      conditionModal.onDidDismiss(data => {
+        let condition = data.condition;
+        if (condition) {
+          if (condition === 'accept') {
+            this.customerForm.get('terms').setValue(true);
+
+          }
+        }
+        this.showingConditions = false;
+      });
+      conditionModal.present();
+     
+    }
+
+  }
   validationMessages = {
-
-    'nutritionistLicenseNum': [
-      { type: 'required', message: 'License number is required.' },
-      { type: 'minlength', message: 'License number must be 6-10 digits.' },
-      { type: 'maxlength', message: 'License number must be 6-10 digits.' },
-      { type: 'pattern', message: 'License number must contains digits (0-9) only.' }
+    'firstname': [
+      { type: 'required', message: 'First name is required.' }
+    ],
+    'lastname': [
+      { type: 'required', message: 'Last name is required.' }
+    ],
+    'phone': [
+      { type: 'required', message: 'Phone is required.' },
+      { type: 'validCountryPhone', message: 'Phone incorrect for the country selected' }
     ],
     'email': [
       { type: 'required', message: 'Email is required.' },
@@ -171,6 +162,9 @@ export class SignupPage {
     ],
     'confirmPassword': [
       { type: 'required', message: 'Confirm password is required' }
+    ],
+    'terms': [
+      { type: 'pattern', message: 'You must accept terms and conditions.' }
     ]
   };
 }
