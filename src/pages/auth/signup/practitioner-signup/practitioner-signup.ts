@@ -54,7 +54,8 @@ export class PractitionerSignupPage {
           this.profile = {} as IProfile;
           this.profile.email = user.email;
           this.profile.isNutritionist = true;
-          this.profile.isNutritionist = true;
+          this.profile.firstName = values.firstName;
+          this.profile.lastName = values.lastName;
           this.profile.nutritionistLicenseNumber = values.nutritionistLicenseNum;
 
           this.storageHelper.setProfile(data.uid, this.profile)

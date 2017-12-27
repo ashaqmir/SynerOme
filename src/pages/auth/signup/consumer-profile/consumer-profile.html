@@ -1,0 +1,41 @@
+<ion-content>
+
+  <div class="profile-form-container">
+    <img class="logo" src="assets/imgs/logo.png" />
+    <h4>Personal Info</h4>
+    <form class="form" [formGroup]="personalInfoForm" (ngSubmit)="onSubmit(personalInfoForm.value)">
+      <ion-item>
+        <ion-label floating color="primary">Birth Gender</ion-label>
+        <ion-select formControlName="gender" cancelText="Cancel" okText="OK" interface="popover">
+          <ion-option *ngFor="let gender of genders" [value]="gender">{{ gender }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary">Date of birth</ion-label>
+        <!-- <ion-input type="date" formControlName="dob"></ion-input> -->
+        <ion-datetime displayFormat="MM/DD/YYYY" formControlName="dob" [(ngModel)]="dob"></ion-datetime>
+      </ion-item>
+
+      <ion-item class="error-message">
+        <div *ngFor="let validation of validationMessages.gender">
+          <p class="error-message" *ngIf="personalInfoForm.get('gender').hasError(validation.type) && (personalInfoForm.get('gender').dirty || personalInfoForm.get('gender').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
+
+        <div *ngFor="let validation of validationMessages.dob">
+          <p class="error-message" *ngIf="personalInfoForm.get('dob').hasError(validation.type) && (personalInfoForm.get('dob').dirty || personalInfoForm.get('dob').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
+      </ion-item>
+
+
+      <div class="submit-box">
+        <button ion-button round block color="blue" type="submit" [disabled]="!personalInfoForm.valid">SAVE</button>
+      </div>
+
+
+    </form>
+  </div>
+</ion-content>

@@ -25,9 +25,9 @@ import {
   ProductListPage, ProductDetailsPage,
   CartPage, DemographicPage,
   AddressListPage, OrderFinalPage,
-  SignupTypePage, PractitionerSignupPage, 
-  ConsumerConditionsPage,
-  PractitionerConditionsPage
+  SignupTypePage, PractitionerSignupPage,
+  ConsumerConditionsPage, PractitionerConditionsPage,
+  ConsumerProfilePage, HealthPage
 } from '../pages/pages';
 
 import {
@@ -38,6 +38,7 @@ import { NativeAudio } from '@ionic-native/native-audio';
 import { PayPal } from '@ionic-native/paypal';
 import { Deeplinks } from '@ionic-native/deeplinks';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { Health } from '@ionic-native/health';
 
 
 
@@ -57,6 +58,7 @@ var firebaseConfig = {
     SignupTypePage,
     ConsumerSignupPage,
     ConsumerConditionsPage,
+    ConsumerProfilePage,
     PractitionerSignupPage,
     PractitionerConditionsPage,
     DemographicPage,
@@ -74,7 +76,8 @@ var firebaseConfig = {
     AddressPage,
     AddressListPage,
     UserListPage,
-    ConfrencePage
+    ConfrencePage,
+    HealthPage
   ],
   imports: [
     BrowserModule,
@@ -95,6 +98,7 @@ var firebaseConfig = {
     SignupTypePage,
     ConsumerSignupPage,
     ConsumerConditionsPage,
+    ConsumerProfilePage,
     PractitionerSignupPage,
     PractitionerConditionsPage,
     DemographicPage,
@@ -112,7 +116,8 @@ var firebaseConfig = {
     AddressListPage,
     ProductDetailsPage,
     UserListPage,
-    ConfrencePage
+    ConfrencePage,
+    HealthPage
   ],
   providers: [
     StatusBar,
@@ -125,7 +130,8 @@ var firebaseConfig = {
     StorageHelperProvider,
     PayPal,
     Deeplinks,
-    SocialSharing
+    SocialSharing,
+    Health,
   ]
 })
 export class AppModule { }

@@ -3,7 +3,7 @@ import { Platform, Nav, Events } from 'ionic-angular';
 import { Deeplinks } from '@ionic-native/deeplinks';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { DashboardPage, AppointmentsPage, PreferencesPage, UserProfilePage, LoginPage, ProductListPage, ProductDetailsPage } from '../pages/pages';
+import { DashboardPage, AppointmentsPage, PreferencesPage, UserProfilePage, LoginPage, ProductListPage, ProductDetailsPage, HealthPage } from '../pages/pages';
 import { AuthanticationServiceProvider, AppStateServiceProvider } from '../providers/providers';
 import { IProfile } from '../models/models';
 
@@ -62,7 +62,6 @@ export class MyApp {
   }
 
   openPage(page) {
-
     if (page.type === 'page') {
       this.nav.setRoot(page.component).catch(err => console.error(err));
     } else if (page.type.startsWith('action')) {
@@ -94,6 +93,12 @@ export class MyApp {
         icon: 'calendar',
         name: 'Appointments',
         component: AppointmentsPage,
+        type: 'page'
+      },
+      {
+        icon: 'bicycle',
+        name: 'Health',
+        component: HealthPage,
         type: 'page'
       },
       {

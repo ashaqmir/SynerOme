@@ -14,7 +14,7 @@
         <ion-label floating>Password</ion-label>
         <ion-input type="password" formControlName="password"></ion-input>
       </ion-item>
-      <ion-item class="error-message">
+      <ion-item class="error-message" no-lines>
         <div *ngFor="let validation of validationMessages.email">
           <p *ngIf="loginForm.get('email').hasError(validation.type) && (loginForm.get('email').dirty || loginForm.get('email').touched)">
             *{{ validation.message }}

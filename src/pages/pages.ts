@@ -4,6 +4,7 @@ export * from './auth/login/login';
 export * from './auth/forgot/forgot';
 export * from './auth/signup/consumer-signup/consumer-signup';
 export * from './auth/signup/consumer-conditions/consumer-conditions'
+export * from './auth/signup/consumer-profile/consumer-profile'
 export * from './auth/signup/practitioner-conditions/practitioner-conditions'
 export * from './auth/signup/practitioner-signup/practitioner-signup'
 export * from './auth/signup/signup-type/signup-type'
@@ -24,4 +25,5 @@ export * from './cart/cart';
 export * from './address/address';
 export * from './address-list/address-list';
 export * from './order-final/order-final';
+export * from './health/health';
 

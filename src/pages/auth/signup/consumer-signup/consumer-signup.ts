@@ -3,10 +3,10 @@ import { IonicPage, NavController, NavParams, ToastController, ModalController }
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 import emailMask from 'text-mask-addons/dist/emailMask';
 import { PasswordValidator } from '../../../../validators/validators';
-import { AuthanticationServiceProvider, StorageHelperProvider } from '../../../../providers/providers';
+import { AuthanticationServiceProvider } from '../../../../providers/providers';
 import { IProfile, IUser } from '../../../../models/models';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
-import { LoginPage, ConsumerConditionsPage } from '../../../pages';
+import { LoginPage, ConsumerConditionsPage, ConsumerProfilePage } from '../../../pages';
 
 
 @IonicPage()
@@ -24,14 +24,13 @@ export class ConsumerSignupPage {
   profile: IProfile;
   emailMask = emailMask;
   showingConditions = false;
-  
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
     private toast: ToastController,
     private modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
-    private storageHelper: StorageHelperProvider,
     public authProvider: AuthanticationServiceProvider) {
   }
 
@@ -46,13 +45,10 @@ export class ConsumerSignupPage {
         content: ''
       });
       loadingPopup.present();
-
+      let removePop = true;
       let user = {} as IUser;
       user.email = values.email;
       user.password = values.password.password;
-
-
-
       this.authProvider.registerUser(user.email, user.password)
         .then(data => {
           this.profile = {} as IProfile;
@@ -61,14 +57,33 @@ export class ConsumerSignupPage {
           this.profile.firstName = values.firstName;
           this.profile.lastName = values.lastName;
           this.profile.phone = values.phone;
-          this.storageHelper.setProfile(data.uid, this.profile)
+          this.profile.isProfileComplete = false;
           console.log('Registered');
           console.log(data);
           this.authProvider.loginUser(user.email, user.password)
             .then(data => {
-              loadingPopup.dismiss();
+              this.authProvider.updateUserProfile(this.profile, data.uid).then(data => {
+                if (removePop) {
+                  loadingPopup.dismiss()
+                  removePop = false;
+                }
+                this.navCtrl.setRoot(ConsumerProfilePage, { profile: this.profile });
+              }).catch(error => {
+                if (removePop) {
+                  loadingPopup.dismiss()
+                  removePop = false;
+                }
+                this.toast.create({
+                  message: `profile not saved ${user.email}`,
+                  duration: 3000
+                }).present();
+                this.navCtrl.setRoot(LoginPage)
+              })
             }).catch(error => {
-              loadingPopup.dismiss()
+              if (removePop) {
+                loadingPopup.dismiss()
+                removePop = false;
+              }
               this.toast.create({
                 message: `login problem ${user.email}`,
                 duration: 3000
@@ -77,7 +92,10 @@ export class ConsumerSignupPage {
             })
         })
         .catch(error => {
-          loadingPopup.dismiss()
+          if (removePop) {
+            loadingPopup.dismiss()
+            removePop = false;
+          }
           this.toast.create({
             message: error,
             duration: 3000
@@ -118,7 +136,7 @@ export class ConsumerSignupPage {
       terms: new FormControl(false, Validators.pattern('true')),
     });
   }
- 
+
   conditions() {
     if (!this.showingConditions) {
       this.showingConditions = true;
@@ -136,7 +154,7 @@ export class ConsumerSignupPage {
         this.showingConditions = false;
       });
       conditionModal.present();
-     
+
     }
 
   }

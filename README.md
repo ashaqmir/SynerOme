@@ -1,6 +1,6 @@
 This is demo project for [SynerOme](https://www.synerome.com/).
 
-## How to use this demo
+## How to use this code
 To use this project, either create a new pull request or download the zip.
 
 Prerquists:
@@ -22,7 +22,4 @@ To run the project use the command below:
 $ cd <project directory>
 $ ionic serve
 ```
-
-
-Substitute ios for android if not on a Mac.
 
