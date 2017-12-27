@@ -34,8 +34,9 @@
       <div class="submit-box">
         <button ion-button round block color="blue" type="submit" [disabled]="!personalInfoForm.valid">SAVE</button>
       </div>
-
-
     </form>
   </div>
 </ion-content>
+<ion-footer>
+  <button class="bottom" ion-button type="button" clear full color="light" (click)="skip()">SKIP</button>
+</ion-footer>

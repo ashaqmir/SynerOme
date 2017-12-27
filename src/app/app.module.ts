@@ -27,7 +27,7 @@ import {
   AddressListPage, OrderFinalPage,
   SignupTypePage, PractitionerSignupPage,
   ConsumerConditionsPage, PractitionerConditionsPage,
-  ConsumerProfilePage, HealthPage
+  ConsumerProfilePage, HealthPage, EmailVerificationPage
 } from '../pages/pages';
 
 import {
@@ -58,6 +58,7 @@ var firebaseConfig = {
     SignupTypePage,
     ConsumerSignupPage,
     ConsumerConditionsPage,
+    EmailVerificationPage,
     ConsumerProfilePage,
     PractitionerSignupPage,
     PractitionerConditionsPage,
@@ -98,6 +99,7 @@ var firebaseConfig = {
     SignupTypePage,
     ConsumerSignupPage,
     ConsumerConditionsPage,
+    EmailVerificationPage,
     ConsumerProfilePage,
     PractitionerSignupPage,
     PractitionerConditionsPage,

@@ -16,10 +16,10 @@ export class SignupTypePage {
     console.log('ionViewDidLoad SignupTypePage');
   }
 
-  gotoConsumerSignup(){
-this.navCtrl.setRoot(ConsumerSignupPage);
+  gotoConsumerSignup() {
+    this.navCtrl.push(ConsumerSignupPage);
   }
-  gotoPractitionerSignup(){
-    this.navCtrl.setRoot(PractitionerSignupPage);
+  gotoPractitionerSignup() {
+    this.navCtrl.push(PractitionerSignupPage);
   }
 }

@@ -11,6 +11,7 @@ export * from './auth/signup/signup-type/signup-type'
 export * from './auth/demographic/demographic'
 export * from './auth/personal-info/personal-info';
 export * from './auth/health-info/health-info';
+export * from './auth/email-verification/email-verification';
 export * from './user-profile/user-profile';
 export * from './dnadata/dnadata';
 export * from './welcome/welcome';

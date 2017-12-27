@@ -1,0 +1,20 @@
+page-email-verification {
+    .verification-container {
+        position: absolute;
+        top: 0;
+        padding: 10vw;
+        text-align: center;
+        width: 100%;
+        margin: 0 auto;
+        z-index: 2;
+    }
+    .logo {
+        // width: 70%;
+        height: auto;
+        padding-top: 2vh;
+        margin-bottom: 2vh;
+    }
+    .scroll-content {
+        margin-top: 0 !important;
+    }
+}

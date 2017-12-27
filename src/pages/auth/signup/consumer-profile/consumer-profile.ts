@@ -63,7 +63,6 @@ export class ConsumerProfilePage {
   }
 
   onSubmit(values) {
-
     if (!this.profile) {
       this.profile = {} as IProfile
     }
@@ -89,6 +88,9 @@ export class ConsumerProfilePage {
     });
   }
 
+  skip(){
+    this.navCtrl.setRoot(DashboardPage);
+  }
 
   validationMessages = {
     'dob': [

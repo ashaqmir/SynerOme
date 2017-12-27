@@ -35,13 +35,15 @@ export class AuthanticationServiceProvider {
   }
 
   registerUser(email: string, password: string): Promise<any> {
-    
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
-
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password);  
   }
 
   updateUserProfile(userProfile: IProfile, uid: string): Promise<any> {
     return this.afDb.object(`profiles/${uid}`).set(userProfile);
+  }
+
+  deleteUserProfile(uid: string): Promise<any> {
+    return this.afDb.object(`profiles/${uid}`).remove();
   }
 
 }

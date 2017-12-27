@@ -41,7 +41,7 @@ export class HealthPage {
           console.log(error);
         })
       })
-    }
+    });
   }
 
   // Save a new height

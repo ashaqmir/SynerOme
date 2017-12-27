@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, IonicPage, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { IUser, IProfile } from '../../../models/models';
-import { ForgotPage, DashboardPage, DemographicPage, SignupTypePage } from '../../pages';
-import { AuthanticationServiceProvider, AppStateServiceProvider, StorageHelperProvider } from '../../../providers/providers';
+import { ForgotPage, DashboardPage, SignupTypePage, EmailVerificationPage, ConsumerProfilePage } from '../../pages';
+import { AuthanticationServiceProvider, AppStateServiceProvider } from '../../../providers/providers';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { MenuController } from 'ionic-angular/components/app/menu-controller';
@@ -34,8 +34,7 @@ export class LoginPage {
     public authProvider: AuthanticationServiceProvider,
     private afDb: AngularFireDatabase,
     private loadingCtrl: LoadingController,
-    private menu: MenuController,
-    private storageHelper: StorageHelperProvider) {
+    private menu: MenuController) {
 
   }
 
@@ -81,37 +80,54 @@ export class LoginPage {
     try {
       this.authProvider.loginUser(user.email, user.password)
         .then(data => {
-          this.appState.setLoginState(true);
-          console.log(data.uid);
-          //this.appState.loadUserProfile(data.uid);
-          const profRef = this.afDb.object('/profiles/' + data.uid);
-          profSubs = profRef.snapshotChanges().subscribe(profData => {
-            this.userProfile = profData.payload.val();
-            this.appState.setUserProfile(this.userProfile);
-            if (this.appState.userProfile) {
-              loadingPopup.dismiss();
-              console.log('Tango Man');
-              this.navCtrl.setRoot(DashboardPage);
-              this.events.publish('profile:recieved', this.appState.userProfile);
-              profSubs.unsubscribe();
-            } else {
-              console.log('User Profile not found');
-              //Check if local storage profile is there.
-              this.storageHelper.getProfile(data.uid)
-                .then((val) => {
-                  var value = JSON.stringify(val);
-                  this.appState.localStorageProfile = JSON.parse(value);
-                  loadingPopup.dismiss()
-                  this.navCtrl.setRoot(DemographicPage);
-                })
-                .catch((error) => {
-                  console.log(error);
-                  loadingPopup.dismiss()
-                  this.navCtrl.setRoot(DemographicPage);
-                })
-            }
-          });
-         
+          let emailVerified = data.emailVerified;
+          if (emailVerified) {
+            this.appState.setLoginState(true);
+            console.log(data.uid);
+            //this.appState.loadUserProfile(data.uid);
+            const profRef = this.afDb.object('/profiles/' + data.uid);
+            profSubs = profRef.snapshotChanges().subscribe(profData => {
+              this.userProfile = profData.payload.val();
+              this.appState.setUserProfile(this.userProfile);
+              if (this.appState.userProfile) {
+                this.events.publish('profile:recieved', this.appState.userProfile);
+                if (this.userProfile.isProfileComplete) {
+                  loadingPopup.dismiss();
+                  console.log('Tango Man');
+                  this.navCtrl.setRoot(DashboardPage);
+                  this.events.publish('profile:recieved', this.appState.userProfile);
+                  profSubs.unsubscribe();
+                } else {
+                  loadingPopup.dismiss();
+                  this.navCtrl.setRoot(ConsumerProfilePage, { profile: this.userProfile });
+                }
+              } else {
+                console.log('User Profile not found');
+                loadingPopup.dismiss();
+                this.toast.create({
+                  message: 'User profile not found!',
+                  duration: 3000
+                }).present();
+                //Check if local storage profile is there.
+                // this.storageHelper.getProfile(data.uid)
+                //   .then((val) => {
+                //     var value = JSON.stringify(val);
+                //     this.appState.localStorageProfile = JSON.parse(value);
+                //     loadingPopup.dismiss()
+                //     this.navCtrl.setRoot(DemographicPage);
+                //   })
+                //   .catch((error) => {
+                //     console.log(error);
+                //     loadingPopup.dismiss()
+                //     this.navCtrl.setRoot(DemographicPage);
+                //   })
+              }
+            });
+          } else {
+            console.log('Email not verified.');
+            loadingPopup.dismiss()
+            this.navCtrl.setRoot(EmailVerificationPage);
+          }
         })
         .catch(error => {
           var errorMessage: string = error.message;
@@ -128,7 +144,7 @@ export class LoginPage {
         duration: 3000
       }).present();
     }
-   
+
   }
   validationMessages = {
     'email': [

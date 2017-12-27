@@ -6,8 +6,8 @@ import { PasswordValidator } from '../../../../validators/validators';
 import { AuthanticationServiceProvider } from '../../../../providers/providers';
 import { IProfile, IUser } from '../../../../models/models';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
-import { LoginPage, ConsumerConditionsPage, ConsumerProfilePage } from '../../../pages';
-
+import { LoginPage, ConsumerConditionsPage } from '../../../pages';
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -63,11 +63,25 @@ export class ConsumerSignupPage {
           this.authProvider.loginUser(user.email, user.password)
             .then(data => {
               this.authProvider.updateUserProfile(this.profile, data.uid).then(data => {
+                let user: any = firebase.auth().currentUser;
+                user.sendEmailVerification().then(
+                  (success) => {
+                    //Show toast and redirect to login
+                    this.toast.create({
+                      message: 'Verification mail sent, Please verify your email',
+                      duration: 4000
+                    }).present();
+                    this.navCtrl.setRoot(LoginPage);
+                    console.log("please verify your email")
+                  }).catch((err) => {                   
+                    console.log(err)
+                  });
+                //this.navCtrl.setRoot(ConsumerProfilePage, { profile: this.profile });
                 if (removePop) {
                   loadingPopup.dismiss()
                   removePop = false;
                 }
-                this.navCtrl.setRoot(ConsumerProfilePage, { profile: this.profile });
+                this.navCtrl.setRoot(LoginPage);
               }).catch(error => {
                 if (removePop) {
                   loadingPopup.dismiss()
