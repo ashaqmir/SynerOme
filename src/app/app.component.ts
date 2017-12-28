@@ -17,7 +17,7 @@ export class MyApp {
   rootPage: any = 'LoginPage';
   selectedTheme: string = 'light-theme';
   menu: Array<any> = [];
-
+  userProfImage: string = 'assets/img/chatterplace.png';
   user: IProfile;
 
   constructor(private platform: Platform,
@@ -36,6 +36,9 @@ export class MyApp {
     events.subscribe('profile:recieved', profile => {
       if (profile !== undefined && profile !== "") {
         this.user = profile;
+        if (this.user && this.user.profilePicUrl) {
+          this.userProfImage = this.user.profilePicUrl;
+        }
       }
     })
 

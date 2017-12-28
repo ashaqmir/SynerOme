@@ -11,8 +11,6 @@ import { IAddress } from '../../models/models';
 })
 export class AddressPage {
 
-  backgroundImage = './assets/img/bg1.jpg';
-
   addressForm: FormGroup;
   countries: any[] = Countries
   selectedRegions: any[];

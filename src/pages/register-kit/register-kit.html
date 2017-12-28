@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar color="lightblue">
+    <button ion-button menuToggle>
+      <ion-icon name="menu" color="light"></ion-icon>
+    </button>
+    <ion-title>
+      Register DNA Kit
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      End Bar code
+    </ion-card-header>
+    <ion-item class="bar-input">
+      <ion-input type="number" placeholder="Barcode" [(ngModel)]="barcode"></ion-input>
+      <button ion-button color="danger" outline icon-only item-right (click)="scanBarcode()">
+        <ion-icon name='barcode' is-active="false"></ion-icon>
+      </button>
+    </ion-item>
+
+    <ion-item text-center>
+      <button ion-button large icon-start [disabled]="!barcode" (click)="registerBarcode()">
+        <ion-icon name='barcode' is-active="false"></ion-icon>
+        Register
+      </button>
+    </ion-item>
+
+  </ion-card>
+
+</ion-content>

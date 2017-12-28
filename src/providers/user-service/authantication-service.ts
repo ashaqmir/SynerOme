@@ -6,15 +6,19 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { IProfile } from '../../models/profile';
 import { AppStateServiceProvider } from '../app-state-service/app-state-service';
-
+import * as firebase from 'firebase';
+import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
+import { Events } from 'ionic-angular';
 
 @Injectable()
 export class AuthanticationServiceProvider {
 
   constructor(public http: Http,
+    public events: Events,
     private afAuth: AngularFireAuth,
     public afDb: AngularFireDatabase,
-    public appState: AppStateServiceProvider) {
+    public appState: AppStateServiceProvider,
+    public loadingCtrl: LoadingController) {
   }
 
 
@@ -35,7 +39,7 @@ export class AuthanticationServiceProvider {
   }
 
   registerUser(email: string, password: string): Promise<any> {
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password);  
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
   }
 
   updateUserProfile(userProfile: IProfile, uid: string): Promise<any> {
@@ -46,6 +50,41 @@ export class AuthanticationServiceProvider {
     return this.afDb.object(`profiles/${uid}`).remove();
   }
 
+  uploadImage(image: string, userId: string): any {
+    let loadingPopup = this.loadingCtrl.create({
+      spinner: 'crescent',
+      content: ''
+    });
+    loadingPopup.present();
+
+    let storageRef = firebase.storage().ref('profileImages');
+    let imageRef = storageRef.child(`${userId}.jpg`);
+    return imageRef.putString(image, 'data_url')
+      .then(data => {
+        if (data) {
+          const profRef = this.afDb.object('/profiles/' + userId);
+          profRef.update({ profilePicUrl: data.downloadURL });
+          this.getUserProfile(userId);
+          loadingPopup.dismiss();
+        }
+      }).catch(error => {
+        console.log(error);
+        loadingPopup.dismiss();
+      })
+  }
+
+  getUserProfile(uid) {
+    const profRef = this.afDb.object('/profiles/' + uid);
+    profRef.snapshotChanges().subscribe(profData => {
+      let userProfile = profData.payload.val();
+      if (userProfile) {
+        this.appState.setUserProfile(userProfile);
+        if (this.appState.userProfile) {
+          this.events.publish('profile:recieved', this.appState.userProfile);
+        }
+      }
+    });
+  }
 }
 
 

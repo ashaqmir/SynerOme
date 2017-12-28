@@ -1,7 +1,7 @@
-<ion-content [ngStyle]="{'background-image': 'url(' + backgroundImage +')'}">
+<ion-content>
 
-  <div class="login-container">
-    <img class="logo" src="assets/img/SynerOme-Logo.png" />
+  <div class="address-form-container">
+    <img class="logo" src="assets/imgs/logo.png" />
     <h4>Address Details</h4>
     <form class="form" [formGroup]="addressForm" (ngSubmit)="onSubmit(addressForm.value)">
       <ion-item>

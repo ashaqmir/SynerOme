@@ -17,7 +17,7 @@
         <ion-input tappable formControlName="email" type="email" placeholder="Your email address"></ion-input>
       </ion-item>
 
-      <ion-item class="error-message">
+      <ion-item class="error-message" no-lines>
           <div *ngFor="let validation of validationMessages.email">
               <p *ngIf="resetPasswordForm.get('email').hasError(validation.type) && (resetPasswordForm.get('email').dirty || resetPasswordForm.get('email').touched)">
                 *{{ validation.message }}

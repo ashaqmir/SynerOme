@@ -22,4 +22,6 @@ export interface IProfile {
     nutritionistLicenseNumber: string;
 
     isProfileComplete: boolean;
+
+    profilePicUrl: string;
 }

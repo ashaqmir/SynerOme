@@ -10,39 +10,61 @@
     font-size: 16px;
 }
 
+.side-menu-gradient {
+    background: -webkit-linear-gradient(left top, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
+    background: -o-linear-gradient(bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
+    background: -moz-linear-gradient(bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
+    background: linear-gradient(to bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
+}
+
 #menu-material {
     .list-box {
-        margin-top: 190px;
+        margin-top: 200px;
+        .side-menu-item {
+            background: none;
+            color: white;
+            font-weight: 300;
+            border: 0px;
+            .item-content {
+                background: none;
+                &.activated {
+                    background: $SIDEMENU_TRANSPARENCY;
+                }
+            }
+            &.active-page-highlight {
+                .item-content {
+                    background: $SIDEMENU_TRANSPARENCY;
+                }
+            }
+        }
     }
     .menu-header {
         padding: 5px 15px; //background-image: url('assets/img/waves.png');
         background-size: cover;
-        background-color: color($colors, blue2);
+        background: none;
         color: rgb(252, 252, 252);
         .name {
             font-weight: 400;
             font-size: 18px;
             margin-top: 10px;
             margin-bottom: 3px;
+            text-align: center;
         }
         .email {
             margin-top: 0;
             margin-bottom: 5px;
+            text-align: center;
         }
         .user-avatar {
             padding: .5em;
             height: 12vh;
-            margin-top: 15px; // border: 3px solid #fff;
+            border-radius: 50%;
+            margin: 15px;
+            border: 4px solid $SIDEMENU_TRANSPARENCY;
+            -webkit-box-shadow: 0px 0px 142px -37px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: 0px 0px 142px -37px rgba(0, 0, 0, 0.75);
+            box-shadow: 0px 0px 142px -37px rgba(0, 0, 0, 0.75);
         }
-    }
-    h3,
-    .label,
-    {
-        color: #616161;
-        font-weight: 400;
-    }
-    ion-icon {
-        color: #3e62d6;
     }
 }
 
@@ -53,29 +75,70 @@
         // margin-top: 10px;
         margin-bottom: 20px;
         padding: 5px 15px; // background-image: url('../assets/img/waves.png');
-        background-color: #fff;
-        color: #000;
+        background: none;
+        color: rgb(252, 252, 252);
         .name {
             margin-top: 8px;
             font-weight: 500;
             font-size: 16px;
             margin-bottom: 3px;
+            text-align: center;
         }
         .email {
             margin-top: 0;
             margin-bottom: 5px;
+            text-align: center;
         }
         .user-avatar {
             padding: .5em;
-            height: 15vh;
-            margin-top: 15px; // border: 3px solid #fff;
+            height: 12vh;
+            border-radius: 50%;
+            margin: 15px;
+            border: 4px solid $SIDEMENU_TRANSPARENCY;
+            -webkit-box-shadow: 0px 0px 142px -37px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: 0px 0px 142px -37px rgba(0, 0, 0, 0.75);
+            box-shadow: 0px 0px 142px -37px rgba(0, 0, 0, 0.75);
+        }
+    }
+    .side-menu-item {
+        background: none;
+        color: white;
+        font-weight: 300;
+        border: 0px;
+        .item-content {
+            background: none;
+            &.activated {
+                background: $SIDEMENU_TRANSPARENCY;
+            }
+        }
+        &.active-page-highlight {
+            .item-content {
+                background: $SIDEMENU_TRANSPARENCY;
+            }
         }
     }
 }
 
 #menu-pwa {
     .list-box {
-        margin-top: 10px;
+        margin-top: 30px;
+        .side-menu-item {
+            background: none;
+            color: white;
+            font-weight: 300;
+            border: 0px;
+            .item-content {
+                background: none;
+                &.activated {
+                    background: $SIDEMENU_TRANSPARENCY;
+                }
+            }
+            &.active-page-highlight {
+                .item-content {
+                    background: $SIDEMENU_TRANSPARENCY;
+                }
+            }
+        }
     }
     .menu-header {
         text-align: center;
@@ -84,31 +147,30 @@
         margin-bottom: 20px;
         padding: 5px 15px;
         background-size: cover;
-        background-color: color($colors, ios-gray);
+        background: none;
         color: #ffffff;
         .name {
             margin-top: 8px;
             font-weight: 500;
             font-size: 16px;
             margin-bottom: 3px;
+            text-align: center;
         }
         .email {
             margin-top: 0;
             margin-bottom: 5px;
+            text-align: center;
         }
         .user-avatar {
             padding: .5em;
-            height: 15vh;
-            margin-top: 15px; // border: 3px solid #fff;
+            height: 12vh;
+            border-radius: 50%;
+            margin: 15px;
+            border: 4px solid $SIDEMENU_TRANSPARENCY;
+            -webkit-box-shadow: 0px 0px 142px -37px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: 0px 0px 142px -37px rgba(0, 0, 0, 0.75);
+            box-shadow: 0px 0px 142px -37px rgba(0, 0, 0, 0.75);
         }
     }
-    h3,
-    .label,
-    {
-        color: #616161;
-        font-weight: 400;
-    }
-    ion-icon {
-        color: #616161;
-    }
+    
 }

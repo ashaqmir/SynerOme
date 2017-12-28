@@ -2,6 +2,7 @@
   <div class="auth-form-container">
     <img class="logo" src="assets/imgs/logo.png" />
 
+
     <!-- **************LOGIN FORM************** -->
     <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="signIn(loginForm.value)" novalidate>
       <ion-item>
@@ -14,6 +15,13 @@
         <ion-label floating>Password</ion-label>
         <ion-input type="password" formControlName="password"></ion-input>
       </ion-item>
+      <ion-item no-lines>
+        <ion-label>
+          Remember me
+        </ion-label>
+        <ion-toggle color="danger" checked="true" [(ngModel)]="rememberMe" [ngModelOptions]="{standalone: true}"></ion-toggle>
+      </ion-item>
+
       <ion-item class="error-message" no-lines>
         <div *ngFor="let validation of validationMessages.email">
           <p *ngIf="loginForm.get('email').hasError(validation.type) && (loginForm.get('email').dirty || loginForm.get('email').touched)">

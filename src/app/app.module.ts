@@ -13,6 +13,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 // import { NgCalendarModule  } from 'ionic2-calendar';
 
 import {
@@ -27,18 +28,19 @@ import {
   AddressListPage, OrderFinalPage,
   SignupTypePage, PractitionerSignupPage,
   ConsumerConditionsPage, PractitionerConditionsPage,
-  ConsumerProfilePage, HealthPage, EmailVerificationPage
+  ConsumerProfilePage, HealthPage, EmailVerificationPage, RegisterKitPage
 } from '../pages/pages';
 
 import {
   AuthanticationServiceProvider, AppStateServiceProvider,
-  ConfrenceServiceProvider, StorageHelperProvider
+  ConfrenceServiceProvider, StorageHelperProvider, ImageProvider
 } from '../providers/providers';
 import { NativeAudio } from '@ionic-native/native-audio';
 import { PayPal } from '@ionic-native/paypal';
 import { Deeplinks } from '@ionic-native/deeplinks';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { Health } from '@ionic-native/health';
+import { Camera } from '@ionic-native/camera';
 
 
 
@@ -78,7 +80,8 @@ var firebaseConfig = {
     AddressListPage,
     UserListPage,
     ConfrencePage,
-    HealthPage
+    HealthPage,
+    RegisterKitPage
   ],
   imports: [
     BrowserModule,
@@ -119,7 +122,8 @@ var firebaseConfig = {
     ProductDetailsPage,
     UserListPage,
     ConfrencePage,
-    HealthPage
+    HealthPage,
+    RegisterKitPage
   ],
   providers: [
     StatusBar,
@@ -134,6 +138,9 @@ var firebaseConfig = {
     Deeplinks,
     SocialSharing,
     Health,
+    Camera,
+    ImageProvider,
+    BarcodeScanner
   ]
 })
 export class AppModule { }

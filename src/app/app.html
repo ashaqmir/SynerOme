@@ -1,17 +1,18 @@
 <ion-menu [content]="content">
-    <ion-content>
+    <ion-content class="side-menu-gradient">
 
         <div id="menu-material" showWhen="android">
-            <ion-header class="menu-header" [ngStyle]="{'background-image': 'url(assets/img/waves.png)'}">
-                <img class="user-avatar round" src="assets/img/chatterplace.png" />
-                <p class="name">{{ user?.firstName + ' ' + user?.lastName}}</p>
+            <ion-header class="menu-header">
+                <img class="user-avatar round" [src]="userProfImage" style="display: block; width: 40%; height: auto; margin-left: auto; margin-right: auto;"/>
+                <h1 class="name">{{ user?.firstName + ' ' + user?.lastName}}</h1>
+                <p class="email">{{ user?.email}}</p>
             </ion-header>
 
             <div class="list-box">
                 <ion-list no-lines>
                     <div *ngFor="let m of menu">
-                        <ion-item menuClose (click)="openPage(m)">
-                            <ion-icon [name]="m.icon" color="teal" item-left></ion-icon>
+                        <ion-item menuClose (click)="openPage(m)" class="side-menu-item">
+                            <ion-icon [name]="m.icon" color="danger" item-left></ion-icon>
                             {{m.name}}
                         </ion-item>
                     </div>
@@ -21,15 +22,16 @@
         </div>
 
         <div id="menu-ios" showWhen="ios" class="sideMenu-header" color="gray">
-            <div class="menu-header" [ngStyle]="{'background-image': 'url(assets/img/waves.png)'}">
-                <img class="user-avatar round" src="assets/img/chatterplace.png" />
-                <p class="name">{{ user?.firstName + ' ' + user?.lastName}}</p>
+            <div class="menu-header">
+                <img class="user-avatar round" [src]="userProfImage" style="display: block; width: 40%; height: auto; margin-left: auto; margin-right: auto;" />
+                <h1 class="name">{{ user?.firstName + ' ' + user?.lastName}}</h1>
+                <p class="email">{{ user?.email}}</p>
             </div>
 
             <ion-list no-lines>
                 <div *ngFor="let m of menu">
-                    <ion-item menuClose (click)="openPage(m)">
-                        <ion-icon [name]="m.icon" color="teal" item-left></ion-icon>
+                    <ion-item menuClose (click)="openPage(m)" class="side-menu-item">
+                        <ion-icon [name]="m.icon" color="danger" item-left></ion-icon>
                         {{m.name}}
                     </ion-item>
                 </div>
@@ -37,15 +39,16 @@
         </div>
 
         <div id="menu-pwa" hideWhen="android,ios">
-            <div class="menu-header" [ngStyle]="{'background-image': 'url(assets/img/waves.png)'}">
-                <img class="user-avatar round" src="assets/img/chatterplace.png" />
-                <p class="name">{{ user?.firstName + ' ' + user?.lastName}}</p>
+            <div class="menu-header">
+                <img class="user-avatar round" [src]="userProfImage" style="display: block; width: 40%; height: auto; margin-left: auto; margin-right: auto;" />
+                <h1 class="name">{{ user?.firstName + ' ' + user?.lastName}}</h1>
+                <p class="email">{{ user?.email}}</p>
             </div>
             <div class="list-box">
                 <ion-list no-lines>
                     <div *ngFor="let m of menu">
-                        <ion-item menuClose (click)="openPage(m)">
-                            <ion-icon [name]="m.icon" color="teal" item-left></ion-icon>
+                        <ion-item menuClose (click)="openPage(m)" class="side-menu-item">
+                            <ion-icon [name]="m.icon" color="danger" item-left></ion-icon>
                             {{m.name}}
                         </ion-item>
                     </div>

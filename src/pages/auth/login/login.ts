@@ -3,7 +3,7 @@ import { NavController, IonicPage, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { IUser, IProfile } from '../../../models/models';
 import { ForgotPage, DashboardPage, SignupTypePage, EmailVerificationPage, ConsumerProfilePage } from '../../pages';
-import { AuthanticationServiceProvider, AppStateServiceProvider } from '../../../providers/providers';
+import { AuthanticationServiceProvider, AppStateServiceProvider, StorageHelperProvider } from '../../../providers/providers';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { MenuController } from 'ionic-angular/components/app/menu-controller';
@@ -17,14 +17,13 @@ import { Events } from 'ionic-angular/util/events';
 
 export class LoginPage {
 
-  backgroundImage = './assets/img/bg1.jpg';
-
   isReadyToLogin: boolean;
   item: any;
   form: FormGroup;
   user = {} as IUser;
   loginForm: FormGroup;
   userProfile: IProfile;
+  rememberMe: boolean = true;
 
   constructor(public navCtrl: NavController,
     public events: Events,
@@ -32,6 +31,7 @@ export class LoginPage {
     private toast: ToastController,
     private appState: AppStateServiceProvider,
     public authProvider: AuthanticationServiceProvider,
+    public storageHelper: StorageHelperProvider,
     private afDb: AngularFireDatabase,
     private loadingCtrl: LoadingController,
     private menu: MenuController) {
@@ -52,6 +52,17 @@ export class LoginPage {
         Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
       ]))
     });
+
+    this.storageHelper.getLastUser()
+      .then(data => {
+        if (data) {
+          this.loginForm.get('email').setValue(data.userName);
+          this.loginForm.get('password').setValue(data.userPwd);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   ionViewDidLoad() {
@@ -101,6 +112,17 @@ export class LoginPage {
                   loadingPopup.dismiss();
                   this.navCtrl.setRoot(ConsumerProfilePage, { profile: this.userProfile });
                 }
+                if (this.rememberMe) {
+                  let lastUser = {
+                    userName: user.email,
+                    userPwd: user.password
+                  };
+
+                  this.storageHelper.setLastUser(lastUser);
+                } else {
+                  this.storageHelper.removeLastUser();
+                }
+
               } else {
                 console.log('User Profile not found');
                 loadingPopup.dismiss();

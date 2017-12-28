@@ -15,11 +15,7 @@ import * as firebase from 'firebase';
   templateUrl: 'consumer-signup.html',
 })
 export class ConsumerSignupPage {
-
-  backgroundImage = './assets/img/bg1.jpg';
-
   customerForm: FormGroup;
-
   matchingPasswordsGroup: FormGroup;
   profile: IProfile;
   emailMask = emailMask;
@@ -52,6 +48,7 @@ export class ConsumerSignupPage {
       this.authProvider.registerUser(user.email, user.password)
         .then(data => {
           this.profile = {} as IProfile;
+          this.profile.id=data.uid;
           this.profile.email = user.email;
           this.profile.isNutritionist = false;
           this.profile.firstName = values.firstName;

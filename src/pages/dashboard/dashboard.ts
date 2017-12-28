@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { NavController, ModalController, FabContainer, MenuController, ToastController, LoadingController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-import { CallControlBoxPage, LoginPage, ProductListPage } from '../pages';
+import { CallControlBoxPage, LoginPage, ProductListPage, RegisterKitPage } from '../pages';
 import { AuthanticationServiceProvider, AppStateServiceProvider } from '../../providers/providers';
 import { AngularFireDatabase } from 'angularfire2/database';
 
@@ -156,6 +156,6 @@ export class DashboardPage {
   }
 
   registerKit() {
-    console.log('Register Kit');
+    this.navCtrl.setRoot(RegisterKitPage)
   }
 }
