@@ -3,9 +3,7 @@ import { Platform, Nav, Events } from 'ionic-angular';
 import { Deeplinks } from '@ionic-native/deeplinks';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { DashboardPage, AppointmentsPage, PreferencesPage, UserProfilePage, LoginPage, ProductListPage, ProductDetailsPage, HealthPage } from '../pages/pages';
-import { AuthanticationServiceProvider, AppStateServiceProvider } from '../providers/providers';
-import { IProfile } from '../models/models';
+import { ProductDetailsPage } from '../pages/pages';
 
 
 @Component({
@@ -16,33 +14,15 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   rootPage: any = 'LoginPage';
   selectedTheme: string = 'light-theme';
-  menu: Array<any> = [];
-  userProfImage: string = 'assets/img/chatterplace.png';
-  user: IProfile;
+
 
   constructor(private platform: Platform,
     public events: Events,
     private statusBar: StatusBar,
     private splashScreen: SplashScreen,
     public deeplinks: Deeplinks,
-    private authProvider: AuthanticationServiceProvider,
-    private appState: AppStateServiceProvider,
   ) {
     this.initializeApp();
-    this.createMenuItems();
-
-    console.log(this.menu);
-
-    events.subscribe('profile:recieved', profile => {
-      if (profile !== undefined && profile !== "") {
-        this.user = profile;
-        if (this.user && this.user.profilePicUrl) {
-          this.userProfImage = this.user.profilePicUrl;
-        }
-      }
-    })
-
-    this.user = this.appState.userProfile;
   }
 
 
@@ -62,66 +42,5 @@ export class MyApp {
         console.log('Unmatched Route', nomatch);
       });
     });
-  }
-
-  openPage(page) {
-    if (page.type === 'page') {
-      this.nav.setRoot(page.component).catch(err => console.error(err));
-    } else if (page.type.startsWith('action')) {
-      this.doAction(page.type);
-    }
-  }
-
-  doAction(action: string) {
-    if (action === 'action:logout') {
-      this.authProvider.logoutUser();
-      this.nav.setRoot(LoginPage).catch(err => console.error(err));
-    }
-  }
-  createMenuItems() {
-    this.menu = [
-      {
-        icon: 'home',
-        name: 'Dashboard',
-        component: DashboardPage,
-        type: 'page'
-      },
-      {
-        icon: 'cart',
-        name: 'Shopping',
-        component: ProductListPage,
-        type: 'page'
-      },
-      {
-        icon: 'calendar',
-        name: 'Appointments',
-        component: AppointmentsPage,
-        type: 'page'
-      },
-      {
-        icon: 'bicycle',
-        name: 'Health',
-        component: HealthPage,
-        type: 'page'
-      },
-      {
-        icon: 'person',
-        name: 'Profile',
-        component: UserProfilePage,
-        type: 'page'
-      },
-      {
-        icon: 'settings',
-        name: 'Preference',
-        component: PreferencesPage,
-        type: 'page'
-      },
-      {
-        icon: 'lock',
-        name: 'Logout',
-        component: '',
-        type: 'action:logout'
-      },
-    ];
   }
 }

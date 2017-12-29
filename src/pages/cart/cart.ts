@@ -52,7 +52,7 @@ export class CartPage {
     this.afAuth.authState.subscribe(userAuth => {
       if (userAuth) {
         this.uid = userAuth.uid;
-        this.userProfile = this.appState.getUserProfile()
+        this.userProfile = this.appState.userProfile
         console.log(this.userProfile);
         if (this.product) {
           this.price = this.product.price;
@@ -198,11 +198,11 @@ export class CartPage {
         const profRef = this.afDb.object('/profiles/' + this.uid);
         let profSubs = profRef.snapshotChanges().subscribe(profData => {
           this.userProfile = profData.payload.val();
-          this.appState.setUserProfile(this.userProfile);
+          this.appState.userProfile = this.userProfile;
 
           this.events.publish('profile:recieved', this.userProfile);
 
-          this.userProfile = this.appState.getUserProfile()
+          this.userProfile = this.appState.userProfile;
 
           profSubs.unsubscribe();
 

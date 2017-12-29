@@ -74,7 +74,7 @@ export class ConsumerProfilePage {
     this.authProvider.updateUserProfile(this.profile, this.uid)
       .then(profData => {
         //this.profile = profData.payload.val();
-        this.appState.setUserProfile(this.profile);
+        this.appState.userProfile = this.profile;
         this.navCtrl.setRoot(DashboardPage);
       }).catch((error) => {
         console.log(error.message);
@@ -88,7 +88,7 @@ export class ConsumerProfilePage {
     });
   }
 
-  skip(){
+  skip() {
     this.navCtrl.setRoot(DashboardPage);
   }
 

@@ -47,7 +47,7 @@ export class AppointmentsPage {
     this.afAuth.authState.subscribe(userAuth => {
       if (userAuth) {
         if (this.appState.userProfile) {
-          this.userProfile = this.appState.getUserProfile();
+          this.userProfile = this.appState.userProfile;
           if (this.userProfile) {
             if (this.userProfile.isNutritionist && this.userProfile.nutritionistLicenseNumber) {
               let allrequests;
@@ -96,7 +96,7 @@ export class AppointmentsPage {
       }
     });
     if (this.appState.userProfile) {
-      this.userProfile = this.appState.getUserProfile();
+      this.userProfile = this.appState.userProfile;
     }
 
 

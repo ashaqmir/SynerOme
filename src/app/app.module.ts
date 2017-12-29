@@ -28,11 +28,11 @@ import {
   AddressListPage, OrderFinalPage,
   SignupTypePage, PractitionerSignupPage,
   ConsumerConditionsPage, PractitionerConditionsPage,
-  ConsumerProfilePage, HealthPage, EmailVerificationPage, RegisterKitPage
+  ConsumerProfilePage, HealthPage, EmailVerificationPage, RegisterKitPage, UserOptionsPage
 } from '../pages/pages';
 
 import {
-  AuthanticationServiceProvider, AppStateServiceProvider,
+  AuthanticationServiceProvider, AppStateServiceProvider, UserDataPreloaderProvider,
   ConfrenceServiceProvider, StorageHelperProvider, ImageProvider
 } from '../providers/providers';
 import { NativeAudio } from '@ionic-native/native-audio';
@@ -41,7 +41,6 @@ import { Deeplinks } from '@ionic-native/deeplinks';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { Health } from '@ionic-native/health';
 import { Camera } from '@ionic-native/camera';
-
 
 
 var firebaseConfig = {
@@ -81,7 +80,8 @@ var firebaseConfig = {
     UserListPage,
     ConfrencePage,
     HealthPage,
-    RegisterKitPage
+    RegisterKitPage,
+    UserOptionsPage
   ],
   imports: [
     BrowserModule,
@@ -123,7 +123,8 @@ var firebaseConfig = {
     UserListPage,
     ConfrencePage,
     HealthPage,
-    RegisterKitPage
+    RegisterKitPage,
+    UserOptionsPage
   ],
   providers: [
     StatusBar,
@@ -131,6 +132,7 @@ var firebaseConfig = {
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthanticationServiceProvider,
     AppStateServiceProvider,
+    UserDataPreloaderProvider,
     ConfrenceServiceProvider,
     NativeAudio,
     StorageHelperProvider,
@@ -140,7 +142,8 @@ var firebaseConfig = {
     Health,
     Camera,
     ImageProvider,
-    BarcodeScanner
+    BarcodeScanner,
+    UserDataPreloaderProvider
   ]
 })
 export class AppModule { }

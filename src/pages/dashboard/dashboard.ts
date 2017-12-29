@@ -1,11 +1,10 @@
 import { IProfile } from './../../models/profile';
 import { Component } from '@angular/core';
-import { NavController, ModalController, FabContainer, MenuController, ToastController, LoadingController } from 'ionic-angular';
+import { NavController, ModalController, FabContainer, MenuController, ToastController, LoadingController, PopoverController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-import { CallControlBoxPage, LoginPage, ProductListPage, RegisterKitPage } from '../pages';
+import { CallControlBoxPage, LoginPage, ProductListPage, RegisterKitPage, UserOptionsPage } from '../pages';
 import { AuthanticationServiceProvider, AppStateServiceProvider } from '../../providers/providers';
-import { AngularFireDatabase } from 'angularfire2/database';
 
 
 @Component({
@@ -13,28 +12,34 @@ import { AngularFireDatabase } from 'angularfire2/database';
   templateUrl: 'dashboard.html'
 })
 export class DashboardPage {
-
+  pageContent: any;
   userProfile: IProfile;
+  userOrders: any[];
+  userKits: any;
   myCallerId: number = 0;
+
+  private appState: any;
 
   incomingCallId;
   incomingCall: boolean = false;
 
-  showQuickActions: boolean = true;
+
+  showRegisterKit: boolean = false;
+  showBuyOption: boolean = true;
   showWaitingMessage: boolean = false;
 
   constructor(public navCtrl: NavController,
     private afAuth: AngularFireAuth,
-    private afDb: AngularFireDatabase,
     public modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
     private toast: ToastController,
     private toastCtrl: ToastController,
     private menu: MenuController,
     private authProvider: AuthanticationServiceProvider,
-    private appState: AppStateServiceProvider
+    appState: AppStateServiceProvider,
+    private popoverCtrl: PopoverController
   ) {
-
+    this.appState = appState;
   }
 
   ionViewWillLoad() {
@@ -50,22 +55,21 @@ export class DashboardPage {
       this.afAuth.authState.subscribe(userAuth => {
         if (userAuth) {
           if (this.appState.userProfile) {
-            this.userProfile = this.appState.getUserProfile();
-            const orderRef = this.afDb.list('/Orders/', ref => ref.orderByChild('userMail').equalTo(userAuth.email)).valueChanges();
-            orderRef.subscribe(orderData => {             
-              if (orderData) {
-                this.appState.userOrders = orderData;
-                console.log(orderData);
-              }
-              if (this.appState.userOrders && this.appState.userOrders.length >= 1) {             
-                this.showQuickActions = false;
-                this.showWaitingMessage = true;
-              }
-              if (removePop) {
-                loadingPopup.dismiss()
-                removePop = false;
-              }
-            });
+            this.userProfile = this.appState.userProfile;
+            this.userOrders = this.appState.userOrders;
+            this.userKits = this.appState.userKits;
+
+            if (this.userOrders.length > 0) {
+              this.showRegisterKit = true;
+              this.showBuyOption = false;
+              this.showWaitingMessage = false;
+            }
+            if (this.userKits) {
+              this.showRegisterKit = false;
+              this.showWaitingMessage = true;
+              this.showBuyOption = true;
+            }
+
             if (removePop) {
               loadingPopup.dismiss()
               removePop = false;
@@ -152,10 +156,18 @@ export class DashboardPage {
   }
 
   openShoping() {
-    this.navCtrl.setRoot(ProductListPage);
+    this.navCtrl.push(ProductListPage);
   }
 
   registerKit() {
-    this.navCtrl.setRoot(RegisterKitPage)
+    this.navCtrl.push(RegisterKitPage)
+  }
+
+  presentPopover(event) {
+    let popover = this.popoverCtrl.create(UserOptionsPage,
+      { page: this.pageContent })
+    popover.present({
+      ev: event
+    });
   }
 }

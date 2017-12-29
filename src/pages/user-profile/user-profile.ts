@@ -19,19 +19,20 @@ export class UserProfilePage {
   userProfile: IProfile;
   email: any;
   profileChanged: boolean = false;
+  private appState: any;
 
   constructor(public navCtrl: NavController,
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
     public actionSheetCtrl: ActionSheetController,
     private toastCtrl: ToastController,
-    private appState: AppStateServiceProvider,
+    appState: AppStateServiceProvider,
     public afAuth: AngularFireAuth,
     public afDb: AngularFireDatabase,
     public authProvider: AuthanticationServiceProvider,
     public imgProvider: ImageProvider
   ) {
-
+    this.appState = appState;
   }
   ionViewWillLoad() {
 
@@ -39,7 +40,7 @@ export class UserProfilePage {
       if (userAuth) {
         this.email = this.afAuth.auth.currentUser.email;
         if (this.appState.userProfile) {
-          this.userProfile = this.appState.getUserProfile();
+          this.userProfile = this.appState.userProfile;
           if (this.userProfile && this.userProfile.profilePicUrl) {
             this.profilePicture = this.userProfile.profilePicUrl;
           }

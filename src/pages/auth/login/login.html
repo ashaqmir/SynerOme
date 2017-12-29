@@ -4,7 +4,7 @@
 
 
     <!-- **************LOGIN FORM************** -->
-    <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="signIn(loginForm.value)" novalidate>
+    <form [formGroup]="loginForm" (ngSubmit)="signIn(loginForm.value)" novalidate>
       <ion-item>
         <ion-label floating>Email</ion-label>
         <!-- <ion-label fixed>Email</ion-label> -->

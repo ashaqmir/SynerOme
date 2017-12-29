@@ -28,4 +28,5 @@ export * from './address-list/address-list';
 export * from './order-final/order-final';
 export * from './health/health';
 export * from './register-kit/register-kit'
+export * from './user-options/user-options';
 

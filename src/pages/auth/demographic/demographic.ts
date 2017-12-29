@@ -103,7 +103,7 @@ export class DemographicPage {
                   const profRef = this.afDb.object('/profiles/' + auth.uid);
                   profRef.snapshotChanges().subscribe(profData => {
                     this.profile = profData.payload.val();
-                    this.appState.setUserProfile(this.profile);
+                    this.appState.userProfile = this.profile;
                     this.events.publish('profile:recieved', this.appState.userProfile);
                     console.log(profData);
                     loadingPopup.dismiss()

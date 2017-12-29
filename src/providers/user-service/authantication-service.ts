@@ -31,11 +31,8 @@ export class AuthanticationServiceProvider {
   }
 
   logoutUser(): Promise<any> {
-    this.appState.setLoginState(false);
-    this.appState.setUserProfile(null);
+    this.appState.clearData();
     return this.afAuth.auth.signOut();
-
-
   }
 
   registerUser(email: string, password: string): Promise<any> {
@@ -78,12 +75,24 @@ export class AuthanticationServiceProvider {
     profRef.snapshotChanges().subscribe(profData => {
       let userProfile = profData.payload.val();
       if (userProfile) {
-        this.appState.setUserProfile(userProfile);
+        this.appState.userProfile = userProfile;
         if (this.appState.userProfile) {
           this.events.publish('profile:recieved', this.appState.userProfile);
         }
       }
     });
+  }
+
+  addUserKit(uid, barcode) {
+    let kitData = {
+      rawDnaData: '',
+      intervenstions: '',
+      dataRecieved: false
+    };
+
+    return this.afDb.object(`userKits/${uid}/${barcode}`).set(kitData).then(data => {
+      this.events.publish('userdata:updated', data);
+    })
   }
 }
 

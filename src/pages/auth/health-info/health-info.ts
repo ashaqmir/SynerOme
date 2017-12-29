@@ -105,7 +105,7 @@ export class HealthInfoPage {
             const profRef = this.afDb.object('/profiles/' + this.uid);
             profRef.snapshotChanges().subscribe(profData => {
               this.profile = profData.payload.val();
-              this.appState.setUserProfile(this.profile);
+              this.appState.localStorageProfile = this.profile;
 
               console.log(data);
               loadingPopup.dismiss()

@@ -3,7 +3,7 @@ import { NavController, IonicPage, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { IUser, IProfile } from '../../../models/models';
 import { ForgotPage, DashboardPage, SignupTypePage, EmailVerificationPage, ConsumerProfilePage } from '../../pages';
-import { AuthanticationServiceProvider, AppStateServiceProvider, StorageHelperProvider } from '../../../providers/providers';
+import { AuthanticationServiceProvider, AppStateServiceProvider, StorageHelperProvider, UserDataPreloaderProvider } from '../../../providers/providers';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { MenuController } from 'ionic-angular/components/app/menu-controller';
@@ -24,18 +24,19 @@ export class LoginPage {
   loginForm: FormGroup;
   userProfile: IProfile;
   rememberMe: boolean = true;
+  private appState: any;
 
   constructor(public navCtrl: NavController,
     public events: Events,
     public formBuilder: FormBuilder,
     private toast: ToastController,
-    private appState: AppStateServiceProvider,
+    appState: AppStateServiceProvider,
     public authProvider: AuthanticationServiceProvider,
     public storageHelper: StorageHelperProvider,
-    private afDb: AngularFireDatabase,
+    public preLoader: UserDataPreloaderProvider,
     private loadingCtrl: LoadingController,
     private menu: MenuController) {
-
+    this.appState = appState;
   }
 
 
@@ -93,13 +94,12 @@ export class LoginPage {
         .then(data => {
           let emailVerified = data.emailVerified;
           if (emailVerified) {
-            this.appState.setLoginState(true);
+            this.appState.loginState = true;
             console.log(data.uid);
-            //this.appState.loadUserProfile(data.uid);
-            const profRef = this.afDb.object('/profiles/' + data.uid);
-            profSubs = profRef.snapshotChanges().subscribe(profData => {
-              this.userProfile = profData.payload.val();
-              this.appState.setUserProfile(this.userProfile);
+            this.preLoader.preloadUserData(data.uid, data.email).then(data => {
+              console.log('Data Loaded');
+              this.userProfile = this.appState.userProfile;
+              console.log(this.appState.userProfile);
               if (this.appState.userProfile) {
                 this.events.publish('profile:recieved', this.appState.userProfile);
                 if (this.userProfile.isProfileComplete) {
@@ -107,7 +107,7 @@ export class LoginPage {
                   console.log('Tango Man');
                   this.navCtrl.setRoot(DashboardPage);
                   this.events.publish('profile:recieved', this.appState.userProfile);
-                  profSubs.unsubscribe();
+
                 } else {
                   loadingPopup.dismiss();
                   this.navCtrl.setRoot(ConsumerProfilePage, { profile: this.userProfile });
@@ -130,19 +130,6 @@ export class LoginPage {
                   message: 'User profile not found!',
                   duration: 3000
                 }).present();
-                //Check if local storage profile is there.
-                // this.storageHelper.getProfile(data.uid)
-                //   .then((val) => {
-                //     var value = JSON.stringify(val);
-                //     this.appState.localStorageProfile = JSON.parse(value);
-                //     loadingPopup.dismiss()
-                //     this.navCtrl.setRoot(DemographicPage);
-                //   })
-                //   .catch((error) => {
-                //     console.log(error);
-                //     loadingPopup.dismiss()
-                //     this.navCtrl.setRoot(DemographicPage);
-                //   })
               }
             });
           } else {
