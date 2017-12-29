@@ -12,7 +12,7 @@ import { AuthanticationServiceProvider, AppStateServiceProvider } from '../../pr
 export class UserOptionsPage {
 
   menuItems: Array<any> = [];
-  userProfImage: string = 'assets/img/chatterplace.png';
+  userProfImage: string = 'assets/imgs/chatterplace.png';
   user: IProfile;
 
   constructor(public navCtrl: NavController,
