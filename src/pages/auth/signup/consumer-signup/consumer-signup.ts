@@ -8,6 +8,7 @@ import { IProfile, IUser } from '../../../../models/models';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import { LoginPage, ConsumerConditionsPage } from '../../../pages';
 import * as firebase from 'firebase';
+import { fail } from 'assert';
 
 @IonicPage()
 @Component({
@@ -34,6 +35,9 @@ export class ConsumerSignupPage {
     this.createForms();
   }
 
+  ionViewDidEnter() {
+    //this.showingConditions = false;
+  }
   onSubmit(values) {
     if (values) {
       let loadingPopup = this.loadingCtrl.create({
@@ -48,7 +52,7 @@ export class ConsumerSignupPage {
       this.authProvider.registerUser(user.email, user.password)
         .then(data => {
           this.profile = {} as IProfile;
-          this.profile.id=data.uid;
+          this.profile.id = data.uid;
           this.profile.email = user.email;
           this.profile.isNutritionist = false;
           this.profile.firstName = values.firstName;
@@ -70,7 +74,7 @@ export class ConsumerSignupPage {
                     }).present();
                     this.navCtrl.setRoot(LoginPage);
                     console.log("please verify your email")
-                  }).catch((err) => {                   
+                  }).catch((err) => {
                     console.log(err)
                   });
                 //this.navCtrl.setRoot(ConsumerProfilePage, { profile: this.profile });
@@ -148,10 +152,11 @@ export class ConsumerSignupPage {
     });
   }
 
-  conditions() {
+  conditions(evt) {
+    console.log(evt);
     if (!this.showingConditions) {
       this.showingConditions = true;
-      this.customerForm.get('terms').setValue(false);
+      //this.customerForm.get('terms').setValue(false);
 
       let conditionModal = this.modalCtrl.create(ConsumerConditionsPage)
       conditionModal.onDidDismiss(data => {
@@ -159,13 +164,16 @@ export class ConsumerSignupPage {
         if (condition) {
           if (condition === 'accept') {
             this.customerForm.get('terms').setValue(true);
-
           }
+          else {
+            this.customerForm.get('terms').setValue(true);
+          } 
+        } else {
+          this.customerForm.get('terms').setValue(true);
         }
         this.showingConditions = false;
       });
       conditionModal.present();
-
     }
 
   }

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "355513485520",
+    "firebase_url": "https://synerome-f2748.firebaseio.com",
+    "project_id": "synerome-f2748",
+    "storage_bucket": "synerome-f2748.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:355513485520:android:3e42b7e9756f2169",
+        "android_client_info": {
+          "package_name": "com.synerome.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "355513485520-ccdhihei8gd8g0pagopsfslff8ci6v1v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBg-v9QKsW58c2AhsZ-oWFXfAPs8lSFrhg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -135,7 +135,7 @@ export class LoginPage {
           } else {
             console.log('Email not verified.');
             loadingPopup.dismiss()
-            this.navCtrl.setRoot(EmailVerificationPage);
+            this.navCtrl.push(EmailVerificationPage);
           }
         })
         .catch(error => {

@@ -100,4 +100,5 @@
     <plugin name="phonegap-plugin-barcodescanner" spec="^7.0.0">
         <variable name="CAMERA_USAGE_DESCRIPTION" value=" " />
     </plugin>
+    <plugin name="cordova-plugin-fcm" spec="^2.1.2" />
 </widget>
