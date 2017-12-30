@@ -8,7 +8,6 @@ import { IProfile, IUser } from '../../../../models/models';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import { LoginPage, ConsumerConditionsPage } from '../../../pages';
 import * as firebase from 'firebase';
-import { fail } from 'assert';
 
 @IonicPage()
 @Component({
@@ -166,10 +165,10 @@ export class ConsumerSignupPage {
             this.customerForm.get('terms').setValue(true);
           }
           else {
-            this.customerForm.get('terms').setValue(true);
+            this.customerForm.get('terms').setValue(false);
           } 
         } else {
-          this.customerForm.get('terms').setValue(true);
+          this.customerForm.get('terms').setValue(false);
         }
         this.showingConditions = false;
       });
