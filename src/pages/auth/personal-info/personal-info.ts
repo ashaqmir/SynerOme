@@ -4,7 +4,8 @@ import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
 import { IProfile } from '../../../models/models';
 import { AppStateServiceProvider, StorageHelperProvider } from '../../../providers/providers';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { LoginPage, HealthInfoPage } from '../../pages';
+import { LoginPage, HealthInfoPage } from '../auth';
+
 
 @IonicPage()
 @Component({

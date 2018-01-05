@@ -3,7 +3,7 @@ import { Platform, Nav, Events } from 'ionic-angular';
 import { Deeplinks } from '@ionic-native/deeplinks';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { ProductDetailsPage } from '../pages/pages';
+import { ProductDetailsPage } from '../pages/consumer/consumer';
 
 
 @Component({
@@ -13,6 +13,7 @@ export class MyApp {
 
   @ViewChild(Nav) nav: Nav;
   rootPage: any = 'LoginPage';
+  //rootPage: any = 'ConsumerTabsPage';
   selectedTheme: string = 'light-theme';
 
 

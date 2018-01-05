@@ -2,7 +2,7 @@ import { IonicPage, NavController, LoadingController, AlertController, MenuContr
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthanticationServiceProvider } from '../../../providers/providers';
-import { LoginPage } from '../../pages';
+import { LoginPage } from '../auth';
 
 
 @IonicPage()

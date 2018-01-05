@@ -3,11 +3,12 @@ import { IonicPage, NavController, NavParams, ToastController, ModalController }
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 import emailMask from 'text-mask-addons/dist/emailMask';
 import { PasswordValidator } from '../../../../validators/validators';
-import { AuthanticationServiceProvider, StorageHelperProvider } from '../../../../providers/providers';
+import { AuthanticationServiceProvider } from '../../../../providers/providers';
 import { IProfile, IUser } from '../../../../models/models';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
-import { DemographicPage, LoginPage, PractitionerConditionsPage } from '../../../pages';
 import * as firebase from 'firebase';
+import { LoginPage } from '../../auth';
+import { PractitionerConditionsPage } from '../signup';
 
 @IonicPage()
 @Component({
@@ -28,7 +29,6 @@ export class PractitionerSignupPage {
     private toast: ToastController,
     private modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
-    private storageHelper: StorageHelperProvider,
     public authProvider: AuthanticationServiceProvider) {
   }
   ionViewWillLoad() {

@@ -1,32 +1,13 @@
-export * from './dashboard/dashboard';
-export * from './preferences/preferences';
-export * from './auth/login/login';
-export * from './auth/forgot/forgot';
-export * from './auth/signup/consumer-signup/consumer-signup';
-export * from './auth/signup/consumer-conditions/consumer-conditions'
-export * from './auth/signup/consumer-profile/consumer-profile'
-export * from './auth/signup/practitioner-conditions/practitioner-conditions'
-export * from './auth/signup/practitioner-signup/practitioner-signup'
-export * from './auth/signup/signup-type/signup-type'
-export * from './auth/demographic/demographic'
-export * from './auth/personal-info/personal-info';
-export * from './auth/health-info/health-info';
-export * from './auth/email-verification/email-verification';
-export * from './user-profile/user-profile';
-export * from './dnadata/dnadata';
-export * from './welcome/welcome';
-export * from './home/home';
 export * from './callControlBox/callControlBox';
 export * from './confrence/confrence';
 export * from './appointments/appointments';
 export * from './user-list/user-list';
-export * from './product-list/product-list';
-export * from './product-details/product-details';
-export * from './cart/cart';
-export * from './address/address';
-export * from './address-list/address-list';
-export * from './order-final/order-final';
 export * from './health/health';
-export * from './register-kit/register-kit'
-export * from './user-options/user-options';
+
+// export * from './auth/auth';
+// export * from './consumer/consumer';
+// export * from './practitioner/practitioner';
+
+
+
 

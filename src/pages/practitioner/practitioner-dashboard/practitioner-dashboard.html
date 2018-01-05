@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-navbar color="lightblue">
+    <ion-title>
+      Dashboard
+    </ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only>
+        <ion-icon name="notifications"></ion-icon>
+      </button>
+
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="contact"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      Quick Actions
+    </ion-card-header>
+    <ion-list>
+      <button ion-item >
+        <ion-icon name="barcode" color="lightblue" item-start></ion-icon>
+        <h2>practitioner  Action 1</h2>
+      </button>
+
+      <button ion-item >
+        <ion-icon name="cart" color="red" item-start></ion-icon>
+        <h2>Buy a package</h2>
+        <p>Buy a package here.</p>
+      </button>
+
+     
+    </ion-list>
+
+  </ion-card>
+</ion-content>

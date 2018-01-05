@@ -5,7 +5,8 @@ import { AppStateServiceProvider } from '../../providers/app-state-service/app-s
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as moment from 'moment';
-import { ConfrencePage, LoginPage } from '../pages';
+import { ConfrencePage } from '../pages';
+import { LoginPage } from '../auth/auth';
 
 
 @IonicPage()

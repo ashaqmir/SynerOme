@@ -14,22 +14,8 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-import { NgCalendarModule  } from 'ionic2-calendar';
+import { NgCalendarModule } from 'ionic2-calendar';
 
-import {
-  HomePage, DashboardPage,
-  PreferencesPage, AppointmentsPage,
-  ConsumerSignupPage, UserListPage,
-  ConfrencePage, ForgotPage,
-  UserProfilePage, AddressPage,
-  PersonalInfoPage, HealthInfoPage,
-  ProductListPage, ProductDetailsPage,
-  CartPage, DemographicPage,
-  AddressListPage, OrderFinalPage,
-  SignupTypePage, PractitionerSignupPage,
-  ConsumerConditionsPage, PractitionerConditionsPage,
-  ConsumerProfilePage, HealthPage, EmailVerificationPage, RegisterKitPage, UserOptionsPage
-} from '../pages/pages';
 
 import {
   AuthanticationServiceProvider, AppStateServiceProvider, UserDataPreloaderProvider,
@@ -41,6 +27,19 @@ import { Deeplinks } from '@ionic-native/deeplinks';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { Health } from '@ionic-native/health';
 import { Camera } from '@ionic-native/camera';
+import {
+  ForgotPage, SignupTypePage, ConsumerSignupPage,
+  ConsumerConditionsPage, EmailVerificationPage, ConsumerProfilePage,
+  PractitionerSignupPage, PractitionerConditionsPage, DemographicPage,
+  PersonalInfoPage, HealthInfoPage
+} from '../pages/auth/auth';
+import {
+  UserProfilePage, ConsumerDashboardPage,
+  PreferencesPage, ProductListPage, ProductDetailsPage,
+  CartPage, OrderFinalPage, AddressPage, AddressListPage,
+  RegisterKitPage, UserOptionsPage
+} from '../pages/consumer/consumer';
+import { AppointmentsPage, UserListPage, ConfrencePage, HealthPage } from '../pages/pages';
 
 
 var firebaseConfig = {
@@ -67,8 +66,7 @@ var firebaseConfig = {
     PersonalInfoPage,
     HealthInfoPage,
     UserProfilePage,
-    HomePage,
-    DashboardPage,
+    ConsumerDashboardPage,
     PreferencesPage,
     AppointmentsPage,
     ProductListPage,
@@ -81,7 +79,7 @@ var firebaseConfig = {
     ConfrencePage,
     HealthPage,
     RegisterKitPage,
-    UserOptionsPage
+    UserOptionsPage,
   ],
   imports: [
     BrowserModule,
@@ -110,8 +108,7 @@ var firebaseConfig = {
     PersonalInfoPage,
     HealthInfoPage,
     UserProfilePage,
-    HomePage,
-    DashboardPage,
+    ConsumerDashboardPage,
     PreferencesPage,
     AppointmentsPage,
     ProductListPage,
@@ -124,7 +121,7 @@ var firebaseConfig = {
     ConfrencePage,
     HealthPage,
     RegisterKitPage,
-    UserOptionsPage
+    UserOptionsPage,
   ],
   providers: [
     StatusBar,

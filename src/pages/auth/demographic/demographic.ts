@@ -5,11 +5,12 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/take';
 import { IProfile } from '../../../models/models';
-import { LoginPage, DashboardPage } from '../../pages';
 import {
   AuthanticationServiceProvider, AppStateServiceProvider,
   StorageHelperProvider
 } from '../../../providers/providers';
+import { LoginPage } from '../auth';
+import { ConsumerDashboardPage } from '../../consumer/consumer';
 
 
 @IonicPage()
@@ -108,7 +109,7 @@ export class DemographicPage {
                     console.log(profData);
                     loadingPopup.dismiss()
                     this.storageHelper.clearStorage();
-                    this.navCtrl.setRoot(DashboardPage);
+                    this.navCtrl.setRoot(ConsumerDashboardPage);
                   });
                 })
                 .catch(error => {

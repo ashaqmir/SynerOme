@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import * as firebase from 'firebase';
-import { LoginPage } from '../../pages';
-
+import { LoginPage } from '../auth';
 @IonicPage()
 @Component({
   selector: 'page-email-verification',

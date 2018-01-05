@@ -16,8 +16,8 @@
 
 
 <ion-content padding>
-<!-- 
-  <template #template let-selectedDate="selectedDate.events" let-noEventsLabel="noEventsLabel">
+
+  <ng-template #template let-selectedDate="selectedDate.events" let-noEventsLabel="noEventsLabel">
     <ion-list>
       <ion-item-sliding *ngFor="let req of selectedDate">
         <ion-item *ngIf="req.status !== 'deleted'" [color]="req.status=='accepted'? 'primary' : 'danger'">
@@ -42,10 +42,10 @@
       </ion-item-sliding>
     </ion-list>
     <h4 class="text-center" *ngIf="selectedDate.length == 0">{{noEventsLabel}}</h4>
-  </template>  -->
+  </ng-template> 
 
   <!-- [monthviewEventDetailTemplate]="template" -->
-  <calendar [eventSource]="myAppointments" [calendarMode]="calendar.mode" 
+  <calendar [monthviewEventDetailTemplate]="template" [eventSource]="myAppointments" [calendarMode]="calendar.mode" 
     (onTitleChanged)="onViewTitleChanged($event)" [currentDate]="calendar.currentDate" 
     (onEventSelected)="onEventSelected($event)" (onTimeSelected)="onTimeSelected($event)"
     step="30" class="calendar">

@@ -2,11 +2,14 @@ import { Component } from '@angular/core';
 import { NavController, IonicPage, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { IUser, IProfile } from '../../../models/models';
-import { ForgotPage, DashboardPage, SignupTypePage, EmailVerificationPage, ConsumerProfilePage } from '../../pages';
-import { AuthanticationServiceProvider, AppStateServiceProvider, StorageHelperProvider, UserDataPreloaderProvider } from '../../../providers/providers';
+import { AuthanticationServiceProvider, AppStateServiceProvider, 
+  StorageHelperProvider, UserDataPreloaderProvider } from '../../../providers/providers';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import { MenuController } from 'ionic-angular/components/app/menu-controller';
 import { Events } from 'ionic-angular/util/events';
+import { SignupTypePage, ForgotPage, ConsumerProfilePage, EmailVerificationPage } from '../auth';
+import { PractitionerDashboardPage } from '../../practitioner/practitioner';
+import { ConsumerDashboardPage } from '../../consumer/consumer';
 
 @IonicPage()
 @Component({
@@ -102,11 +105,11 @@ export class LoginPage {
                 this.events.publish('profile:recieved', this.appState.userProfile);
                 if (this.userProfile.isNutritionist) {
                   loadingPopup.dismiss();                  
-                  this.navCtrl.setRoot(DashboardPage);
+                  this.navCtrl.setRoot(PractitionerDashboardPage);
                   this.events.publish('profile:recieved', this.appState.userProfile);
                 } else if (this.userProfile.isProfileComplete) {
                   loadingPopup.dismiss();                  
-                  this.navCtrl.setRoot(DashboardPage);
+                  this.navCtrl.setRoot(ConsumerDashboardPage);
                   this.events.publish('profile:recieved', this.appState.userProfile);
                 } else {
                   loadingPopup.dismiss();

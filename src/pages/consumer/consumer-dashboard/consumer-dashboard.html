@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar color="lightblue">
+    <ion-title>
+      Dashboard
+    </ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only>
+        <ion-icon name="notifications"></ion-icon>
+      </button>
+
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="contact"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+    <ion-card-header>
+      Quick Actions
+    </ion-card-header>
+    <ion-list>
+      <button ion-item (click)="registerKit()" *ngIf="showRegisterKit">
+        <ion-icon name="barcode" color="lightblue" item-start></ion-icon>
+        <h2>Register Kit</h2>
+        <p> Got your kit? Then register here.</p>
+      </button>
+
+      <button ion-item (click)="openShoping()" *ngIf="showBuyOption">
+        <ion-icon name="cart" color="red" item-start></ion-icon>
+        <h2>Buy a package</h2>
+        <p>Buy a package here.</p>
+      </button>
+
+      <button ion-item *ngIf="showWaitingMessage">
+        <ion-icon name="sync" color="lightblue" item-start></ion-icon>
+
+        <h2>Waiting for your test results.</h2>
+        <p>We will update you once you results are back.</p>
+      </button>
+    </ion-list>
+
+  </ion-card>

@@ -4,7 +4,9 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AuthanticationServiceProvider, AppStateServiceProvider } from '../../../../providers/providers';
 import { IProfile } from '../../../../models/models';
-import { LoginPage, DashboardPage } from '../../../pages';
+import { LoginPage } from '../../auth';
+import { ConsumerDashboardPage } from '../../../consumer/consumer';
+
 
 
 @IonicPage()
@@ -75,7 +77,7 @@ export class ConsumerProfilePage {
       .then(profData => {
         //this.profile = profData.payload.val();
         this.appState.userProfile = this.profile;
-        this.navCtrl.setRoot(DashboardPage);
+        this.navCtrl.setRoot(ConsumerDashboardPage);
       }).catch((error) => {
         console.log(error.message);
       });
@@ -89,7 +91,7 @@ export class ConsumerProfilePage {
   }
 
   skip() {
-    this.navCtrl.setRoot(DashboardPage);
+    this.navCtrl.setRoot(ConsumerDashboardPage);
   }
 
   validationMessages = {

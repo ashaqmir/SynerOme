@@ -4,8 +4,9 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { IProfile } from '../../../models/models';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AppStateServiceProvider, StorageHelperProvider, AuthanticationServiceProvider } from '../../../providers/providers';
-import { LoginPage, DashboardPage } from '../../pages';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { LoginPage } from '../auth';
+import { ConsumerDashboardPage } from '../../consumer/consumer';
 
 
 @IonicPage()
@@ -110,7 +111,7 @@ export class HealthInfoPage {
               console.log(data);
               loadingPopup.dismiss()
               this.storageHelper.clearStorage();
-              this.navCtrl.setRoot(DashboardPage);
+              this.navCtrl.setRoot(ConsumerDashboardPage);
             });
           })
           .catch(error => {
