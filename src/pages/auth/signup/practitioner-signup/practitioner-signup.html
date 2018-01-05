@@ -40,12 +40,14 @@
           <ion-input type="password" formControlName="confirmPassword"></ion-input>
         </ion-item>
       </div>
-
-      <ion-item (click)="conditions()">
-        <ion-label color="danger">I accept terms and conditions</ion-label>
-        <ion-checkbox color="danger" (ionChange)="conditions()" formControlName="terms"></ion-checkbox>
-
+      <ion-item no-padding class="custom-checkbox">
+        <ion-label>I agree
+          <a (click)="conditions()">Terms and Conditions</a>
+        </ion-label>
+        <ion-checkbox color="danger" formControlName="terms"></ion-checkbox>
       </ion-item>
+
+
       <ion-item class="error-message" no-lines>
         <div *ngFor="let validation of validationMessages.firstname">
           <p class="error-message" *ngIf="nutritionistForm.get('firstName').hasError(validation.type) && (nutritionistForm.get('firstName').dirty || nutritionistForm.get('firstName').touched)">

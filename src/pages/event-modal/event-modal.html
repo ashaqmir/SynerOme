@@ -13,7 +13,7 @@
       Select User
     </ion-card-header>
     <ion-list>
-      <button ion-item *ngFor="let usr of otherusers" (click)="requestTalk(usr)">
+      <button ion-item *ngFor="let usr of nutritionistList" (click)="requestTalk(usr)">
         <ion-icon name="person" item-start></ion-icon>
         {{usr.lastName + ' ' + usr.firstName}}
         <ion-icon name="arrow-forward" item-end></ion-icon>
@@ -26,14 +26,14 @@
       Nutritionists
     </ion-list-header>
 
-    <ion-item *ngFor="let usr of otherusers">
+    <ion-item *ngFor="let usr of nutritionistList">
       <ion-label>{{usr.lastName + ' ' + usr.firstName}}</ion-label>
       <ion-radio [value]="usr" (ionSelect)=selectDoctor(usr)></ion-radio>
     </ion-item>
   </ion-list>
 
   <ion-list>
-    
+
     <ion-item>
       <ion-label>Start</ion-label>
       <ion-datetime displayFormat="MM/DD/YYYY HH:mm" pickerFormat="MMM D:HH:mm" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
@@ -41,7 +41,7 @@
 
     <ion-item>
       <ion-label>End</ion-label>
-      <ion-datetime displayFormat="MM/DD/YYYY HH:mm" pickerFormat="MMM D:HH:mm" [(ngModel)]="event.endTime" [min]="minDate"></ion-datetime>
+      <ion-datetime displayFormat="MM/DD/YYYY HH:mm" pickerFormat="MMM D:HH:mm" [(ngModel)]="event.endTime" [min]="event.startTime"></ion-datetime>
 
     </ion-item>
 
@@ -64,7 +64,7 @@
     </ion-col>
     <ion-col col-6>
       <div>
-        <button ion-button round icon-left (click)="requestTalk()">
+        <button ion-button round icon-left (click)="requestTalk()" [disabled]="!event.idTo">
           <ion-icon name="checkmark"></ion-icon> Add Event
         </button>
       </div>

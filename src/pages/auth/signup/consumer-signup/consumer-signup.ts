@@ -19,7 +19,6 @@ export class ConsumerSignupPage {
   matchingPasswordsGroup: FormGroup;
   profile: IProfile;
   emailMask = emailMask;
-  showingConditions = false;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -151,31 +150,24 @@ export class ConsumerSignupPage {
     });
   }
 
-  conditions(evt) {
-    console.log(evt);
-    if (!this.showingConditions) {
-      this.showingConditions = true;
-      //this.customerForm.get('terms').setValue(false);
-
-      let conditionModal = this.modalCtrl.create(ConsumerConditionsPage)
-      conditionModal.onDidDismiss(data => {
-        let condition = data.condition;
-        if (condition) {
-          if (condition === 'accept') {
-            this.customerForm.get('terms').setValue(true);
-          }
-          else {
-            this.customerForm.get('terms').setValue(false);
-          } 
-        } else {
+  conditions() {
+    let conditionModal = this.modalCtrl.create(ConsumerConditionsPage);
+    conditionModal.onDidDismiss(data => {
+      let condition = data.condition;
+      if (condition) {
+        if (condition === 'accept') {
+          this.customerForm.get('terms').setValue(true);
+        }
+        else {
           this.customerForm.get('terms').setValue(false);
         }
-        this.showingConditions = false;
-      });
-      conditionModal.present();
-    }
-
+      } else {
+        this.customerForm.get('terms').setValue(false);
+      }
+    });
+    conditionModal.present();
   }
+
   validationMessages = {
     'firstname': [
       { type: 'required', message: 'First name is required.' }

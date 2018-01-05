@@ -14,7 +14,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-// import { NgCalendarModule  } from 'ionic2-calendar';
+import { NgCalendarModule  } from 'ionic2-calendar';
 
 import {
   HomePage, DashboardPage,
@@ -93,7 +93,7 @@ var firebaseConfig = {
       name: '__synerDb'
     }),
     HttpModule,
-    //NgCalendarModule
+    NgCalendarModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

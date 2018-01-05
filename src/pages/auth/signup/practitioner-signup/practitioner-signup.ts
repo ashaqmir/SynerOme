@@ -7,7 +7,7 @@ import { AuthanticationServiceProvider, StorageHelperProvider } from '../../../.
 import { IProfile, IUser } from '../../../../models/models';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import { DemographicPage, LoginPage, PractitionerConditionsPage } from '../../../pages';
-
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -25,7 +25,7 @@ export class PractitionerSignupPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
-    private toast: ToastController,    
+    private toast: ToastController,
     private modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
     private storageHelper: StorageHelperProvider,
@@ -37,39 +37,68 @@ export class PractitionerSignupPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad PractitionerSignupPage');
   }
-  onSubmit(values) {
+  onSubmit(values) {    
     if (values) {
       let loadingPopup = this.loadingCtrl.create({
         spinner: 'crescent',
         content: ''
       });
       loadingPopup.present();
-
+      let removePop = true;
       let user = {} as IUser;
       user.email = values.email;
       user.password = values.password.password;
-
       this.authProvider.registerUser(user.email, user.password)
         .then(data => {
           this.profile = {} as IProfile;
+          this.profile.id = data.uid;
           this.profile.email = user.email;
           this.profile.isNutritionist = true;
           this.profile.firstName = values.firstName;
           this.profile.lastName = values.lastName;
+          this.profile.phone = values.phone;
+          this.profile.isProfileComplete = true;
           this.profile.nutritionistLicenseNumber = values.nutritionistLicenseNum;
-
-          this.storageHelper.setProfile(data.uid, this.profile)
           console.log('Registered');
           console.log(data);
           this.authProvider.loginUser(user.email, user.password)
             .then(data => {
-              loadingPopup.dismiss()
-              this.navCtrl.setRoot(DemographicPage, {
-                isNutritionist: this.profile.isNutritionist,
-                nutritionistLicenseNumber: this.profile.nutritionistLicenseNumber
-              });
+              this.authProvider.updateUserProfile(this.profile, data.uid).then(data => {
+                let user: any = firebase.auth().currentUser;
+                user.sendEmailVerification().then(
+                  (success) => {
+                    //Show toast and redirect to login
+                    this.toast.create({
+                      message: 'Verification mail sent, Please verify your email',
+                      duration: 4000
+                    }).present();
+                    this.navCtrl.setRoot(LoginPage);
+                    console.log("please verify your email")
+                  }).catch((err) => {
+                    console.log(err)
+                  });
+                //this.navCtrl.setRoot(ConsumerProfilePage, { profile: this.profile });
+                if (removePop) {
+                  loadingPopup.dismiss()
+                  removePop = false;
+                }
+                this.navCtrl.setRoot(LoginPage);
+              }).catch(error => {
+                if (removePop) {
+                  loadingPopup.dismiss()
+                  removePop = false;
+                }
+                this.toast.create({
+                  message: `profile not saved ${user.email}`,
+                  duration: 3000
+                }).present();
+                this.navCtrl.setRoot(LoginPage)
+              })
             }).catch(error => {
-              loadingPopup.dismiss()
+              if (removePop) {
+                loadingPopup.dismiss()
+                removePop = false;
+              }
               this.toast.create({
                 message: `login problem ${user.email}`,
                 duration: 3000
@@ -78,7 +107,10 @@ export class PractitionerSignupPage {
             })
         })
         .catch(error => {
-          loadingPopup.dismiss()
+          if (removePop) {
+            loadingPopup.dismiss()
+            removePop = false;
+          }
           this.toast.create({
             message: error,
             duration: 3000
@@ -126,26 +158,23 @@ export class PractitionerSignupPage {
   }
 
   conditions() {
-    if (!this.showingConditions) {
-      this.showingConditions = true;
-      this.nutritionistForm.get('terms').setValue(false);
-
-      let conditionModal = this.modalCtrl.create(PractitionerConditionsPage)
-      conditionModal.onDidDismiss(data => {
-        let condition = data.condition;
-        if (condition) {
-          if (condition === 'accept') {
-            this.nutritionistForm.get('terms').setValue(true);
-
-          }
+    let conditionModal = this.modalCtrl.create(PractitionerConditionsPage);
+    conditionModal.onDidDismiss(data => {
+      let condition = data.condition;
+      if (condition) {
+        if (condition === 'accept') {
+          this.nutritionistForm.get('terms').setValue(true);
         }
-        this.showingConditions = false;
-      });
-      conditionModal.present();
-
-    }
-
+        else {
+          this.nutritionistForm.get('terms').setValue(false);
+        }
+      } else {
+        this.nutritionistForm.get('terms').setValue(false);
+      }
+    });
+    conditionModal.present();
   }
+
   validationMessages = {
     'firstname': [
       { type: 'required', message: 'First name is required.' }

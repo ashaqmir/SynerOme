@@ -5,7 +5,6 @@ import { IUser, IProfile } from '../../../models/models';
 import { ForgotPage, DashboardPage, SignupTypePage, EmailVerificationPage, ConsumerProfilePage } from '../../pages';
 import { AuthanticationServiceProvider, AppStateServiceProvider, StorageHelperProvider, UserDataPreloaderProvider } from '../../../providers/providers';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
-import { AngularFireDatabase } from 'angularfire2/database';
 import { MenuController } from 'ionic-angular/components/app/menu-controller';
 import { Events } from 'ionic-angular/util/events';
 
@@ -80,7 +79,6 @@ export class LoginPage {
 
   async signIn(values) {
     let user = {} as IUser;
-    let profSubs: any;
     user.email = values.email;
     user.password = values.password;
     console.log(user);
@@ -102,12 +100,14 @@ export class LoginPage {
               console.log(this.appState.userProfile);
               if (this.appState.userProfile) {
                 this.events.publish('profile:recieved', this.appState.userProfile);
-                if (this.userProfile.isProfileComplete) {
-                  loadingPopup.dismiss();
-                  console.log('Tango Man');
+                if (this.userProfile.isNutritionist) {
+                  loadingPopup.dismiss();                  
                   this.navCtrl.setRoot(DashboardPage);
                   this.events.publish('profile:recieved', this.appState.userProfile);
-
+                } else if (this.userProfile.isProfileComplete) {
+                  loadingPopup.dismiss();                  
+                  this.navCtrl.setRoot(DashboardPage);
+                  this.events.publish('profile:recieved', this.appState.userProfile);
                 } else {
                   loadingPopup.dismiss();
                   this.navCtrl.setRoot(ConsumerProfilePage, { profile: this.userProfile });

@@ -13,22 +13,11 @@ import { IProfile, IFacetimeRequest } from '../../models/models';
 })
 export class EventModalPage {
 
-  event = {
-    startTime: new Date().toISOString(),
-    endTime: new Date().toISOString(),
-    allDay: false,
-    idFrom: this.appState.userProfile.id,
-    nameFrom: this.appState.userProfile.firstName + ' ' + this.appState.userProfile.lastName,
-    idTo: '',
-    nameTo: '',
-    callIdFrom: this.generateRandom(),
-    status: 'pending'
+  event: any;
 
-  };
-  minDate = moment(new Date()).toISOString()
-
+  minDate: any;
   usersList: Observable<IProfile[]>;
-  otherusers: IProfile[] = [];
+  nutritionistList: IProfile[] = [];
   myId: any;
 
   constructor(public navCtrl: NavController,
@@ -38,6 +27,28 @@ export class EventModalPage {
     public appState: AppStateServiceProvider,
     private toast: ToastController,
   ) {
+
+
+    this.event = {
+      startTime: new Date().toISOString(),
+      endTime: new Date().toISOString(),
+      allDay: false,
+      idFrom: this.appState.userProfile.id,
+      nameFrom: this.appState.userProfile.firstName + ' ' + this.appState.userProfile.lastName,
+      idTo: '',
+      nameTo: '',
+      callIdFrom: this.generateRandom(),
+      status: 'pending'
+
+    };
+
+    let preselectedDate = moment(this.navParams.get('selectedDay')).format();
+    if (preselectedDate) {
+      this.event.startTime = preselectedDate;
+      this.event.endTime = preselectedDate;
+    }
+    this.minDate = moment().format('YYYY-MM-DDTHH:mm');
+
   }
 
   ionViewDidLoad() {
@@ -47,7 +58,7 @@ export class EventModalPage {
       for (var prof in profiles) {
         console.log(prof);
         if (prof !== this.appState.userProfile.id) {
-          this.otherusers.push(profiles[prof]);
+          this.nutritionistList.push(profiles[prof]);
         }
       }
     });
@@ -64,9 +75,9 @@ export class EventModalPage {
       facetimeReq.status = 'pending';
       facetimeReq.callIdFrom = this.event.callIdFrom;
       facetimeReq.startTime = this.event.startTime
-      facetimeReq.endTime= this.event.endTime;
+      facetimeReq.endTime = this.event.endTime;
 
-      facetimeReq.title= facetimeReq.nameFrom + '--' + facetimeReq.nameTo
+      facetimeReq.title = facetimeReq.nameFrom + '--' + facetimeReq.nameTo
 
 
       facetimeReq.callIdTo = 0;
@@ -94,7 +105,7 @@ export class EventModalPage {
   }
 
   selectDoctor(doctor) {
-   this.event.idTo=doctor.id;
-   this.event.nameTo = doctor.firstName + ' ' + doctor.lastName;
+    this.event.idTo = doctor.id;
+    this.event.nameTo = doctor.firstName + ' ' + doctor.lastName;
   }
 }

@@ -18,6 +18,7 @@ export class AppointmentsPage {
   myAppointments: IFacetimeRequestView[] = [];
 
   selectedDay = new Date();
+  viewTitle: string;
 
   calendar = {
     mode: 'month',
@@ -42,8 +43,6 @@ export class AppointmentsPage {
   }
 
   ionViewWillLoad() {
-
-
     this.afAuth.authState.subscribe(userAuth => {
       if (userAuth) {
         if (this.appState.userProfile) {
@@ -190,5 +189,8 @@ export class AppointmentsPage {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
+  onViewTitleChanged(title) {
+    this.viewTitle = title;
+  }
 
 }
