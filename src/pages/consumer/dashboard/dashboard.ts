@@ -6,8 +6,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import { AuthanticationServiceProvider, AppStateServiceProvider } from '../../../providers/providers';
 import { LoginPage } from '../../auth/auth';
-import { CallControlBoxPage } from '../../pages';
 import { ProductListPage, RegisterKitPage, UserOptionsPage } from '../consumer';
+import { CallControlBoxPage } from '../../shared/shared';
 
 
 @Component({

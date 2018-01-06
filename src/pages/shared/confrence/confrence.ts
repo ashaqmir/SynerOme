@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
+import { AppStateServiceProvider } from '../../../providers/app-state-service/app-state-service';
 
 
 declare var apiRTC: any

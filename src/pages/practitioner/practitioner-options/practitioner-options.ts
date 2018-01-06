@@ -1,23 +1,23 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events, ViewController, App } from 'ionic-angular';
 import { IProfile } from '../../../models/models';
 import { AuthanticationServiceProvider, AppStateServiceProvider } from '../../../providers/providers';
 import { LoginPage } from '../../auth/auth';
-import { ProductListPage, UserProfilePage, PreferencesPage, ConsumerAppointmentsPage } from '../consumer';
-import { HealthPage } from '../../pages';
+import { PractitionerProfilePage, PractitionerAppointmentsPage } from '../practitioner';
 
 @IonicPage()
 @Component({
-  selector: 'page-user-options',
-  templateUrl: 'user-options.html',
+  selector: 'page-practitioner-options',
+  templateUrl: 'practitioner-options.html',
 })
-export class UserOptionsPage {
+export class PractitionerOptionsPage {
 
   menuItems: Array<any> = [];
   userProfImage: string = 'assets/imgs/chatterplace.png';
   user: IProfile;
 
-  constructor(public navCtrl: NavController,
+  constructor(public app: App,
+    public navCtrl: NavController,
     public events: Events,
     public navParams: NavParams,
     public viewCtrl: ViewController,
@@ -47,19 +47,22 @@ export class UserOptionsPage {
   openPage(page) {
     if (page.type === 'page') {
       this.updateActive();
-      page.isActive = true;     
+      page.isActive = true;
       this.navCtrl.push(page.component).catch(err => console.error(err));     
       this.viewCtrl.dismiss();
     } else if (page.type.startsWith('action')) {
       this.doAction(page.type);
     }
+   
   }
   doAction(action: string) {
     if (action === 'action:logout') {
       this.authProvider.logoutUser();
-      this.viewCtrl.dismiss();
-      this.navCtrl.setRoot(LoginPage).catch(err => console.error(err));
+      //this.navCtrl.popAll();
+      this.app.getRootNav().setRoot(LoginPage).catch(err => console.error(err));
+      //this.navCtrl.setRoot(LoginPage).catch(err => console.error(err));
       this.navCtrl.popToRoot();
+      this.viewCtrl.dismiss();
     }
   }
 
@@ -70,39 +73,18 @@ export class UserOptionsPage {
   }
 
   createMenuItems() {
-    this.menuItems = [
-      {
-        icon: 'cart',
-        name: 'Shopping',
-        component: ProductListPage,
-        type: 'page',
-        isActive: false
-      },
+    this.menuItems = [    
       {
         icon: 'calendar',
         name: 'Appointments',
-        component: ConsumerAppointmentsPage,
-        type: 'page',
-        isActive: false
-      },
-      {
-        icon: 'bicycle',
-        name: 'Health',
-        component: HealthPage,
+        component: PractitionerAppointmentsPage,
         type: 'page',
         isActive: false
       },
       {
         icon: 'person',
         name: 'Profile',
-        component: UserProfilePage,
-        type: 'page',
-        isActive: false
-      },
-      {
-        icon: 'settings',
-        name: 'Preference',
-        component: PreferencesPage,
+        component: PractitionerProfilePage,
         type: 'page',
         isActive: false
       },

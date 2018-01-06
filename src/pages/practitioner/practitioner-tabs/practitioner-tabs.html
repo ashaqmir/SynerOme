@@ -1,0 +1,22 @@
+<ion-header>
+    <ion-navbar color="lightblue">
+        <ion-title>
+            Pactitioner
+        </ion-title>
+        <ion-buttons right>
+            <button ion-button icon-only>
+                <ion-icon name="notifications"></ion-icon>
+            </button>
+
+            <button ion-button icon-only (click)="presentPopover($event)">
+                <ion-icon name="contact"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-tabs color="primary">
+    <ion-tab [root]="patientsRoot" tabTitle="Patients" tabIcon="contacts"></ion-tab>
+    <ion-tab [root]="appointmentsRoot" tabTitle="Appointments" tabIcon="calendar"></ion-tab>
+    <ion-tab [root]="notificationRoot" tabTitle="Notification" tabIcon="notifications"></ion-tab>
+</ion-tabs>

@@ -1,9 +1,9 @@
-import { IFacetimeRequest } from '../../models/facetimeRequest';
-import { IProfile } from '../../models/profile';
+import { IFacetimeRequest } from '../../../models/facetimeRequest';
+import { IProfile } from '../../../models/profile';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
+import { AppStateServiceProvider } from '../../../providers/app-state-service/app-state-service';
 
 
 @IonicPage()

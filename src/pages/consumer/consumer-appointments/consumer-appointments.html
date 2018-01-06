@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-navbar color="lightblue">
+    <button ion-button menuToggle>
+      <ion-icon name="menu" color="light"></ion-icon>
+    </button>
+    <ion-title>
+      {{viewTitle}}
+    </ion-title>
+    <ion-buttons end *ngIf="!userProfile?.isNutritionist">
+      <button ion-button round (click)="addEvent()">
+        <ion-icon name="add-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <ng-template #template let-selectedDate="selectedDate.events" let-noEventsLabel="noEventsLabel">
+    <ion-list>
+      <ion-item-sliding *ngFor="let req of selectedDate">
+        <ion-item *ngIf="req.status !== 'deleted'" [color]="req.status=='accepted'? 'primary' : 'danger'">
+          {{req.title}}
+        </ion-item>
+        <ion-item-options side="left">
+          <button ion-button color="secondary" *ngIf="req.idTo === userProfile.id && req.status === 'pending'" (click)="acceptCall(req.key)">
+            <ion-icon name="checkmark"></ion-icon>
+            Accept
+          </button>
+          <button ion-button color="primary" [disabled]="req.status !== 'accepted'" (click)="call(req.callIdFrom, req.callIdTo)">
+            <ion-icon name="videocam"></ion-icon>
+            Call
+          </button>
+        </ion-item-options>
+        <ion-item-options side="right">
+          <button ion-button color="danger" (click)="deleteCallReq(req.key)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+    <h4 class="text-center" *ngIf="selectedDate.length == 0">{{noEventsLabel}}</h4>
+  </ng-template>
+
+  
+  <calendar [monthviewEventDetailTemplate]="template"  [eventSource]="myAppointments" [calendarMode]="calendar.mode" 
+    (onTitleChanged)="onViewTitleChanged($event)" [currentDate]="calendar.currentDate" 
+    (onEventSelected)="onEventSelected($event)" (onTimeSelected)="onTimeSelected($event)"
+    step="30" class="calendar">
+  </calendar> 
+</ion-content>

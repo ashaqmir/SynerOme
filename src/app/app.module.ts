@@ -14,8 +14,6 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-import { NgCalendarModule } from 'ionic2-calendar';
-
 
 import {
   AuthanticationServiceProvider, AppStateServiceProvider, UserDataPreloaderProvider,
@@ -37,9 +35,17 @@ import {
   UserProfilePage, ConsumerDashboardPage,
   PreferencesPage, ProductListPage, ProductDetailsPage,
   CartPage, OrderFinalPage, AddressPage, AddressListPage,
-  RegisterKitPage, UserOptionsPage
+  RegisterKitPage, UserOptionsPage, ConsumerAppointmentsPage
 } from '../pages/consumer/consumer';
-import { AppointmentsPage, UserListPage, ConfrencePage, HealthPage } from '../pages/pages';
+
+import {HealthPage } from '../pages/pages';
+import { UserListPage, ConfrencePage } from '../pages/shared/shared';
+
+import { PractitionerTabsPage, PractitionerOptionsPage,
+   PractitionerAppointmentsPage, PractitionerProfilePage, 
+   PatientsPage, NotificationPage } from '../pages/practitioner/practitioner';
+
+import { NgCalendarModule } from 'ionic2-calendar/calendar.module';
 
 
 var firebaseConfig = {
@@ -68,7 +74,7 @@ var firebaseConfig = {
     UserProfilePage,
     ConsumerDashboardPage,
     PreferencesPage,
-    AppointmentsPage,
+    ConsumerAppointmentsPage,
     ProductListPage,
     ProductDetailsPage,
     CartPage,
@@ -80,6 +86,13 @@ var firebaseConfig = {
     HealthPage,
     RegisterKitPage,
     UserOptionsPage,
+
+    PractitionerTabsPage,
+    PractitionerOptionsPage,
+    PractitionerProfilePage,
+    PatientsPage,
+    PractitionerAppointmentsPage,
+    NotificationPage
   ],
   imports: [
     BrowserModule,
@@ -90,8 +103,8 @@ var firebaseConfig = {
     IonicStorageModule.forRoot({
       name: '__synerDb'
     }),
+    NgCalendarModule,
     HttpModule,
-    NgCalendarModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -110,7 +123,7 @@ var firebaseConfig = {
     UserProfilePage,
     ConsumerDashboardPage,
     PreferencesPage,
-    AppointmentsPage,
+    ConsumerAppointmentsPage,
     ProductListPage,
     CartPage,
     OrderFinalPage,
@@ -122,6 +135,14 @@ var firebaseConfig = {
     HealthPage,
     RegisterKitPage,
     UserOptionsPage,
+
+    PractitionerTabsPage,
+    PractitionerOptionsPage,
+    PractitionerProfilePage,
+    PatientsPage,
+    PractitionerAppointmentsPage,
+    NotificationPage
+
   ],
   providers: [
     StatusBar,

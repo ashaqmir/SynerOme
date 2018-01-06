@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
 import * as moment from 'moment';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
+import { AppStateServiceProvider } from '../../../providers/app-state-service/app-state-service';
 import { Observable } from 'rxjs/Observable';
-import { IProfile, IFacetimeRequest } from '../../models/models';
+import { IProfile, IFacetimeRequest } from '../../../models/models';
 
 @IonicPage()
 @Component({

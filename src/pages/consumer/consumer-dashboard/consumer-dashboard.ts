@@ -2,12 +2,11 @@
 import { Component } from '@angular/core';
 import { NavController, ModalController, FabContainer, MenuController, ToastController, LoadingController, PopoverController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
-
-import { CallControlBoxPage } from '../../pages';
 import { IProfile } from '../../../models/models';
 import { AuthanticationServiceProvider, AppStateServiceProvider } from '../../../providers/providers';
 import { ProductListPage, RegisterKitPage, UserOptionsPage } from '../consumer';
 import { LoginPage } from '../../auth/auth';
+import { CallControlBoxPage } from '../../shared/shared';
 
 @Component({
   selector: 'page-consumer-dashboard',
@@ -84,14 +83,6 @@ export class ConsumerDashboardPage {
             }
             this.navCtrl.setRoot(LoginPage);
           }
-        }
-        else {
-          console.log('auth false');
-          if (removePop) {
-            loadingPopup.dismiss()
-            removePop = false;
-          }
-          this.navCtrl.setRoot(LoginPage);
         }
       });
 

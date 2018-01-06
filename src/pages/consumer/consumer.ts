@@ -11,3 +11,4 @@ export * from './consumer-tabs/consumer-tabs';
 export * from './home/home';
 export * from './consumer-dashboard/consumer-dashboard';
 export * from './preferences/preferences';
+export * from './consumer-appointments/consumer-appointments';

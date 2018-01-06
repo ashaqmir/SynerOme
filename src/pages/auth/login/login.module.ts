@@ -9,8 +9,7 @@ import { TextMaskModule } from 'angular2-text-mask';
     LoginPage,
   ],
   imports: [
-    IonicPageModule.forChild(LoginPage),
-    TextMaskModule
+    IonicPageModule.forChild(LoginPage)
   ],
 })
 export class LoginPageModule {}

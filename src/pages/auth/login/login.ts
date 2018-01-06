@@ -5,10 +5,9 @@ import { IUser, IProfile } from '../../../models/models';
 import { AuthanticationServiceProvider, AppStateServiceProvider, 
   StorageHelperProvider, UserDataPreloaderProvider } from '../../../providers/providers';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
-import { MenuController } from 'ionic-angular/components/app/menu-controller';
 import { Events } from 'ionic-angular/util/events';
 import { SignupTypePage, ForgotPage, ConsumerProfilePage, EmailVerificationPage } from '../auth';
-import { PractitionerDashboardPage } from '../../practitioner/practitioner';
+import { PractitionerTabsPage } from '../../practitioner/practitioner';
 import { ConsumerDashboardPage } from '../../consumer/consumer';
 
 @IonicPage()
@@ -36,8 +35,7 @@ export class LoginPage {
     public authProvider: AuthanticationServiceProvider,
     public storageHelper: StorageHelperProvider,
     public preLoader: UserDataPreloaderProvider,
-    private loadingCtrl: LoadingController,
-    private menu: MenuController) {
+    private loadingCtrl: LoadingController) {
     this.appState = appState;
   }
 
@@ -69,7 +67,7 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
-    this.menu.enable(false);
+    console.log('Login loaded...');
   }
 
   goToSignupOptions() {
@@ -105,7 +103,7 @@ export class LoginPage {
                 this.events.publish('profile:recieved', this.appState.userProfile);
                 if (this.userProfile.isNutritionist) {
                   loadingPopup.dismiss();                  
-                  this.navCtrl.setRoot(PractitionerDashboardPage);
+                  this.navCtrl.setRoot(PractitionerTabsPage);
                   this.events.publish('profile:recieved', this.appState.userProfile);
                 } else if (this.userProfile.isProfileComplete) {
                   loadingPopup.dismiss();                  

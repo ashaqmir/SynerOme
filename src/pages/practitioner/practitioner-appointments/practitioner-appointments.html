@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar color="lightblue">
-    <button ion-button menuToggle>
+    <!-- <button ion-button menuToggle>
       <ion-icon name="menu" color="light"></ion-icon>
     </button>
     <ion-title>
@@ -10,18 +10,19 @@
       <button ion-button round (click)="addEvent()">
         <ion-icon name="add-circle"></ion-icon>
       </button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
-
   <ng-template #template let-selectedDate="selectedDate.events" let-noEventsLabel="noEventsLabel">
     <ion-list>
       <ion-item-sliding *ngFor="let req of selectedDate">
         <ion-item *ngIf="req.status !== 'deleted'" [color]="req.status=='accepted'? 'primary' : 'danger'">
-          {{req.title}}
+          <h2>{{req.title}}</h2>
+          <p>START: {{getTime(req.startTime)}}</p>
+          <p>END: {{getTime(req.endTime)}}</p>
         </ion-item>
         <ion-item-options side="left">
           <button ion-button color="secondary" *ngIf="req.idTo === userProfile.id && req.status === 'pending'" (click)="acceptCall(req.key)">
@@ -42,12 +43,21 @@
       </ion-item-sliding>
     </ion-list>
     <h4 class="text-center" *ngIf="selectedDate.length == 0">{{noEventsLabel}}</h4>
-  </ng-template> 
+  </ng-template>
 
-  <!-- [monthviewEventDetailTemplate]="template" -->
-  <calendar [monthviewEventDetailTemplate]="template" [eventSource]="myAppointments" [calendarMode]="calendar.mode" 
-    (onTitleChanged)="onViewTitleChanged($event)" [currentDate]="calendar.currentDate" 
-    (onEventSelected)="onEventSelected($event)" (onTimeSelected)="onTimeSelected($event)"
-    step="30" class="calendar">
-  </calendar>
+  <ion-card>
+    <ion-item>
+      <span item-left> {{viewTitle}}</span>
+      <ion-badge item-left>260k</ion-badge>
+      <button ion-button icon-only item-end (click)="addEvent()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item>
+      <calendar [monthviewEventDetailTemplate]="template" [eventSource]="myAppointments" [calendarMode]="calendar.mode" (onTitleChanged)="onViewTitleChanged($event)"
+        [currentDate]="calendar.currentDate" (onEventSelected)="onEventSelected($event)" (onTimeSelected)="onTimeSelected($event)"
+        step="30" class="calendar">
+      </calendar>
+    </ion-item>
+  </ion-card>
 </ion-content>

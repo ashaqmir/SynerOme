@@ -1,6 +1,6 @@
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, MenuController, LoadingController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, LoadingController, Events } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/take';
@@ -37,7 +37,6 @@ export class DemographicPage {
     private afAuth: AngularFireAuth,
     private afDb: AngularFireDatabase,
     private loadingCtrl: LoadingController,
-    private menu: MenuController,
     private appState: AppStateServiceProvider,
     private storageHelper: StorageHelperProvider,
     public authProvider: AuthanticationServiceProvider
@@ -66,7 +65,6 @@ export class DemographicPage {
   }
 
   ionViewDidLoad() {
-    this.menu.enable(false);
   }
 
   onSubmit(values) {

@@ -1,20 +1,24 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
-import { IFacetimeRequestView, IProfile, IFacetimeRequest } from '../../models/models';
-import { AppStateServiceProvider } from '../../providers/app-state-service/app-state-service';
+import { IFacetimeRequestView, IProfile, IFacetimeRequest } from '../../../models/models';
+import { AppStateServiceProvider } from '../../../providers/app-state-service/app-state-service';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as moment from 'moment';
-import { ConfrencePage } from '../pages';
-import { LoginPage } from '../auth/auth';
+import { LoginPage } from '../../auth/auth';
+import { ConfrencePage } from '../../shared/shared';
+import { CalendarComponent } from 'ionic2-calendar/calendar';
+import { MonthViewComponent } from 'ionic2-calendar/monthview';
+import { WeekViewComponent } from 'ionic2-calendar/weekview';
+import { DayViewComponent } from 'ionic2-calendar/dayview';
 
 
 @IonicPage()
 @Component({
-  selector: 'page-appointments',
-  templateUrl: 'appointments.html',
+  selector: 'page-consumer-appointments',
+  templateUrl: 'consumer-appointments.html',
 })
-export class AppointmentsPage {
+export class ConsumerAppointmentsPage {
   userProfile: IProfile;
   myAppointments: IFacetimeRequestView[] = [];
 
@@ -49,24 +53,7 @@ export class AppointmentsPage {
         if (this.appState.userProfile) {
           this.userProfile = this.appState.userProfile;
           if (this.userProfile) {
-            if (this.userProfile.isNutritionist && this.userProfile.nutritionistLicenseNumber) {
-              let allrequests;
-              this.fDb.database.ref('/faceTimeRequests').orderByChild('idTo').equalTo(this.afAuth.auth.currentUser.uid).on('value', (snapshot) => {
-                allrequests = snapshot.val();
-                this.myAppointments = []
-                for (var req in allrequests) {
-                  var request = allrequests[req]
-                  if (request && request.status !== 'deleted') {
-                    let faceTime = request;
-                    faceTime.startTime = new Date(request.startTime);
-                    faceTime.endTime = new Date(request.endTime);
-
-                    request.key = req;
-                    this.myAppointments.push(faceTime);
-                  }
-                }
-              });
-            } else {
+            if (!this.userProfile.isNutritionist) {
               let allrequests;
               this.fDb.database.ref('/faceTimeRequests').orderByChild('idFrom').equalTo(this.afAuth.auth.currentUser.uid).on('value', (snapshot) => {
                 allrequests = snapshot.val();

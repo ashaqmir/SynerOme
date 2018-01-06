@@ -1,4 +1,4 @@
-import { IonicPage, NavController, LoadingController, AlertController, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, LoadingController, AlertController } from 'ionic-angular';
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthanticationServiceProvider } from '../../../providers/providers';
@@ -20,9 +20,7 @@ export class ForgotPage {
     public navCtrl: NavController,
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
-    public authProvider: AuthanticationServiceProvider,
-    private menu: MenuController
-  ) {
+    public authProvider: AuthanticationServiceProvider) {
 
     this.resetPasswordForm = formBuilder.group({
       email: new FormControl('', Validators.compose([
@@ -33,7 +31,6 @@ export class ForgotPage {
   }
 
   ionViewDidLoad() {
-    this.menu.enable(false);
   }
   resetPassword() {
     if (!this.resetPasswordForm.valid) {

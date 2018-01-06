@@ -1,0 +1,19 @@
+<div class="side-menu-gradient">
+  <div class="menu-header">
+    <img class="user-avatar round" [src]="userProfImage" style="display: block; width: 40%; height: auto; margin-left: auto; margin-right: auto;"
+    />
+    <h1 class="name">{{ user?.firstName + ' ' + user?.lastName}}</h1>
+  </div>
+
+  <div class="list-box">
+    <ion-list no-lines>
+      <div *ngFor="let menu of menuItems">
+        <ion-item menuClose (click)="openPage(menu)" class="side-menu-item">
+          <ion-icon [name]="menu.icon" color="danger" item-left></ion-icon>
+          {{menu.name}}
+        </ion-item>
+      </div>
+
+    </ion-list>
+  </div>
+</div>
