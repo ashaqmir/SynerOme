@@ -58,11 +58,12 @@ export class PractitionerOptionsPage {
   doAction(action: string) {
     if (action === 'action:logout') {
       this.authProvider.logoutUser();
-      //this.navCtrl.popAll();
+      this.navCtrl.popAll();
+      
       this.app.getRootNav().setRoot(LoginPage).catch(err => console.error(err));
       //this.navCtrl.setRoot(LoginPage).catch(err => console.error(err));
-      this.navCtrl.popToRoot();
-      this.viewCtrl.dismiss();
+      //this.navCtrl.popToRoot();
+    
     }
   }
 
