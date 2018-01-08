@@ -29,7 +29,7 @@
             <ion-icon name="checkmark"></ion-icon>
             Accept
           </button>
-          <button ion-button color="primary" [disabled]="req.status !== 'accepted'" (click)="call(req.callIdFrom, req.callIdTo)">
+          <button ion-button color="primary" [disabled]="req.status !== 'accepted'" (click)="call(req.callIdTo, req.callIdFrom)">
             <ion-icon name="videocam"></ion-icon>
             Call
           </button>

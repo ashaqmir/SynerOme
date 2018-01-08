@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController, ViewController } from 'ionic-angular';
 import { IFacetimeRequestView, IProfile, IFacetimeRequest } from '../../../models/models';
 import { AppStateServiceProvider } from '../../../providers/app-state-service/app-state-service';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -8,10 +8,10 @@ import * as moment from 'moment';
 import { LoginPage } from '../../auth/auth';
 import { ConfrencePage } from '../../shared/shared';
 
-import { CalendarComponent } from 'ionic2-calendar/calendar';
-import { MonthViewComponent } from 'ionic2-calendar/monthview';
-import { WeekViewComponent } from 'ionic2-calendar/weekview';
-import { DayViewComponent } from 'ionic2-calendar/dayview';
+// import { CalendarComponent } from 'ionic2-calendar/calendar';
+// import { MonthViewComponent } from 'ionic2-calendar/monthview';
+// import { WeekViewComponent } from 'ionic2-calendar/weekview';
+// import { DayViewComponent } from 'ionic2-calendar/dayview';
 
 
 @IonicPage()
@@ -33,6 +33,7 @@ export class PractitionerAppointmentsPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
+    public viewCtrl: ViewController,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     public appState: AppStateServiceProvider,
@@ -112,12 +113,21 @@ export class PractitionerAppointmentsPage {
   }
 
   call(callToId, callFromId) {
-    console.log(callToId);
-    this.navCtrl.push(ConfrencePage,
+
+    let modal = this.modalCtrl.create(ConfrencePage,
       {
         callToId: callToId,
         callFromId: callFromId
       });
+
+    modal.present();
+    // console.log(callToId);
+    // this.navCtrl.push(ConfrencePage,
+    //   {
+    //     callToId: callToId,
+    //     callFromId: callFromId
+    //   });
+    //   this.viewCtrl.dismiss();
   }
 
   acceptCall(requestKey) {
@@ -134,7 +144,7 @@ export class PractitionerAppointmentsPage {
         nameFrom: request.nameFrom,
         nameTo: request.nameTo,
         status: 'accepted',
-        callIdTo: this.generateRandom(),
+        callIdTo: this.appState.userProfile.callId,
         callIdFrom: request.callIdFrom,
         startTime: request.startTime,
         endTime: request.endTime,

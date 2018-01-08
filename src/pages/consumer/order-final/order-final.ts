@@ -1,6 +1,6 @@
-import { DashboardPage } from './../dashboard/dashboard';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ConsumerDashboardPage } from '../consumer';
 
 
 @IonicPage()
@@ -33,6 +33,6 @@ export class OrderFinalPage {
   }
 
   goHome() {
-    this.navCtrl.setRoot(DashboardPage);
+    this.navCtrl.setRoot(ConsumerDashboardPage);
   }
 }

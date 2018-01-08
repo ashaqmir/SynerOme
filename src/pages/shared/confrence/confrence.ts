@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Events } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AppStateServiceProvider } from '../../../providers/app-state-service/app-state-service';
+import { ConfrenceServiceProvider } from '../../../providers/providers';
 
 
-declare var apiRTC: any
 
 @IonicPage()
 @Component({
@@ -18,51 +18,92 @@ export class ConfrencePage {
   showInCall: boolean;
   showStatus: boolean;
 
-  webRTCClient;
-
-  incomingCallId: string = '';
-  myCallId;
-  status;
-  outgoingCalleeId: string = '';
+  calleeId: string = '';
+  callerId: string = '';
 
   muted: boolean = false;
 
+
+  incomingCallId: string;
+  inCall: boolean = false;
+
+  private confSvc: any;
+  private appState: any;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private fAuth: AngularFireAuth,
-    public appState: AppStateServiceProvider,
+    public events: Events,
+    appState: AppStateServiceProvider,
     private alertCtrl: AlertController,
-    ) {
-    this.incomingCallId = this.navParams.get('callToId');
-    this.outgoingCalleeId = this.navParams.get('callFromId');
+    confService: ConfrenceServiceProvider
+  ) {
+    this.confSvc = confService;
+    this.appState = appState;
+
+    this.calleeId = this.navParams.get('callToId');
+    this.callerId = this.navParams.get('callFromId');
 
 
 
-    if (this.fAuth.auth.currentUser) {
-      //var proccessing = false;
-      // if (this.incomingCallId && proccessing) {
-      //   proccessing = true;
-      //   console.log('Answering..');
-      //   this.answerCall(this.incomingCallId);
-      // }
+    // if (this.fAuth.auth.currentUser) {
+    //   //var proccessing = false;
+    //   // if (this.incomingCallId && proccessing) {
+    //   //   proccessing = true;
+    //   //   console.log('Answering..');
+    //   //   this.answerCall(this.incomingCallId);
+    //   // }
 
-      // if (this.outgoingCalleeId && proccessing) {
-      //   proccessing = true;
-      //   console.log('Calling..');
-      //   this.makeCall(this.outgoingCalleeId);
-      // }
-    } else {
-      this.navCtrl.setRoot('LoginPage');
-    }
+    //   // if (this.outgoingCalleeId && proccessing) {
+    //   //   proccessing = true;
+    //   //   console.log('Calling..');
+    //   //   this.makeCall(this.outgoingCalleeId);
+    //   // }
+    // } else {
+    //   this.navCtrl.setRoot('LoginPage');
+    // }
   }
 
 
   ionViewDidLoad() {
 
-    this.InitializeApiRTC();
+    this.events.subscribe('incomingCall', evt => {
+      this.incomingCallHandler(evt);
+    });
 
-    console.log('inComming:' + this.incomingCallId);
-    console.log('outGoing:' + this.outgoingCalleeId);
+    this.events.subscribe('userMediaError', evt => {
+      this.userMediaErrorHandler(evt);
+    });
+
+    this.events.subscribe('remoteStreamAdded', evt => {
+      this.remoteStreamAddedHandler(evt);
+      console.log('Remote Media added REMOTE');
+    });
+
+    this.events.subscribe('userMediaSuccess', evt => {
+      this.userMediaSuccessHandler(evt);
+    });
+
+    this.events.subscribe('hangup', evt => {
+      this.hangupHandler(evt);
+    });
+
+    this.sessionReadyHandler();
+  }
+
+  sessionReadyHandler() {
+    if (!this.callerId) {
+      this.confSvc.initialize().then(data => {
+        let infoLabel = "Your local ID : " + this.confSvc.sessionId;
+        console.log(infoLabel);
+        this.ShowCallWaitingControls();
+      });
+    } else {
+      this.confSvc.initialize(this.callerId).then(data => {
+        let infoLabel = "Your local ID : " + this.confSvc.sessionId;
+        console.log(infoLabel);
+        this.ShowCallWaitingControls();
+      });
+    }
   }
 
   ionViewWillLoad() {
@@ -71,85 +112,57 @@ export class ConfrencePage {
     }
   }
 
-
-  InitializeApiRTC() {
-    if (this.fAuth.auth.currentUser) {
-      this.myCallId = this.fAuth.auth.currentUser.uid;
-      apiRTC.init({
-        apiKey: "819abef1fde1c833e0601ec6dd4a8226",
-        apiCCId: this.outgoingCalleeId,
-        onReady: (e) => {
-          this.sessionReadyHandler(e);
-        }
-      });
-
+  incomingCallHandler(e) {
+    this.incomingCallId = e.detail.callId;
+    if (this.incomingCallId) {
+      this.ShowIncomingCallControls();
     }
   }
 
+  remoteStreamAddedHandler(e) {
+    console.log("remoteStreamAddedHandler", e);
 
-  sessionReadyHandler(e) {
-    this.myCallId = apiRTC.session.apiCCId;
-    console.log('my Call id:' + this.myCallId);
-    this.AddEventListeners();
-    this.InitializeWebRTCClient();
+    this.confSvc.webRTCClient.addStreamInDiv(
+      e.detail.stream,
+      e.detail.callType,
+      "remote",
+      'remoteElt-' + e.detail.callId,
+      { width: "100%" },
+      false
+    );
+    //this.currentCallId = e.detail.callId;
+    //setTimeout(this.refreshVideoView, 100);
+    console.log('REMOTE MEDIA ADDED');
   }
 
-  InitializeWebRTCClient() {
-    this.webRTCClient = apiRTC.session.createWebRTCClient({
-      status: "status" //Optionnal
-    });
+  userMediaSuccessHandler(e) {
+    console.log("userMediaSuccessHandler", e);
+    this.confSvc.webRTCClient.addStreamInDiv(
+      e.detail.stream,
+      e.detail.callType,
+      "mini",
+      'miniElt-' + e.detail.callId,
+      { width: "128px", height: "96px" },
+      true
+    );
+    //this.calleeId = e.detail.callId;
+    console.log('USER MEDIA ADDED');
+  }
 
+  userMediaErrorHandler(e) {
   }
 
 
-  AddEventListeners() {
+  removeMediaElements(callId) {
+    this.confSvc.webRTCClient.removeElementFromDiv('mini', 'miniElt-' + callId);
+    this.confSvc.webRTCClient.removeElementFromDiv('remote', 'remoteElt-' + callId);
+  }
 
-    apiRTC.addEventListener("webRTCClientCreated", (e) => {
-      console.log("webRTC Client Created");
+  hangupHandler(e) {
+    console.log("hangupHandler");
 
-      this.webRTCClient.setAllowMultipleCalls(false);
-      this.webRTCClient.setVideoBandwidth(600);
-      this.webRTCClient.setUserAcceptOnIncomingCall(true);
-
-      this.IntializeCallControls()
-    });
-
-    apiRTC.addEventListener("userMediaSuccess", (e) => {
-      this.showStatus = true;
-
-      this.webRTCClient.addStreamInDiv(e.detail.stream, e.detail.callType, "boxOutgoing", 'boxOutgoing-' + e.detail.callId, {
-        width: "100%",
-        height: "100%"
-      }, true);
-
-    });
-
-    apiRTC.addEventListener("userMediaError", (e) => {
-      this.IntializeCallControls();
-      this.status = this.status + "<br/> The following error has occurred <br/> " + e;
-    });
-
-    apiRTC.addEventListener("incomingCall", (e) => {
-      this.InitializeControlsForIncomingCall();
-      this.incomingCallId = e.detail.callId;
-    });
-
-    apiRTC.addEventListener("hangup", (e) => {
-      if (e.detail.lastEstablishedCall === true) {
-
-        this.IntializeCallControls();
-      }
-      this.status = this.status + "<br/> The call has been hunged up due to the following reasons <br/> " + e.detail.reason;
-      this.RemoveMediaElements(e.detail.callId);
-    });
-
-    apiRTC.addEventListener("remoteStreamAdded", (e) => {
-      this.webRTCClient.addStreamInDiv(e.detail.stream, e.detail.callType, "boxIncomming", 'boxIncomming-' + e.detail.callId, {
-        width: "100%",
-        height: "100%"
-      }, true);
-
-    });
+    this.removeMediaElements(e.detail.callId);
+    this.ShowCallWaitingControls();
   }
 
   leave() {
@@ -188,53 +201,33 @@ export class ConfrencePage {
   }
 
 
-
-  RemoveMediaElements(callId) {
-    this.webRTCClient.removeElementFromDiv('boxOutgoing', 'boxOutgoing-' + callId);
-    this.webRTCClient.removeElementFromDiv('boxIncomming', 'boxIncomming-' + callId);
-  }
-
   makeCall(calleeId) {
-    var callId = this.webRTCClient.call(calleeId);
+    var callId = this.confSvc.webRTCClient.call(calleeId);
     if (callId != null) {
-      //this.incomingCallId = callId;
-      this.IntializeInCallControls();
+      this.ShowInCallControls();
     }
   }
 
   call() {
-    console.log('calling to:' + this.incomingCallId);
-    this.makeCall(this.incomingCallId);
+    console.log('calling to:' + this.calleeId);
+    this.makeCall(this.calleeId);
   }
 
   hangup() {
-    this.disconnect(this.incomingCallId);
-
+    this.confSvc.webRTCClient.hangUp(this.incomingCallId);
+    this.ShowCallWaitingControls();
   }
 
-  answerIncommingCall() {
-    this.answerCall(this.incomingCallId);
-  }
 
   answerCall(incomingCallId) {
-    if (this.webRTCClient) {
-      this.webRTCClient.acceptCall(incomingCallId);
+    if (this.confSvc.webRTCClient) {
+      this.confSvc.webRTCClient.acceptCall(incomingCallId);
     }
     // // this.nativeAudio.stop('uniqueI1').then(() => { }, () => { });
 
-    this.IntializeInCallControls();
+    this.ShowCallWaitingControls();
   }
 
-  disconnect(incomingCallId) {
-
-    if (this.webRTCClient) {
-      this.webRTCClient.hangUp();
-    }
-    // this.confProvider.confrenceClient.refuseCall(incomingCallId);
-    // //this.UpdateControlsOnReject();
-    this.RemoveMediaElements(incomingCallId);
-    this.IntializeCallControls();
-  }
 
   back() {
     const alert = this.alertCtrl.create({
@@ -252,12 +245,12 @@ export class ConfrencePage {
           text: 'Leave',
           handler: () => {
             console.log('Leave clicked');
-            this.hangup();  
-            apiRTC.disconnect();         
+            this.removeMediaElements(this.incomingCallId);
+            this.hangup();
             this.navCtrl.pop().then(() => {
-              console.log('Clearing apiRTC');           
+              console.log('Clearing apiRTC');
             })
-            
+
             // .then(() => {
             //   // first we find the index of the current view controller:
             //   const index = this.viewCtrl.index;
@@ -272,49 +265,32 @@ export class ConfrencePage {
     alert.present();
 
   }
-  IntializeInCallControls() {
+  ShowInCallControls() {
+    console.log('Intialize IN call controls');
     this.showCall = false;
     this.showIncomming = false;
     this.showInCall = true;
   }
 
-  InitializeControlsForIncomingCall() {
+  ShowIncomingCallControls() {
+    console.log('Intialize incomming call controls');
     this.showIncomming = true;
     this.showCall = false;
     this.showInCall = false;
   }
 
-
-  IntializeCallControls() {
-    console.log('Intialize call controls called');
+  ShowCallWaitingControls() {
+    console.log('Intialize call waiting controls');
     this.showCall = true;
     this.showInCall = false;
     this.showIncomming = false;
   }
 
-
-  AddStreamInDiv(stream, callType, divId, mediaEltId, style, muted) {
-    let mediaElt = null;
-    let divElement = null;
-
-    if (callType === 'audio') {
-      mediaElt = document.createElement("audio");
-    } else {
-      mediaElt = document.createElement("video");
-    }
-
-    mediaElt.id = mediaEltId;
-    mediaElt.autoplay = true;
-    mediaElt.muted = muted;
-    mediaElt.style.width = style.width;
-    mediaElt.style.height = style.height;
-
-    divElement = document.getElementById(divId);
-    divElement.appendChild(mediaElt);
-
-    this.webRTCClient.attachMediaStream(mediaElt, stream);
+  answer() {
+    this.confSvc.webRTCClient.acceptCall(this.incomingCallId);
+    this.ShowInCallControls();
   }
-
-
-
+  reject() {
+    this.confSvc.webRTCClient.refuseCall(this.incomingCallId);
+  }
 }

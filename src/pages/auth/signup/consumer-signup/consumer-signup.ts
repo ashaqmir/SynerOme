@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController, ModalController }
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 import emailMask from 'text-mask-addons/dist/emailMask';
 import { PasswordValidator } from '../../../../validators/validators';
-import { AuthanticationServiceProvider } from '../../../../providers/providers';
+import { AuthanticationServiceProvider, SharedUtilsProvider } from '../../../../providers/providers';
 import { IProfile, IUser } from '../../../../models/models';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import * as firebase from 'firebase';
@@ -27,7 +27,8 @@ export class ConsumerSignupPage {
     private toast: ToastController,
     private modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
-    public authProvider: AuthanticationServiceProvider) {
+    public authProvider: AuthanticationServiceProvider,
+    public sharedUtils: SharedUtilsProvider) {
   }
 
   ionViewWillLoad() {
@@ -58,6 +59,8 @@ export class ConsumerSignupPage {
           this.profile.lastName = values.lastName;
           this.profile.phone = values.phone;
           this.profile.isProfileComplete = false;
+          this.profile.callId= this.sharedUtils.getIdNumberFromSeed(user.email); 
+          
           console.log('Registered');
           console.log(data);
           this.authProvider.loginUser(user.email, user.password)

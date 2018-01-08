@@ -1,3 +1,4 @@
+import { SharedUtilsProvider } from './../providers/shared-utils/shared-utils';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -161,7 +162,8 @@ var firebaseConfig = {
     Camera,
     ImageProvider,
     BarcodeScanner,
-    UserDataPreloaderProvider
+    UserDataPreloaderProvider,
+    SharedUtilsProvider
   ]
 })
 export class AppModule { }

@@ -37,7 +37,7 @@ export class EventModalPage {
       nameFrom: this.appState.userProfile.firstName + ' ' + this.appState.userProfile.lastName,
       idTo: '',
       nameTo: '',
-      callIdFrom: this.generateRandom(),
+      callIdFrom: this.appState.userProfile.callId,
       status: 'pending'
 
     };

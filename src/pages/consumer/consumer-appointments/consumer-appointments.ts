@@ -7,10 +7,10 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import * as moment from 'moment';
 import { LoginPage } from '../../auth/auth';
 import { ConfrencePage } from '../../shared/shared';
-import { CalendarComponent } from 'ionic2-calendar/calendar';
-import { MonthViewComponent } from 'ionic2-calendar/monthview';
-import { WeekViewComponent } from 'ionic2-calendar/weekview';
-import { DayViewComponent } from 'ionic2-calendar/dayview';
+// import { CalendarComponent } from 'ionic2-calendar/calendar';
+// import { MonthViewComponent } from 'ionic2-calendar/monthview';
+// import { WeekViewComponent } from 'ionic2-calendar/weekview';
+// import { DayViewComponent } from 'ionic2-calendar/dayview';
 
 
 @IonicPage()
@@ -111,12 +111,19 @@ export class ConsumerAppointmentsPage {
   }
 
   call(callToId, callFromId) {
-    console.log(callToId);
-    this.navCtrl.push(ConfrencePage,
+    let modal = this.modalCtrl.create(ConfrencePage,
       {
         callToId: callToId,
         callFromId: callFromId
       });
+
+    modal.present();
+    // console.log(callToId);
+    // this.navCtrl.push(ConfrencePage,
+    //   {
+    //     callToId: callToId,
+    //     callFromId: callFromId
+    //   });
   }
 
   acceptCall(requestKey) {

@@ -24,4 +24,6 @@ export interface IProfile {
     isProfileComplete: boolean;
 
     profilePicUrl: string;
+
+    callId: number;
 }
