@@ -8,6 +8,6 @@ import { ConfrencePage } from './confrence';
   ],
   imports: [
     IonicPageModule.forChild(ConfrencePage),
-  ],
+  ]
 })
 export class ConfrencePageModule {}

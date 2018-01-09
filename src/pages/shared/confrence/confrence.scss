@@ -10,12 +10,13 @@ page-confrence {
     #mini {
         background-color: rgb(67, 65, 177);
         position: absolute;
-        bottom: 0;
-        right: 0;
+        bottom: 16px;
+        right: 16px;
         width: 25%;
         height: 15%;
         border-radius: 4px;
     }
+
     ion-footer {
         height: 60px;
     }
@@ -28,9 +29,7 @@ page-confrence {
         border-top: 1px solid $transparent-white;
         background-image: none;
     }
-    ion-footer ion-row ion-col div {
-        border-radius: 2px;
-        padding: 5px;
+    ion-footer ion-row ion-col div {       
         text-align: center;
     }
 }

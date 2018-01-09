@@ -13,7 +13,7 @@ export class MyApp {
 
   @ViewChild(Nav) nav: Nav;
   rootPage: any = 'LoginPage';
-  //rootPage: any = 'ConsumerTabsPage';
+  //rootPage: any = 'ConfrencePage';
   selectedTheme: string = 'light-theme';
 
 

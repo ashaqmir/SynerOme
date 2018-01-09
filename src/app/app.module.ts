@@ -1,3 +1,4 @@
+import { ConfrencePageModule } from './../pages/shared/confrence/confrence.module';
 import { SharedUtilsProvider } from './../providers/shared-utils/shared-utils';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -49,6 +50,7 @@ import { PractitionerTabsPage, PractitionerOptionsPage,
 import { NgCalendarModule } from 'ionic2-calendar/calendar.module';
 
 
+
 var firebaseConfig = {
   apiKey: "AIzaSyABTzyLaNnPgZyX3C-95r1GNhpxKKezJKM",
   authDomain: "synerome-f2748.firebaseapp.com",
@@ -83,7 +85,6 @@ var firebaseConfig = {
     AddressPage,
     AddressListPage,
     UserListPage,
-    ConfrencePage,
     HealthPage,
     RegisterKitPage,
     UserOptionsPage,
@@ -106,6 +107,8 @@ var firebaseConfig = {
     }),
     NgCalendarModule,
     HttpModule,
+
+    ConfrencePageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -132,7 +135,6 @@ var firebaseConfig = {
     AddressListPage,
     ProductDetailsPage,
     UserListPage,
-    ConfrencePage,
     HealthPage,
     RegisterKitPage,
     UserOptionsPage,
