@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events, ViewController, App } from 'ionic-angular';
 import { IProfile } from '../../../models/models';
 import { AuthanticationServiceProvider, AppStateServiceProvider } from '../../../providers/providers';
 import { LoginPage } from '../../auth/auth';
@@ -18,6 +18,7 @@ export class UserOptionsPage {
   user: IProfile;
 
   constructor(public navCtrl: NavController,
+    public app: App,
     public events: Events,
     public navParams: NavParams,
     public viewCtrl: ViewController,
@@ -47,9 +48,10 @@ export class UserOptionsPage {
   openPage(page) {
     if (page.type === 'page') {
       this.updateActive();
-      page.isActive = true;     
-      this.navCtrl.push(page.component).catch(err => console.error(err));     
-      this.viewCtrl.dismiss();
+      page.isActive = true;
+      this.viewCtrl.dismiss().then(() => {
+        this.app.getRootNav().push(page.component).catch(err => console.error(err));
+      });
     } else if (page.type.startsWith('action')) {
       this.doAction(page.type);
     }
@@ -57,9 +59,11 @@ export class UserOptionsPage {
   doAction(action: string) {
     if (action === 'action:logout') {
       this.authProvider.logoutUser();
-      this.viewCtrl.dismiss();
-      this.navCtrl.setRoot(LoginPage).catch(err => console.error(err));
-      this.navCtrl.popToRoot();
+      this.viewCtrl.dismiss().then(() => {
+        this.app.getRootNav().push(LoginPage).catch(err => console.error(err));
+      });
+      //this.navCtrl.setRoot(LoginPage).catch(err => console.error(err));
+      //this.navCtrl.popToRoot();
     }
   }
 

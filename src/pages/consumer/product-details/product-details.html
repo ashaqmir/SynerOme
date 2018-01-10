@@ -14,7 +14,7 @@
 
   <!--*********** Product name / Price  ***********-->
   <div text-center>
-    <h2 ion-text> {{product.name}}</h2>
+    <h2 ion-text> {{product.shortDescription}}</h2>
     <div *ngIf="product?.discount" class="discount">
       <h3 ion-text color="special-blue">Price: ${{product?.price}}</h3>
     </div>

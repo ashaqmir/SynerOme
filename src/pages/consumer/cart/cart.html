@@ -12,7 +12,7 @@
 
 <ion-content padding [className]="product.name">
 
-  <ion-card >
+  <ion-card>
     <ion-card-header>
       Shipping Address
     </ion-card-header>
@@ -76,9 +76,64 @@
           <h3>{{total | currency:'USD':true}}</h3>
         </ion-col>
       </ion-row>
-      <ion-row>
-        <button ion-button large full outline (click)="purchase()" [disabled]="!enableBuy">Pay</button>
-      </ion-row>
+
     </ion-grid>
   </ion-card>
+  <ion-card>
+    <ion-card-header>
+      Legal
+    </ion-card-header>
+    <ion-list radio-group [(ngModel)]="kitFor">
+      <ion-list-header>
+        DNA kit will be used for:
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Me</ion-label>
+        <ion-radio checked="true" value="me" (ionSelect)="kitForOptionChange()" checked="true"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Other Person</ion-label>
+        <ion-radio value="other" (ionSelect)="kitForOptionChange()"></ion-radio>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+  <div class="kitfor-form-container">
+    <form class="form" [formGroup]="kitForForm" (ngSubmit)="purchase(kitForForm.value)">
+      <ion-item>
+        <!-- <ion-label floating>First name</ion-label> -->
+        <ion-input type="text" formControlName="firstName" placeholder="First name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <!-- <ion-label floating>Last name</ion-label> -->
+        <ion-input type="text" formControlName="lastName" placeholder="Last name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <!-- <ion-label floating>Date of birth</ion-label> -->
+        <ion-datetime displayFormat="MM/DD/YYYY" formControlName="dob" placeholder="Date of birth" class="dob"></ion-datetime>
+      </ion-item>
+
+      <ion-item no-lines>
+        <div *ngFor="let validation of validationMessages.firstName">
+          <p class="error-message" *ngIf="kitForForm.get('firstName').hasError(validation.type) && (kitForForm.get('firstName').dirty || kitForForm.get('firstName').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
+        <div *ngFor="let validation of validationMessages.lastName">
+          <p class="error-message" *ngIf="kitForForm.get('lastName').hasError(validation.type) && (kitForForm.get('lastName').dirty || kitForForm.get('lastName').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
+
+        <div *ngFor="let validation of validationMessages.dob">
+          <p class="error-message" *ngIf="kitForForm.get('dob').hasError(validation.type) && (kitForForm.get('dob').dirty || kitForForm.get('dob').touched)">
+            *{{ validation.message }}
+          </p>
+        </div>
+      </ion-item>
+
+      <ion-item no-lines>
+        <button ion-button large full outline (click)="purchase()" [disabled]="!kitForForm.valid">Pay</button>
+      </ion-item>
+    </form>
+  </div>
 </ion-content>

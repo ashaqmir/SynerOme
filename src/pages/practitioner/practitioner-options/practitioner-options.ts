@@ -48,22 +48,26 @@ export class PractitionerOptionsPage {
     if (page.type === 'page') {
       this.updateActive();
       page.isActive = true;
-      this.navCtrl.push(page.component).catch(err => console.error(err));     
-      this.viewCtrl.dismiss();
+      console.log(page.name);
+      this.viewCtrl.dismiss().then(() => {
+        this.app.getRootNav().push(page.component).catch(err => console.error(err));
+        //this.navCtrl.push(page.component).catch(err => console.error(err)); 
+      });
+      
     } else if (page.type.startsWith('action')) {
       this.doAction(page.type);
     }
-   
+
   }
   doAction(action: string) {
     if (action === 'action:logout') {
       this.authProvider.logoutUser();
-      this.navCtrl.popAll();
+      //this.navCtrl.popAll();
+      this.viewCtrl.dismiss().then(() => {       
+        this.navCtrl.setRoot(LoginPage).catch(err => console.error(err));
+      });
       
-      this.app.getRootNav().setRoot(LoginPage).catch(err => console.error(err));
-      //this.navCtrl.setRoot(LoginPage).catch(err => console.error(err));
-      //this.navCtrl.popToRoot();
-    
+
     }
   }
 
@@ -74,14 +78,7 @@ export class PractitionerOptionsPage {
   }
 
   createMenuItems() {
-    this.menuItems = [    
-      {
-        icon: 'calendar',
-        name: 'Appointments',
-        component: PractitionerAppointmentsPage,
-        type: 'page',
-        isActive: false
-      },
+    this.menuItems = [     
       {
         icon: 'person',
         name: 'Profile',

@@ -1,39 +1,20 @@
 <ion-header no-border>
   <ion-navbar color="lightblue">
-    <ion-title>Shopping</ion-title>    
+    <ion-title>Shopping</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-<ion-content>
-
-  <ion-grid>
-    <ion-row wrap>
-      <ion-col tappable col-12 *ngFor="let product of products" color="gray" (click)="productDetails(product)">
-        <ion-card [className]="product.name" >
-          <div *ngIf="product.isHot" class="ribbon pop-in">HOT
-            <ion-icon name="bonfire"></ion-icon>
-          </div>
-          <img class="pop-in" src="assets/imgs/{{product.name}}.png" />
-          <ion-card-header>
-            {{product.name}}
-          </ion-card-header>
-          <p>
-            {{product.shortDescription}}
-          </p>
-          <h3 *ngIf="product.includes">INCLUDES {{product.includes}}</h3>
-          <ion-card-content>
-            <p *ngIf="!product.discount" ion-text color="special-blue">
-              <strong>${{product.price}}</strong>
-            </p>
-            <p *ngIf="product.discount" ion-text color="special-blue" class="discount">${{product.price}}</p>
-            <p *ngIf="product.discount" ion-text large color="red">
-              <strong>${{product.discountPrice}}</strong>
-            </p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
+<ion-content> 
+  <ion-list>
+    <ion-item tappable class= "space" *ngFor="let product of products" (click)="productDetails(product)">
+      <ion-thumbnail item-start>
+        <img src="assets/imgs/{{product.name}}.png" />
+      </ion-thumbnail>
+      <h2> {{product.shortDescription}}</h2>
+      <h3 *ngIf="product.includes">INCLUDES {{product.includes}}</h3>
+      <p>${{product.price}}</p>
+      <p>{{product.longDescriptions}}</p>
+    </ion-item>
+  </ion-list>
 </ion-content>

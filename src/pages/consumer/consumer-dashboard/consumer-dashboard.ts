@@ -1,6 +1,6 @@
 
 import { Component } from '@angular/core';
-import { NavController, ModalController, FabContainer, MenuController, ToastController, LoadingController, PopoverController } from 'ionic-angular';
+import { NavController, ModalController, FabContainer, ToastController, LoadingController, PopoverController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { IProfile } from '../../../models/models';
 import { AuthanticationServiceProvider, AppStateServiceProvider } from '../../../providers/providers';
@@ -35,7 +35,6 @@ export class ConsumerDashboardPage {
     private loadingCtrl: LoadingController,
     private toast: ToastController,
     private toastCtrl: ToastController,
-    private menu: MenuController,
     private authProvider: AuthanticationServiceProvider,
     appState: AppStateServiceProvider,
     private popoverCtrl: PopoverController
@@ -99,8 +98,8 @@ export class ConsumerDashboardPage {
 
   }
 
-  ionViewDidLoad() {
-    this.menu.enable(true);
+  ionViewDidLoad() {    
+    //this.navCtrl.popToRoot();
   }
 
 

@@ -1,3 +1,4 @@
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, Events } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
@@ -27,19 +28,32 @@ export class CartPage {
   userProfile: IProfile;
   enableBuy: boolean = false;
   shippingAddress: IAddress;
+  kitFor: string = 'me';
+  kitUserInfo: any;
 
+  kitForForm: FormGroup;
+  private appState: any;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private events: Events,
+    public formBuilder: FormBuilder,
     private loadingCtrl: LoadingController,
     public modelCtrl: ModalController,
     private afAuth: AngularFireAuth,
     private afDb: AngularFireDatabase,
-    private appState: AppStateServiceProvider,
+    appState: AppStateServiceProvider,
     private authProvider: AuthanticationServiceProvider,
     private payPal: PayPal) {
+    this.appState = appState;
 
     this.product = this.navParams.get('selectedProduct');
+    this.kitUserInfo = {
+      firstName: '',
+      lastName: '',
+      dob: '',
+    }
+    this.createForm();
+
   }
 
   ionViewWillLoad() {
@@ -96,7 +110,7 @@ export class CartPage {
   }
 
 
-  purchase() {
+  purchase(kitForValues) {
     let loadingPopup = this.loadingCtrl.create({
       spinner: 'crescent',
       content: ''
@@ -248,5 +262,43 @@ export class CartPage {
         addressModel.present()
       }
     }
+  }
+
+  kitForOptionChange() {
+    if (this.kitFor === 'me') {
+      // this.appState.userProfile.
+      this.kitForForm.get('firstName').setValue(this.appState.userProfile.firstName);
+      this.kitForForm.get('lastName').setValue(this.appState.userProfile.lastName);
+      this.kitForForm.get('dob').setValue(this.appState.userProfile.dob);
+    } else if (this.kitFor === 'other') {
+      this.kitForForm.get('firstName').setValue('');
+      this.kitForForm.get('lastName').setValue('');
+      this.kitForForm.get('dob').setValue('');
+    }
+  }
+
+  createForm() {
+    this.kitForForm = this.formBuilder.group({
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      dob: new FormControl('', Validators.required),
+    });
+
+    this.kitForForm.get('firstName').setValue(this.appState.userProfile.firstName);
+    this.kitForForm.get('lastName').setValue(this.appState.userProfile.lastName);
+    this.kitForForm.get('dob').setValue(this.appState.userProfile.dob);
+  }
+
+
+  validationMessages = {
+    'dob': [
+      { type: 'required', message: 'Date of birth is required.' }
+    ],
+    'firstName': [
+      { type: 'required', message: 'First name is required.' }
+    ],
+    'lastName': [
+      { type: 'required', message: 'Last name is required.' }
+    ]
   }
 }

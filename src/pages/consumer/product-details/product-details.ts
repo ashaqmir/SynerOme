@@ -108,4 +108,8 @@ export class ProductDetailsPage {
   shareByFacebook() {
     console.log('FACEBOOK');
   }
+
+  goBack(){
+    this.navCtrl.pop();
+  }
 }

@@ -4,8 +4,10 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { IProfile } from '../../../models/models';
 import { AppStateServiceProvider } from '../../../providers/providers';
 import { LoginPage } from '../../auth/auth';
-import { PractitionerOptionsPage, PatientsPage, 
-  PractitionerAppointmentsPage, NotificationPage } from '../practitioner';
+import {
+  PractitionerOptionsPage, PatientsPage,
+  PractitionerAppointmentsPage, NotificationPage
+} from '../practitioner';
 
 @IonicPage()
 @Component({
@@ -25,7 +27,7 @@ export class PractitionerTabsPage {
     private loadingCtrl: LoadingController,
     private afAuth: AngularFireAuth,
     appState: AppStateServiceProvider,
-    private toast: ToastController, 
+    private toast: ToastController,
     private popoverCtrl: PopoverController) {
     this.appState = appState;
   }
@@ -71,6 +73,10 @@ export class PractitionerTabsPage {
       }).present();
     }
 
+  }
+
+  ionViewDidLoad() {
+    //this.navCtrl.popToRoot();
   }
 
   presentPopover(event) {

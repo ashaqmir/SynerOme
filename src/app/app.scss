@@ -10,9 +10,36 @@
     font-size: 16px;
 }
 
+ .logo {
+        //width: 70%;
+        width: auto;
+        height: auto;
+        padding-top: 2vh;
+        margin-bottom: 2vh;
+    }
+
 .side-menu-gradient {
     background: -webkit-linear-gradient(left top, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
     background: -o-linear-gradient(bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
     background: -moz-linear-gradient(bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
     background: linear-gradient(to bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
 }
+
+.innercontent-padding ion-card-header .item {
+    padding: 4px 30px;
+}
+
+.innercontent-padding ion-card-header,
+.innercontent-padding ion-card-content,
+.innercontent-padding ion-card-content .list ion-item-content,
+{
+    padding: 0;
+}
+
+@media (min-width: 600px) {
+    .innercontent-padding {
+        width: 60%;
+        margin: 23px auto;
+    }
+}
+

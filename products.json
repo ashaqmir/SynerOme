@@ -1,0 +1,91 @@
+{
+  "products": [
+    {
+      "currency": "USD",
+      "discount": 0,
+      "discountPrice": 105,
+      "enabled": true,
+      "features": [
+        "Carbohydrate metabolism",
+        "Energy consumption and appetite",
+        "Fat accumalation and metabolism",
+        "Fiber and triglycerides",
+        "Physical activity and weight loss"
+      ],
+      "id": 0,
+      "includes": "",
+      "isHot": false,
+      "name": "BRONZE",
+      "price": 105,
+      "shortDescription": "Weight loss and management",
+      "longDescriptions": "No short-term diets, no workout fads. SynerOme provides a solid blueprint to help you make the best choices, for you.",
+      "taxPer": 0.07
+    },
+    {
+      "additionalfeatures": [
+        "Carbohydrate metabolism",
+        "Energy consumption and appetite",
+        "Fat accumalation and metabolism",
+        "Fiber and triglycerides",
+        "Physical activity and weight loss"
+      ],
+      "currency": "USD",
+      "discount": 30,
+      "discountPrice": 220,
+      "enabled": true,
+      "features": [
+        "VO2 max maximization",
+        "Endurance potential",
+        "Speed potential",
+        "Power potential",
+        "Injury prevention",
+        "Muscular potential and injury"
+      ],
+      "id": 1,
+      "includes": "Weight loss and management",
+      "isHot": true,
+      "name": "SILVER",
+      "price": 210,
+      "shortDescription": "Atheletic performance Optimization",
+      "longDescriptions": "We help you nurture your nature. Using our extensive experience in elite sports performance, we help you be the best you can be with unique genetic insights.",
+      "taxPer": 0.1
+    },
+    {
+      "additionalfeatures": [
+        "Alcohol metabolism",
+        "Bone health",
+        "Caffeine an nicotine metabolism",
+        "Cardiovascular health",
+        "Digestive health",
+        "Fat sugar and insulin regulation",
+        "Detoxification ability of your body",
+        "Food sensivities"
+      ],
+      "currency": "USD",
+      "discount": 60,
+      "discountPrice": 440,
+      "enabled": true,
+      "features": [
+        "Carbohydrate metabolism",
+        "Energy consumption and appetite",
+        "Fat accumalation and metabolism",
+        "Fiber and triglycerides",
+        "Physical activity and weight loss",
+        "VO2 max maximization",
+        "Endurance potential",
+        "Speed potential",
+        "Power potential",
+        "Injury prevention",
+        "Muscular potential and injury"
+      ],
+      "id": 2,
+      "includes": "Atheletic performance Optimization",
+      "isHot": true,
+      "name": "GOLD",
+      "price": 420,
+      "shortDescription": "For Wellbeing",
+      "longDescriptions": "We believe there is no such thing as a ‘one size fits all’ approach. Long-term vitality and wellbeing should be personal, not general - we help guide this with our simple saliva swab.",
+      "taxPer": 0.05
+    }
+  ]
+}

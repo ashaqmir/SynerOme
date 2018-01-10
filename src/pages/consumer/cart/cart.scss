@@ -77,4 +77,18 @@ page-cart {
         border-right: 1px solid rgba(242, 215, 12, 0.3);
         box-shadow: inset 0px 0px 2px 2px rgba(150, 150, 150, .05);
     }
+    .kitfor-form-container {
+        text-align: center;
+        width: 100%;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .error-message {
+        text-align: right;
+        color: rgb(163, 32, 32);
+    }
+    .dob {
+        padding: 0px;
+        padding-left: 8px;
+    }
 }

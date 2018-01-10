@@ -16,4 +16,10 @@
         color: #fff;
         min-height: 47px;
     }
+
+    .home-container {
+        display: -webkit-flex;
+        -webkit-flex-direction: column;
+        height: 100%;
+   }
 }
