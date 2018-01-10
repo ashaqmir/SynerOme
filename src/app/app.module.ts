@@ -41,7 +41,7 @@ import {
 } from '../pages/consumer/consumer';
 
 import {HealthPage } from '../pages/pages';
-import { UserListPage, ConfrencePage } from '../pages/shared/shared';
+import { UserListPage } from '../pages/shared/shared';
 
 import { PractitionerTabsPage, PractitionerOptionsPage,
    PractitionerAppointmentsPage, PractitionerProfilePage, 

@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, Events, ViewController, App } from
 import { IProfile } from '../../../models/models';
 import { AuthanticationServiceProvider, AppStateServiceProvider } from '../../../providers/providers';
 import { LoginPage } from '../../auth/auth';
-import { PractitionerProfilePage, PractitionerAppointmentsPage } from '../practitioner';
+import { PractitionerProfilePage } from '../practitioner';
 
 @IonicPage()
 @Component({

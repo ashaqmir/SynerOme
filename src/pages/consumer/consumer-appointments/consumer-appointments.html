@@ -4,13 +4,13 @@
       <ion-icon name="menu" color="light"></ion-icon>
     </button>
     <ion-title>
-      {{viewTitle}}
+      Appointments
     </ion-title>
-    <ion-buttons end *ngIf="!userProfile?.isNutritionist">
+    <!-- <ion-buttons end *ngIf="!userProfile?.isNutritionist">
       <button ion-button round (click)="addEvent()">
         <ion-icon name="add-circle"></ion-icon>
       </button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-navbar>
 </ion-header>
 
@@ -44,10 +44,21 @@
     <h4 class="text-center" *ngIf="selectedDate.length == 0">{{noEventsLabel}}</h4>
   </ng-template>
 
-  
-  <calendar [monthviewEventDetailTemplate]="template"  [eventSource]="myAppointments" [calendarMode]="calendar.mode" 
-    (onTitleChanged)="onViewTitleChanged($event)" [currentDate]="calendar.currentDate" 
-    (onEventSelected)="onEventSelected($event)" (onTimeSelected)="onTimeSelected($event)"
-    step="30" class="calendar">
-  </calendar> 
+  <ion-card>
+    <ion-item>
+      <span item-left> {{viewTitle}}</span>
+      <ion-badge item-left>260k</ion-badge>
+      <button ion-button icon-only item-end (click)="addEvent()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item>
+      <calendar [monthviewEventDetailTemplate]="template" [eventSource]="myAppointments" 
+        [calendarMode]="calendar.mode" (onTitleChanged)="onViewTitleChanged($event)"
+        [currentDate]="calendar.currentDate" (onEventSelected)="onEventSelected($event)" 
+        (onTimeSelected)="onTimeSelected($event)"
+        step="30" class="calendar">
+      </calendar>
+    </ion-item>
+  </ion-card>
 </ion-content>

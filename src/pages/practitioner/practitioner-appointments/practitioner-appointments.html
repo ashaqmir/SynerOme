@@ -49,10 +49,10 @@
     <ion-item>
       <span item-left> {{viewTitle}}</span>
       <ion-badge item-left>260k</ion-badge>
-      <button ion-button icon-only item-end (click)="addEvent()">
+      <!-- <button ion-button icon-only item-end (click)="addEvent()">
         <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-item>
+      </button>-->
+    </ion-item> 
     <ion-item>
       <calendar [monthviewEventDetailTemplate]="template" [eventSource]="myAppointments" [calendarMode]="calendar.mode" (onTitleChanged)="onViewTitleChanged($event)"
         [currentDate]="calendar.currentDate" (onEventSelected)="onEventSelected($event)" (onTimeSelected)="onTimeSelected($event)"

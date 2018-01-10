@@ -6,9 +6,9 @@
   </div>
 
   <div class="list-box">
-    <ion-list no-lines>
+    <ion-list >
       <div *ngFor="let menu of menuItems">
-        <ion-item menuClose (click)="openPage(menu)" class="side-menu-item">
+        <ion-item menuClose (click)="openPage(menu)" class="side-menu-item" tappable>
           <ion-icon [name]="menu.icon" color="danger" item-left></ion-icon>
           {{menu.name}}
         </ion-item>
