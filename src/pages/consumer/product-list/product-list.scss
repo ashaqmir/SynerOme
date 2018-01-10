@@ -5,7 +5,14 @@ page-product-list {
     .space{
         margin-top: 10px;
         margin-bottom: 10px;
+    }   
+    .price{
+        color: #df0d0d;
+        font-size: 1.5em;
     }
-   
+
+    .desc{
+        word-break: break-all;
+    }
    
 }

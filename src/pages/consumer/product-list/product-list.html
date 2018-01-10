@@ -5,16 +5,16 @@
 
 </ion-header>
 
-<ion-content> 
+<ion-content>
   <ion-list>
-    <ion-item tappable class= "space" *ngFor="let product of products" (click)="productDetails(product)">
+    <ion-item tappable class= "space" *ngFor="let product of products" (click)="productDetails(product)" text-wrap>
       <ion-thumbnail item-start>
         <img src="assets/imgs/{{product.name}}.png" />
       </ion-thumbnail>
       <h2> {{product.shortDescription}}</h2>
       <h3 *ngIf="product.includes">INCLUDES {{product.includes}}</h3>
-      <p>${{product.price}}</p>
-      <p>{{product.longDescriptions}}</p>
+      <p class="price">${{product.price}}</p>
+      <p class="item-text-wrap">{{product.longDescriptions}}</p>
     </ion-item>
   </ion-list>
 </ion-content>
