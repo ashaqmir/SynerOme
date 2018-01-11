@@ -20,7 +20,7 @@ export class ConfrenceServiceProvider {
 
   }
 
-  initialize(callId): Promise<any> {
+  initialize(callId, userName): Promise<any> {
     return new Promise(resolve => {
       if (!this.started) {
         if (callId) {
@@ -28,6 +28,7 @@ export class ConfrenceServiceProvider {
           apiRTC.init({
             apiKey: "e73c57ca525fb5f2977abe22bf4a68a2",
             apiCCId: callId,
+            nickname: userName,
             onReady: (e) => {
               this.sessionReadyHandler(e);
               this.webRTCClient = apiCC.session.createWebRTCClient({});
@@ -85,6 +86,13 @@ export class ConfrenceServiceProvider {
       this.events.publish('userMediaError', evt);
     });
 
+    apiRTC.addEventListener("callEstablished", evt => {
+      this.events.publish('callEstablished', evt);
+    });
+    
+    apiRTC.addEventListener("remoteHangup", evt => {
+      this.events.publish('remoteHangup', evt);
+    });
     apiRTC.addEventListener("remoteStreamAdded", evt => {
       this.events.publish('remoteStreamAdded', evt);
     });

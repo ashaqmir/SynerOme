@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Events } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { ConfrenceServiceProvider } from '../../../providers/providers';
+import { ConfrenceServiceProvider, AppStateServiceProvider } from '../../../providers/providers';
 
 
 
@@ -23,21 +23,21 @@ export class ConfrencePage {
   currentCallId: string;
   calleeId: string
   callerId: string
-
+  callerEmail: string;
   private confSvc: any;
-  //private appState: any;
+  private appState: any;
 
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private fAuth: AngularFireAuth,
     public events: Events,
-    //appState: AppStateServiceProvider,
+    appState: AppStateServiceProvider,
     private alertCtrl: AlertController,
     confService: ConfrenceServiceProvider
   ) {
     this.confSvc = confService;
-    //this.appState = appState;
+    this.appState = appState;
 
     this.calleeId = this.navParams.get('callToId');
     this.callerId = this.navParams.get('callFromId');
@@ -65,11 +65,14 @@ export class ConfrencePage {
 
 
   ionViewDidLoad() {
+    this.callerEmail = this.appState.userProfile.email;
 
     this.events.subscribe('incomingCall', evt => {
       this.incomingCallHandler(evt);
     });
-
+    this.events.subscribe('callEstablished', evt => {
+      this.callEstablishedHandler(evt);
+    });
     this.events.subscribe('userMediaError', evt => {
       this.userMediaErrorHandler(evt);
     });
@@ -85,25 +88,17 @@ export class ConfrencePage {
 
     this.events.subscribe('hangup', evt => {
       this.hangupHandler(evt);
-    });
+    });    
 
     this.sessionReadyHandler();
   }
 
   sessionReadyHandler() {
-    if (!this.callerId) {
-      this.confSvc.initialize().then(data => {
-        let infoLabel = "Your local ID : " + this.confSvc.sessionId;
-        console.log(infoLabel);
-        this.showCallWaitingControls();
-      });
-    } else {
-      this.confSvc.initialize(this.callerId).then(data => {
-        let infoLabel = "Your local ID : " + this.confSvc.sessionId;
-        console.log(infoLabel);
-        this.showCallWaitingControls();
-      });
-    }
+    this.confSvc.initialize(this.callerId, this.callerEmail).then(data => {
+      let infoLabel = "Your local ID : " + this.confSvc.sessionId;
+      console.log(infoLabel);
+      this.showCallWaitingControls();
+    });
   }
 
   ionViewWillLoad() {
@@ -112,6 +107,10 @@ export class ConfrencePage {
     }
   }
 
+  callEstablishedHandler(e) {
+    this.showInCallControls();
+  }
+  
   incomingCallHandler(e) {
     this.currentCallId = e.detail.callId;
     if (this.currentCallId) {
@@ -134,7 +133,7 @@ export class ConfrencePage {
     this.currentCallId = e.detail.callId;
     //setTimeout(this.refreshVideoView, 100);
     console.log('REMOTE MEDIA ADDED');
-    this.showInCallControls();
+
   }
 
   userMediaSuccessHandler(e) {
@@ -175,7 +174,7 @@ export class ConfrencePage {
 
   hangupHandler(e) {
     console.log("hangupHandler");
-
+    this.confSvc.webRTCClient.setUserAcceptOnIncomingCall(true);
     this.removeMediaElements(e.detail.callId);
     this.showCallWaitingControls();
   }
@@ -194,16 +193,6 @@ export class ConfrencePage {
   reversecamera() {
     console.log('camera changed');
   }
-
-  call() {
-    var callId = this.confSvc.webRTCClient.call(this.calleeId);
-    if (callId != null) {
-      console.log(`Calling to: ${this.calleeId}`)
-      this.showCallingControls();
-      this.currentCallId = callId;
-    }
-  }
-
 
   back() {
     const alert = this.alertCtrl.create({
@@ -264,20 +253,31 @@ export class ConfrencePage {
     this.callIncomming = false;
   }
 
+  call() {
+    var callId = this.confSvc.webRTCClient.call(this.calleeId);
+    if (callId != null) {
+      console.log(`Calling to: ${this.calleeId}`)
+      this.showCallingControls();
+      this.currentCallId = callId;
+    }
+  }
   answer() {
     this.confSvc.webRTCClient.acceptCall(this.currentCallId);
     this.showInCallControls();
   }
   reject() {
     this.confSvc.webRTCClient.refuseCall(this.currentCallId);
+    this.confSvc.webRTCClient.setUserAcceptOnIncomingCall(true);
     this.showCallWaitingControls();
   }
   disconnect() {
     this.confSvc.webRTCClient.hangUp(this.currentCallId);
+    this.confSvc.webRTCClient.setUserAcceptOnIncomingCall(true);
     this.showCallWaitingControls();
   }
   hangup() {
     this.confSvc.webRTCClient.hangUp(this.currentCallId);
+    this.confSvc.webRTCClient.setUserAcceptOnIncomingCall(true);
     this.showCallWaitingControls();
   }
 }
