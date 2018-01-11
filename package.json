@@ -10,7 +10,6 @@
         "clean": "ionic-app-scripts clean",
         "build": "ionic-app-scripts build",
         "lint": "ionic-app-scripts lint",
-        "ionic:build": "ionic-app-scripts build",
         "ionic:serve": "ionic-app-scripts serve"
     },
     "dependencies": {
@@ -39,6 +38,7 @@
         "chart.js": "^2.7.1",
         "com.paypal.cordova.mobilesdk": "^3.5.0",
         "cordova-android": "^6.3.0",
+        "cordova-browser": "^4.1.0",
         "cordova-ios": "^4.5.4",
         "cordova-plugin-camera": "^3.0.0",
         "cordova-plugin-device": "1.1.4",
@@ -71,11 +71,11 @@
         "zone.js": "0.8.17"
     },
     "devDependencies": {
-        "@angular/cli": "^1.6.1",
+        "@angular/cli": "^1.6.3",
         "@angular/tsc-wrapped": "^4.4.6",
-        "@ionic/app-scripts": "3.0.0",
+        "@ionic/app-scripts": "^3.1.7",
         "electron": "^1.7.8",
-        "typescript": "2.5.2"
+        "typescript": "2.6.2"
     },
     "description": "An Ionic project",
     "config": {
@@ -110,6 +110,7 @@
         },
         "platforms": [
             "android",
+            "browser",
             "ios"
         ]
     }

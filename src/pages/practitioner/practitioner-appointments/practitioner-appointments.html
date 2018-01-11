@@ -19,23 +19,25 @@
   <ng-template #template let-selectedDate="selectedDate.events" let-noEventsLabel="noEventsLabel">
     <ion-list>
       <ion-item-sliding *ngFor="let req of selectedDate">
-        <ion-item *ngIf="req.status !== 'deleted'" [color]="req.status=='accepted'? 'primary' : 'danger'">
-          <h2>{{req.title}}</h2>
+        <ion-item *ngIf="req.status !== 'deleted'" [color]="req.status=='accepted'? req.isActive?'primary':'teal' : 'danger'">
+          {{req.title}}
           <p>START: {{getTime(req.startTime)}}</p>
           <p>END: {{getTime(req.endTime)}}</p>
+
+
         </ion-item>
         <ion-item-options side="left">
           <button ion-button color="secondary" *ngIf="req.idTo === userProfile.id && req.status === 'pending'" (click)="acceptCall(req.key)">
             <ion-icon name="checkmark"></ion-icon>
             Accept
           </button>
-          <button ion-button color="primary" [disabled]="req.status !== 'accepted'" (click)="call(req.callIdTo, req.callIdFrom)">
+          <button ion-button color="primary" [disabled]="req.status !== 'accepted' || !req.isActive" (click)="call(req.callIdFrom,req.callIdTo)">
             <ion-icon name="videocam"></ion-icon>
             Call
           </button>
         </ion-item-options>
         <ion-item-options side="right">
-          <button ion-button color="danger" (click)="deleteCallReq(req.key)">
+          <button ion-button color="danger" (click)="deleteCallReq(req.key)" [disabled]="!req.isActive">
             <ion-icon name="trash"></ion-icon>
             Delete
           </button>
@@ -52,7 +54,7 @@
       <!-- <button ion-button icon-only item-end (click)="addEvent()">
         <ion-icon name="add"></ion-icon>
       </button>-->
-    </ion-item> 
+    </ion-item>
     <ion-item>
       <calendar [monthviewEventDetailTemplate]="template" [eventSource]="myAppointments" [calendarMode]="calendar.mode" (onTitleChanged)="onViewTitleChanged($event)"
         [currentDate]="calendar.currentDate" (onEventSelected)="onEventSelected($event)" (onTimeSelected)="onTimeSelected($event)"

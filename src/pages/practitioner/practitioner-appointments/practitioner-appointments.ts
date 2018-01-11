@@ -60,6 +60,7 @@ export class PractitionerAppointmentsPage {
               this.fDb.database.ref('/faceTimeRequests').orderByChild('idTo').equalTo(this.afAuth.auth.currentUser.uid).on('value', (snapshot) => {
                 allrequests = snapshot.val();
                 this.myAppointments = []
+                let currentDateTime = new Date();
                 for (var req in allrequests) {
                   var request = allrequests[req]
                   if (request && request.status !== 'deleted') {
@@ -67,6 +68,13 @@ export class PractitionerAppointmentsPage {
                     faceTime.startTime = new Date(request.startTime);
                     faceTime.endTime = new Date(request.endTime);
 
+                    if ((currentDateTime >= faceTime.startTime) && (currentDateTime <= faceTime.endTime)) {
+                      faceTime.isActive = true;
+                      request.isActive = true;
+                    } else {
+                      faceTime.isActive = false;
+                      request.isActive = false;
+                    }
                     request.key = req;
                     this.myAppointments.push(faceTime);
                   }

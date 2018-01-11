@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Events } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { ConfrenceServiceProvider, AppStateServiceProvider } from '../../../providers/providers';
+import { ConfrenceServiceProvider } from '../../../providers/providers';
 
 
 
@@ -25,19 +25,19 @@ export class ConfrencePage {
   callerId: string
 
   private confSvc: any;
-  private appState: any;
+  //private appState: any;
 
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private fAuth: AngularFireAuth,
     public events: Events,
-    appState: AppStateServiceProvider,
+    //appState: AppStateServiceProvider,
     private alertCtrl: AlertController,
     confService: ConfrenceServiceProvider
   ) {
     this.confSvc = confService;
-    this.appState = appState;
+    //this.appState = appState;
 
     this.calleeId = this.navParams.get('callToId');
     this.callerId = this.navParams.get('callFromId');
@@ -121,28 +121,31 @@ export class ConfrencePage {
 
   remoteStreamAddedHandler(e) {
     console.log("remoteStreamAddedHandler", e);
+    this.removeChildrenElements('remote');
 
     this.confSvc.webRTCClient.addStreamInDiv(
       e.detail.stream,
       e.detail.callType,
       "remote",
       'remoteElt-' + e.detail.callId,
-      { width: "100%" },
+      { width: "100%", height: "100%" },
       false
     );
     this.currentCallId = e.detail.callId;
     //setTimeout(this.refreshVideoView, 100);
     console.log('REMOTE MEDIA ADDED');
+    this.showInCallControls();
   }
 
   userMediaSuccessHandler(e) {
     console.log("userMediaSuccessHandler", e);
+    this.removeChildrenElements('mini');
     this.confSvc.webRTCClient.addStreamInDiv(
       e.detail.stream,
       e.detail.callType,
       "mini",
       'miniElt-' + e.detail.callId,
-      { width: "128px", height: "96px" },
+      { width: "100%", height: "100%" },
       true
     );
     this.currentCallId = e.detail.callId;
@@ -160,6 +163,15 @@ export class ConfrencePage {
     this.confSvc.webRTCClient.removeElementFromDiv('mini', 'miniElt-' + callId);
     this.confSvc.webRTCClient.removeElementFromDiv('remote', 'remoteElt-' + callId);
   }
+
+
+  removeChildrenElements(parentId) {
+    let parentElm = document.getElementById(parentId);
+    while (parentElm.firstChild) {
+      parentElm.removeChild(parentElm.firstChild);
+    }
+  }
+
 
   hangupHandler(e) {
     console.log("hangupHandler");

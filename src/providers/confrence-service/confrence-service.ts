@@ -26,7 +26,7 @@ export class ConfrenceServiceProvider {
         if (callId) {
 
           apiRTC.init({
-            apiKey: "819abef1fde1c833e0601ec6dd4a8226",
+            apiKey: "e73c57ca525fb5f2977abe22bf4a68a2",
             apiCCId: callId,
             onReady: (e) => {
               this.sessionReadyHandler(e);
@@ -40,7 +40,7 @@ export class ConfrenceServiceProvider {
           });
         } else {
           apiRTC.init({
-            apiKey: "819abef1fde1c833e0601ec6dd4a8226",
+            apiKey: "e73c57ca525fb5f2977abe22bf4a68a2",
             onReady: (e) => {
               this.sessionReadyHandler(e);
               this.webRTCClient = apiCC.session.createWebRTCClient({});

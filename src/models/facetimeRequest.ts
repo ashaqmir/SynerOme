@@ -4,7 +4,7 @@ export interface IFacetimeRequest {
     idTo: string;
     nameTo: string
     status: string; //pending -->(accepted, deleted)
-    
+
     callIdTo: number;
     callIdFrom: number;
 
@@ -20,11 +20,12 @@ export interface IFacetimeRequestView {
     nameTo: string
     status: string; //pending -->(accepted, deleted)
     key: string;
-   
+
     callIdTo: number;
     callIdFrom: number;
 
     startTime: string;
     endTime: string;
     title: string;
+    isActive: boolean;
 }

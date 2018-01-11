@@ -58,13 +58,20 @@ export class ConsumerAppointmentsPage {
               this.fDb.database.ref('/faceTimeRequests').orderByChild('idFrom').equalTo(this.afAuth.auth.currentUser.uid).on('value', (snapshot) => {
                 allrequests = snapshot.val();
                 this.myAppointments = []
+                let currentDateTime = new Date();
                 for (var req in allrequests) {
                   var request = allrequests[req]
                   if (request && request.status !== 'deleted') {
                     let faceTime = request;
                     faceTime.startTime = new Date(request.startTime);
                     faceTime.endTime = new Date(request.endTime);
-
+                    if ((currentDateTime >= faceTime.startTime) && (currentDateTime <= faceTime.endTime)) {
+                      faceTime.isActive = true;
+                      request.isActive = true;
+                    } else {
+                      faceTime.isActive = false;
+                      request.isActive = false;
+                    }
                     request.key = req;
                     this.myAppointments.push(faceTime);
                   }
@@ -188,4 +195,7 @@ export class ConsumerAppointmentsPage {
     this.viewTitle = title;
   }
 
+  getTime(dateTime): string {
+    return moment(dateTime).format('HH:mm A');
+  }
 }
