@@ -1,9 +1,9 @@
 
 import { Component } from '@angular/core';
-import { NavController, ModalController, FabContainer, ToastController, LoadingController, PopoverController } from 'ionic-angular';
+import { NavController, ModalController, FabContainer, ToastController, LoadingController, PopoverController, Events } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { IProfile } from '../../../models/models';
-import { AuthanticationServiceProvider, AppStateServiceProvider } from '../../../providers/providers';
+import { AuthanticationServiceProvider, AppStateServiceProvider, ConfrenceServiceProvider } from '../../../providers/providers';
 import { ProductListPage, RegisterKitPage, UserOptionsPage } from '../consumer';
 import { LoginPage } from '../../auth/auth';
 import { CallControlBoxPage } from '../../shared/shared';
@@ -28,7 +28,7 @@ export class ConsumerDashboardPage {
   showRegisterKit: boolean = false;
   showBuyOption: boolean = true;
   showWaitingMessage: boolean = false;
-
+  private confSvc: any;
   constructor(public navCtrl: NavController,
     private afAuth: AngularFireAuth,
     public modalCtrl: ModalController,
@@ -37,9 +37,12 @@ export class ConsumerDashboardPage {
     private toastCtrl: ToastController,
     private authProvider: AuthanticationServiceProvider,
     appState: AppStateServiceProvider,
-    private popoverCtrl: PopoverController
+    confService: ConfrenceServiceProvider,
+    private popoverCtrl: PopoverController,
+    public events: Events,
   ) {
     this.appState = appState;
+    this.confSvc = confService;
   }
 
   ionViewWillLoad() {
@@ -70,6 +73,16 @@ export class ConsumerDashboardPage {
               this.showBuyOption = true;
             }
 
+            // this.events.subscribe('incomingCall', evt => {
+            //   this.incomingCallHandler(evt);
+            // });
+
+            this.confSvc.initialize(this.userProfile.callId, this.userProfile.email).then(data => {
+              let infoLabel = "Your local ID : " + this.confSvc.sessionId;
+              console.log(infoLabel);
+            });
+
+
             if (removePop) {
               loadingPopup.dismiss()
               removePop = false;
@@ -98,7 +111,7 @@ export class ConsumerDashboardPage {
 
   }
 
-  ionViewDidLoad() {    
+  ionViewDidLoad() {
     //this.navCtrl.popToRoot();
   }
 
@@ -162,5 +175,34 @@ export class ConsumerDashboardPage {
       ev: event
     });
   }
+
+  // incomingCallHandler(e) {
+  //   let incommingCallId = e.detail.callId;
+  //   let callerId = e.detail.callerId;
+  //   let callerName = e.detail.callerNickname;
+  //   if (e.detail.autoAnswerActivated === false) {
+  //     console.log('Auto Answer is False');
+  //   }
+  //   let modal = this.modalCtrl.create(CallControlBoxPage,
+  //     { callerId: callerId, callerName: callerName },
+  //     { cssClass: 'inset-modal' });
+  //   modal.onDidDismiss(data => {
+  //     var result = data.result;
+  //     if (result === 'accepted') {
+  //       console.log('accepted');
+  //       let modal = this.modalCtrl.create(ConfrencePage,
+  //         {
+  //           callToId: callerId,
+  //           callFromId: this.userProfile.callId
+  //         });
+    
+  //       modal.present();
+  //     } else {
+  //       this.confSvc.webRTCClient.refuseCall(incommingCallId);
+  //       console.log('rejected');
+  //     }
+  //   })
+  //   modal.present();
+  // }
 
 }

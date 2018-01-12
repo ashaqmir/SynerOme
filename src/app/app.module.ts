@@ -41,7 +41,7 @@ import {
 } from '../pages/consumer/consumer';
 
 import {HealthPage } from '../pages/pages';
-import { UserListPage } from '../pages/shared/shared';
+import { UserListPage, CallControlBoxPage } from '../pages/shared/shared';
 
 import { PractitionerTabsPage, PractitionerOptionsPage,
    PractitionerAppointmentsPage, PractitionerProfilePage, 
@@ -88,6 +88,7 @@ var firebaseConfig = {
     HealthPage,
     RegisterKitPage,
     UserOptionsPage,
+    CallControlBoxPage,
 
     PractitionerTabsPage,
     PractitionerOptionsPage,
@@ -138,6 +139,7 @@ var firebaseConfig = {
     HealthPage,
     RegisterKitPage,
     UserOptionsPage,
+    CallControlBoxPage,
 
     PractitionerTabsPage,
     PractitionerOptionsPage,

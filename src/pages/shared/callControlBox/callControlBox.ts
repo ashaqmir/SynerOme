@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, App } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
 
 @IonicPage()
@@ -11,22 +11,30 @@ import { IonicPage, NavController, NavParams, ViewController, App } from 'ionic-
 export class CallControlBoxPage {
 
   callerId: string = '';
-
+  callerName: string = '';
+  result: any;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    public viewCtrl: ViewController,
-    private app: App,) {
-      this.callerId= this.navParams.get('incommingCallerId');
+    public viewCtrl: ViewController) {
+    this.callerId = this.navParams.get('callerId');
+    this.callerName = this.navParams.get('callerName');
+
   }
 
+
+  reject() {
+    this.result = 'rejected'
+    this.dismiss();
+  }
+
+  accept() {
+    this.result = 'accepted'
+    this.dismiss();
+  }
 
   dismiss() {
-    this.viewCtrl.dismiss();
-  }
-
-  accept(){   
-    this.app.getRootNav().setRoot('ConfrencePage', { incommingCallerId: this.callerId, outCallToId: '' });
-    this.dismiss();
+    let data = { 'result': this.result };
+    this.viewCtrl.dismiss(data);
   }
   ionViewDidLoad() {
 

@@ -27,6 +27,7 @@ export class ConfrencePage {
   private confSvc: any;
   private appState: any;
 
+  incommingCallerName: string;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -63,8 +64,21 @@ export class ConfrencePage {
     // }
   }
 
+  ionViewDidLeave() {
+    this.events.publish('viewLoaded', { viewName: '' });
+
+    this.events.unsubscribe('incomingCall')
+    this.events.unsubscribe('callEstablished')
+    this.events.unsubscribe('userMediaError')
+    this.events.unsubscribe('userMediaSuccess')
+    this.events.unsubscribe('remoteStreamAdded')
+    this.events.unsubscribe('hangup')
+  }
 
   ionViewDidLoad() {
+
+    this.events.publish('viewLoaded', { viewName: 'confrence' });
+
     this.callerEmail = this.appState.userProfile.email;
 
     this.events.subscribe('incomingCall', evt => {
@@ -88,20 +102,22 @@ export class ConfrencePage {
 
     this.events.subscribe('hangup', evt => {
       this.hangupHandler(evt);
-    });    
+    });
 
     this.sessionReadyHandler();
   }
 
   sessionReadyHandler() {
-    this.confSvc.initialize(this.callerId, this.callerEmail).then(data => {
-      let infoLabel = "Your local ID : " + this.confSvc.sessionId;
-      console.log(infoLabel);
-      this.showCallWaitingControls();
-    });
+    // this.confSvc.initialize(this.callerId, this.callerEmail).then(data => {
+    //   let infoLabel = "Your local ID : " + this.confSvc.sessionId;
+    //   console.log(infoLabel);
+    //   this.showCallWaitingControls();
+    // });
+    this.showCallWaitingControls();
   }
 
   ionViewWillLoad() {
+    this.incommingCallerName = '';
     if (!this.fAuth.auth.currentUser) {
       this.navCtrl.setRoot('LoginPage');
     }
@@ -110,9 +126,19 @@ export class ConfrencePage {
   callEstablishedHandler(e) {
     this.showInCallControls();
   }
-  
+
   incomingCallHandler(e) {
     this.currentCallId = e.detail.callId;
+    let callerId = e.detail.callerId;
+    let callerName = e.detail.callerNickname;
+    if (callerName) {
+      this.incommingCallerName = callerName;
+    } else if (callerId) {
+      this.incommingCallerName = callerId;
+    } else {
+      this.incommingCallerName = '';
+    }
+
     if (this.currentCallId) {
       this.showIncomingCallControls();
     }
@@ -263,7 +289,9 @@ export class ConfrencePage {
   }
   answer() {
     this.confSvc.webRTCClient.acceptCall(this.currentCallId);
+    this.incommingCallerName = '';
     this.showInCallControls();
+
   }
   reject() {
     this.confSvc.webRTCClient.refuseCall(this.currentCallId);
@@ -280,4 +308,6 @@ export class ConfrencePage {
     this.confSvc.webRTCClient.setUserAcceptOnIncomingCall(true);
     this.showCallWaitingControls();
   }
+
+
 }

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, LoadingController, ToastController, PopoverController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { IProfile } from '../../../models/models';
-import { AppStateServiceProvider } from '../../../providers/providers';
+import { AppStateServiceProvider, ConfrenceServiceProvider } from '../../../providers/providers';
 import { LoginPage } from '../../auth/auth';
 import {
   PractitionerOptionsPage, PatientsPage,
@@ -21,15 +21,18 @@ export class PractitionerTabsPage {
   notificationRoot = NotificationPage
   pageContent: any;
   private appState: any;
+  private confSvc: any;
   userProfile: IProfile;
 
   constructor(public navCtrl: NavController,
     private loadingCtrl: LoadingController,
     private afAuth: AngularFireAuth,
     appState: AppStateServiceProvider,
+    confService: ConfrenceServiceProvider,
     private toast: ToastController,
     private popoverCtrl: PopoverController) {
     this.appState = appState;
+    this.confSvc = confService;
   }
 
   ionViewWillLoad() {
@@ -46,6 +49,11 @@ export class PractitionerTabsPage {
         if (userAuth) {
           if (this.appState.userProfile) {
             this.userProfile = this.appState.userProfile;
+
+            this.confSvc.initialize(this.userProfile.callId, this.userProfile.email).then(data => {
+              let infoLabel = "Your local ID : " + this.confSvc.sessionId;
+              console.log(infoLabel);
+            });
 
             if (removePop) {
               loadingPopup.dismiss()

@@ -1,3 +1,4 @@
+import { Events } from 'ionic-angular';
 import { Injectable } from '@angular/core';
 import { IProfile } from '../../models/profile';
 
@@ -11,9 +12,13 @@ export class AppStateServiceProvider {
   localStorageProfile: IProfile;
   userOrders: any[];
   userKits: any;
-
-  constructor() {
+  currentView: string;
+  constructor(public events: Events) {
     console.log('App state Contructor called');
+    this.events.subscribe('viewLoaded', data => {
+      this.currentView = data.viewName;
+      console.log(this.currentView);
+    });
   }
 
 

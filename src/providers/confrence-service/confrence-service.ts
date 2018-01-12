@@ -1,6 +1,8 @@
-import { Events, Platform } from 'ionic-angular';
+import { Events, Platform,  ModalController } from 'ionic-angular';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
+import { ConfrencePage } from '../../pages/shared/shared';
+import { AppStateServiceProvider } from '../providers';
 // import { AngularFireAuth } from 'angularfire2/auth';
 //import { NativeAudio } from '@ionic-native/native-audio';
 
@@ -13,14 +15,21 @@ export class ConfrenceServiceProvider {
   webRTCClient: any;
   sessionId: any;
   started: boolean = false;
+  myCallId: string;
+
+  private appState: any;
 
   constructor(
     public events: Events,
+    public modalCtrl: ModalController,
+    appState: AppStateServiceProvider,
     public platform: Platform) {
+    this.appState = appState;
 
   }
 
   initialize(callId, userName): Promise<any> {
+    this.myCallId = callId;
     return new Promise(resolve => {
       if (!this.started) {
         if (callId) {
@@ -79,7 +88,21 @@ export class ConfrenceServiceProvider {
       //     iosrtc.refreshVideos();
       //   }
       // }, 2000);
-      this.events.publish('incomingCall', evt);
+      console.log('incoming.....');
+      if (this.appState.currentView === 'confrence') {
+        this.events.publish('incomingCall', evt);
+      } else {
+        let callerId = evt.detail.callerId;
+        let modal = this.modalCtrl.create(ConfrencePage,
+          {
+            callToId: callerId,
+            callFromId: this.myCallId
+          });
+        modal.present().then(data => {
+          this.events.publish('incomingCall', evt);
+        })
+      }
+
     });
 
     apiRTC.addEventListener("userMediaError", evt => {
@@ -89,7 +112,7 @@ export class ConfrenceServiceProvider {
     apiRTC.addEventListener("callEstablished", evt => {
       this.events.publish('callEstablished', evt);
     });
-    
+
     apiRTC.addEventListener("remoteHangup", evt => {
       this.events.publish('remoteHangup', evt);
     });
@@ -110,9 +133,10 @@ export class ConfrenceServiceProvider {
 
     apiRTC.addEventListener("webRTCClientCreated", (e) => {
       console.log("webRTC Client Created");
-      this.webRTCClient.setAllowMultipleCalls(true);
+      this.webRTCClient.setAllowMultipleCalls(false);
       this.webRTCClient.setVideoBandwidth(300);
-      this.webRTCClient.setUserAcceptOnIncomingCall(true);
+      this.webRTCClient.setUserAcceptOnIncomingCall(false);
+      //this.webRTCClient.UserAcceptOnIncomingDataCall(false);
     });
   }
 
