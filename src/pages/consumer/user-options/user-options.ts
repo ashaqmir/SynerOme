@@ -50,6 +50,7 @@ export class UserOptionsPage {
       this.updateActive();
       page.isActive = true;
       this.viewCtrl.dismiss().then(() => {
+        console.log(this.app.getRootNav());
         this.app.getRootNav().push(page.component).catch(err => console.error(err));
       });
     } else if (page.type.startsWith('action')) {
@@ -60,6 +61,7 @@ export class UserOptionsPage {
     if (action === 'action:logout') {
       this.authProvider.logoutUser();
       this.viewCtrl.dismiss().then(() => {
+        console.log(this.app.getRootNav());
         this.app.getRootNav().push(LoginPage).catch(err => console.error(err));
       });
       //this.navCtrl.setRoot(LoginPage).catch(err => console.error(err));
