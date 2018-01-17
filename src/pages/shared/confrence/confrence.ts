@@ -213,6 +213,8 @@ export class ConfrencePage {
     if (!this.muted) {
       console.log('UnMuted');
     }
+    this.confSvc.webRTCClient.toggleAudioMute(this.currentCallId);
+
 
   }
 
