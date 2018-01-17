@@ -5,6 +5,7 @@ import { ConfrenceServiceProvider, AppStateServiceProvider } from '../../../prov
 
 
 
+
 @IonicPage()
 @Component({
   selector: 'page-confrence',
@@ -35,8 +36,7 @@ export class ConfrencePage {
     public events: Events,
     appState: AppStateServiceProvider,
     private alertCtrl: AlertController,
-    confService: ConfrenceServiceProvider
-  ) {
+    confService: ConfrenceServiceProvider) {
     this.confSvc = confService;
     this.appState = appState;
 
@@ -127,6 +127,7 @@ export class ConfrencePage {
     this.showInCallControls();
   }
 
+
   incomingCallHandler(e) {
     this.currentCallId = e.detail.callId;
     let callerId = e.detail.callerId;
@@ -157,7 +158,6 @@ export class ConfrencePage {
       false
     );
     this.currentCallId = e.detail.callId;
-    //setTimeout(this.refreshVideoView, 100);
     console.log('REMOTE MEDIA ADDED');
 
   }
@@ -279,7 +279,7 @@ export class ConfrencePage {
     this.callIncomming = false;
   }
 
-  call() {
+  call() {   
     var callId = this.confSvc.webRTCClient.call(this.calleeId);
     if (callId != null) {
       console.log(`Calling to: ${this.calleeId}`)
@@ -287,7 +287,7 @@ export class ConfrencePage {
       this.currentCallId = callId;
     }
   }
-  answer() {
+  answer() {   
     this.confSvc.webRTCClient.acceptCall(this.currentCallId);
     this.incommingCallerName = '';
     this.showInCallControls();

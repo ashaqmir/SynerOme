@@ -25,7 +25,7 @@ export class ConfrenceServiceProvider {
     appState: AppStateServiceProvider,
     public platform: Platform) {
     this.appState = appState;
-
+    this.refreshVideoView = this.refreshVideoView.bind(this);
   }
 
   initialize(callId, userName): Promise<any> {
@@ -81,13 +81,7 @@ export class ConfrenceServiceProvider {
     console.log("sessionReadyHandler");
 
     apiRTC.addEventListener("incomingCall", evt => {
-      //setTimeout(this.refreshVideoView, 2000);
-      // setTimeout(function () {
-      //   if (this.platform.is('ios')) {
-      //     console.log("REFRESH");
-      //     iosrtc.refreshVideos();
-      //   }
-      // }, 2000);
+    
       console.log('incoming.....');
       if (this.appState.currentView === 'confrence') {
         this.events.publish('incomingCall', evt);
@@ -100,8 +94,17 @@ export class ConfrenceServiceProvider {
           });
         modal.present().then(data => {
           this.events.publish('incomingCall', evt);
+          setTimeout(this.refreshVideoView, 2000);
         })
       }
+
+    });
+
+    apiRTC.addEventListener("callEstablished", evt => {
+    
+      console.log('established.....');
+      this.events.publish('callEstablished', evt);
+      setTimeout(this.refreshVideoView, 4000);
 
     });
 
@@ -118,6 +121,7 @@ export class ConfrenceServiceProvider {
     });
     apiRTC.addEventListener("remoteStreamAdded", evt => {
       this.events.publish('remoteStreamAdded', evt);
+      setTimeout(this.refreshVideoView, 100);
     });
 
     apiRTC.addEventListener("userMediaSuccess", evt => {
