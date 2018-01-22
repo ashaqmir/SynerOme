@@ -44,6 +44,7 @@ export class CartPage {
     appState: AppStateServiceProvider,
     private authProvider: AuthanticationServiceProvider,
     private payPal: PayPal) {
+
     this.appState = appState;
 
     this.product = this.navParams.get('selectedProduct');
@@ -78,10 +79,10 @@ export class CartPage {
           }
 
           this.tax = this.price * tax;
-          this.total = this.price + this.tax;
+          this.total = +this.price + +this.tax;
           this.currency = this.product.currency;
           this.processed = true;
-
+          console.log(this.total);
         }
         if (this.userProfile) {
           console.log('Shout out');
@@ -110,57 +111,63 @@ export class CartPage {
 
 
   purchase(kitForValues) {
-    let loadingPopup = this.loadingCtrl.create({
-      spinner: 'crescent',
-      content: ''
-    });
-    loadingPopup.present();
+    if (kitForValues) {
+      let loadingPopup = this.loadingCtrl.create({
+        spinner: 'crescent',
+        content: ''
+      });
+      loadingPopup.present();
+     
+      this.kitUserInfo.firstName = kitForValues.firstName;
+      this.kitUserInfo.lastName = kitForValues.lastName;
+      this.kitUserInfo.dob = kitForValues.dob;
+    
+      //BUIDL ORDER OBJECT
+      let order = {} as IOrder;
+      order.productReference = `[${this.product.name}][${this.total}][${new Date().toString()}]`
+      order.userMail = this.userProfile.email;
+      order.userID = this.userProfile.id
+      order.shippingAddress = this.shippingAddress;
+      order.price = this.price;
+      order.tax = this.tax;
+      order.amountPaid = this.total;
+      order.fullfilled = false;
+      order.kitFor = this.kitUserInfo;
 
-    //BUIDL ORDER OBJECT
-    let order = {} as IOrder;
-    order.productReference = `[${this.product.name}][${this.total}][${new Date().toString()}]`
-    order.userMail = this.userProfile.email;
-    order.userID = this.userProfile.id
-    order.shippingAddress = this.shippingAddress;
-    order.price = this.price;
-    order.tax = this.tax;
-    order.amountPaid = this.total;
-    order.fullfilled = false;
-
-    console.log(order);
-
-    //INTIALIZE PAYMENT
-    this.payPal.init({
-      PayPalEnvironmentProduction: 'AQSJgxlIVgoah4mRdxqTBvfL2ZQqpZj4GoJI3YQy2CqiRW91QmJ8PcAaryFg3Ijk5W7NK47SDz6UuGoI',
-      PayPalEnvironmentSandbox: 'AQSJgxlIVgoah4mRdxqTBvfL2ZQqpZj4GoJI3YQy2CqiRW91QmJ8PcAaryFg3Ijk5W7NK47SDz6UuGoI'
-    }).then(() => {
-      this.payPal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
-      })).then(() => {
-        let payment = new PayPalPayment(this.total.toString(), 'USD', order.productReference, 'sale');
-        this.payPal.renderSinglePaymentUI(payment).then((res) => {
-          console.log('Result from Paypal: ', res);
-          if (res && res.response) {
-            let resposeString = JSON.stringify(res.response);
-            order.payPalStatus = resposeString;
-            this.addOrderToDB(order);
+      console.log(order);
+      
+      if (order) {
+        //INTIALIZE PAYMENT
+        this.payPal.init({
+          PayPalEnvironmentProduction: 'AQSJgxlIVgoah4mRdxqTBvfL2ZQqpZj4GoJI3YQy2CqiRW91QmJ8PcAaryFg3Ijk5W7NK47SDz6UuGoI',
+          PayPalEnvironmentSandbox: 'AQSJgxlIVgoah4mRdxqTBvfL2ZQqpZj4GoJI3YQy2CqiRW91QmJ8PcAaryFg3Ijk5W7NK47SDz6UuGoI'
+        }).then(() => {
+          this.payPal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
+          })).then(() => {
+            let payment = new PayPalPayment(this.total.toString(), 'USD', order.productReference, 'sale');
+            this.payPal.renderSinglePaymentUI(payment).then((res) => {
+              console.log('Result from Paypal: ', res);
+              if (res && res.response) {
+                let resposeString = JSON.stringify(res.response);
+                order.payPalStatus = resposeString;
+                this.addOrderToDB(order);
+                loadingPopup.dismiss();
+                this.navCtrl.setRoot(OrderFinalPage, { finalOrder: order, userLastName: this.userProfile.lastName });
+              }
+            }, (err) => {
+              console.log('Error: ', err)
+              loadingPopup.dismiss();
+            });
+          }, (conf) => {
+            console.log('Configuration Error: ', conf)
             loadingPopup.dismiss();
-            this.navCtrl.setRoot(OrderFinalPage, { finalOrder: order, userLastName: this.userProfile.lastName });
-          }
-        }, (err) => {
-          console.log('Error: ', err)
+          });
+        }, (init) => {
+          console.log('Init Error: ', init)
           loadingPopup.dismiss();
         });
-      }, (conf) => {
-        console.log('Configuration Error: ', conf)
-        loadingPopup.dismiss();
-      });
-    }, (init) => {
-      console.log('Init Error: ', init)
-      loadingPopup.dismiss();
-    });
-
-    //loadingPopup.dismiss();
-    //this.navCtrl.setRoot(OrderFinalPage, { finalOrder: order, userLastName: this.userProfile.lastName });
+      }
+    }
   }
 
   addOrderToDB(order: IOrder) {
@@ -267,6 +274,7 @@ export class CartPage {
   }
 
   kitForOptionChange() {
+    console.log('option changed');
     if (this.kitFor === 'me') {
       // this.appState.userProfile.
       this.kitForForm.get('firstName').setValue(this.appState.userProfile.firstName);
@@ -280,6 +288,7 @@ export class CartPage {
   }
 
   createForm() {
+    console.log('creating kit form form');
     this.kitForForm = this.formBuilder.group({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),

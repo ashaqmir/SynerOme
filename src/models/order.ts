@@ -11,4 +11,5 @@ export interface IOrder {
     payPalStatus: string;
     fullfilled: boolean;
 
+    kitFor: any;
 }
