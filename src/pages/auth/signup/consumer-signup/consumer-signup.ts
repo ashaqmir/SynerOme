@@ -60,7 +60,7 @@ export class ConsumerSignupPage {
           this.profile.phone = values.phone;
           this.profile.isProfileComplete = false;
           this.profile.callId= this.sharedUtils.getIdNumberFromSeed(user.email); 
-          
+          this.profile.isAdmin=false;
           console.log('Registered');
           console.log(data);
           this.authProvider.loginUser(user.email, user.password)

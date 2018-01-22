@@ -26,4 +26,5 @@ export interface IProfile {
     profilePicUrl: string;
 
     callId: number;
+    isAdmin: boolean;
 }

@@ -106,7 +106,6 @@ export class CartPage {
   }
 
   ionViewDidLoad() {
-
   }
 
 
@@ -119,12 +118,15 @@ export class CartPage {
 
     //BUIDL ORDER OBJECT
     let order = {} as IOrder;
-    order.productReference = `[${this.product.name}][${this.total}][${new Date().toString()}][${this.uid}]`
+    order.productReference = `[${this.product.name}][${this.total}][${new Date().toString()}]`
     order.userMail = this.userProfile.email;
+    order.userID = this.userProfile.id
     order.shippingAddress = this.shippingAddress;
     order.price = this.price;
     order.tax = this.tax;
     order.amountPaid = this.total;
+    order.fullfilled = false;
+
     console.log(order);
 
     //INTIALIZE PAYMENT

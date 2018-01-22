@@ -60,7 +60,9 @@ export class PractitionerSignupPage {
           this.profile.phone = values.phone;
           this.profile.isProfileComplete = true;
           this.profile.nutritionistLicenseNumber = values.nutritionistLicenseNum;
-          this.profile.callId= this.sharedUtils.getIdNumberFromSeed(user.email); 
+          this.profile.callId= this.sharedUtils.getIdNumberFromSeed(user.email);
+          this.profile.isAdmin=false;
+           
           console.log('Registered');
           console.log(data);
           this.authProvider.loginUser(user.email, user.password)
