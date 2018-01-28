@@ -8,8 +8,7 @@ import { IProfile } from '../../models/models';
 @Injectable()
 export class StorageHelperProvider {
 
-  constructor(public http: Http,
-    private storage: Storage) {
+  constructor(private storage: Storage) {
   }
 
 
@@ -63,5 +62,13 @@ export class StorageHelperProvider {
         console.log(error);
         return false;
       })
+  }
+
+  setItem(key, value) {
+    this.storage.set(key, value);
+
+  }
+  removeItem(key) {
+    this.storage.remove(key);
   }
 }

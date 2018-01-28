@@ -206,20 +206,26 @@ export class ConfrencePage {
   }
 
   muteMe() {
-    this.muted = !this.muted;
+
+    let audioMuted = this.confSvc.webRTCClient.isAudioMuted(this.currentCallId)
+    console.log(`Audio Mute: ${audioMuted}`)
+    this.muted = audioMuted;
     if (this.muted) {
       console.log('Muted');
+      console.log('Unmuting...');
     }
     if (!this.muted) {
       console.log('UnMuted');
+      console.log('Muting...');
     }
     this.confSvc.webRTCClient.toggleAudioMute(this.currentCallId);
-
+    this.muted = !this.muted;
 
   }
 
   reversecamera() {
     console.log('camera changed');
+    this.confSvc.reverseCamera(this.currentCallId);
   }
 
   back() {
@@ -281,7 +287,7 @@ export class ConfrencePage {
     this.callIncomming = false;
   }
 
-  call() {   
+  call() {
     var callId = this.confSvc.webRTCClient.call(this.calleeId);
     if (callId != null) {
       console.log(`Calling to: ${this.calleeId}`)
@@ -289,7 +295,7 @@ export class ConfrencePage {
       this.currentCallId = callId;
     }
   }
-  answer() {   
+  answer() {
     this.confSvc.webRTCClient.acceptCall(this.currentCallId);
     this.incommingCallerName = '';
     this.showInCallControls();

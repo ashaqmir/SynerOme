@@ -1,8 +1,8 @@
-import { Events, Platform,  ModalController } from 'ionic-angular';
+import { Events, Platform, ModalController } from 'ionic-angular';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { ConfrencePage } from '../../pages/shared/shared';
-import { AppStateServiceProvider } from '../providers';
+import { AppStateServiceProvider, StorageHelperProvider } from '../providers';
 // import { AngularFireAuth } from 'angularfire2/auth';
 //import { NativeAudio } from '@ionic-native/native-audio';
 
@@ -18,12 +18,15 @@ export class ConfrenceServiceProvider {
   myCallId: string;
 
   private appState: any;
+  vedioDevices: any = [];
+  currentVedioDevice: any;
 
   constructor(
     public events: Events,
     public modalCtrl: ModalController,
     appState: AppStateServiceProvider,
     public platform: Platform) {
+
     this.appState = appState;
     this.refreshVideoView = this.refreshVideoView.bind(this);
   }
@@ -80,8 +83,25 @@ export class ConfrenceServiceProvider {
     console.log('Settingup Handlers');
     console.log("sessionReadyHandler");
 
+    apiCC.getMediaDevices().then(media => {
+      if (media && media.length > 0) {
+        media.forEach(element => {
+          if (element.kind === 'videoinput') {
+            this.vedioDevices.push(element);
+          }
+        });
+        // media.forEach((dev, indx) => {
+        //   if (dev.kind === 'videoinput') {
+        //     this.vedioDevices.push(dev);
+        //   }
+        // });
+      }
+      // console.log(media);
+    })
+
+    console.log(this.vedioDevices);
     apiRTC.addEventListener("incomingCall", evt => {
-    
+
       console.log('incoming.....');
       if (this.appState.currentView === 'confrence') {
         this.events.publish('incomingCall', evt);
@@ -101,7 +121,7 @@ export class ConfrenceServiceProvider {
     });
 
     apiRTC.addEventListener("callEstablished", evt => {
-    
+
       console.log('established.....');
       this.events.publish('callEstablished', evt);
       setTimeout(this.refreshVideoView, 4000);
@@ -147,7 +167,9 @@ export class ConfrenceServiceProvider {
   refreshVideoView() {
     if (this.platform.is('ios')) {
       console.log("REFRESH");
-      iosrtc.refreshVideos();
+      if (iosrtc) {
+        iosrtc.refreshVideos();
+      }
     }
   }
 
@@ -168,5 +190,27 @@ export class ConfrenceServiceProvider {
     console.log(apiCC.session.isConnectedUser(uId))
     return userInfo;
     //isConnectedUser()
+  }
+
+  reverseCamera(callId) {
+    if (this.vedioDevices && this.vedioDevices.length > 0) {
+      let baseIndex = 0;
+      if (this.currentVedioDevice) {
+        const sourceId = this.vedioDevices[baseIndex].deviceId;
+        if (sourceId === this.currentVedioDevice) {
+          this.currentVedioDevice = this.vedioDevices[++baseIndex].deviceId;
+        } else {
+          this.currentVedioDevice = sourceId;
+        }
+      } else {
+        this.currentVedioDevice = this.vedioDevices[baseIndex].deviceId;
+      }
+      var constraints = {
+        video: { deviceId: this.currentVedioDevice ? { exact: this.currentVedioDevice } : undefined }
+      };
+      this.webRTCClient.setVideoSourceId(this.currentVedioDevice, constraints)
+      this.webRTCClient.updateMediaDeviceOnCall(callId);
+      console.log(`Current vedio sourceID: ${this.currentVedioDevice}`);
+    }
   }
 }
