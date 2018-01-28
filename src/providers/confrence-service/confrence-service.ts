@@ -193,6 +193,7 @@ export class ConfrenceServiceProvider {
   }
 
   reverseCamera(callId) {
+    
     if (this.vedioDevices && this.vedioDevices.length > 0) {
       let baseIndex = 0;
       if (this.currentVedioDevice) {
